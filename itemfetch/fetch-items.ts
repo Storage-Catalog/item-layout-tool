@@ -15,7 +15,7 @@ type ItemIndex = Record<string, Record<string, unknown>>;
 
 type ModelFile = {
   parent?: string;
-  textures?: Record<string, string>;
+  textures?: Record<string, string | Record<string, unknown>>;
   elements?: unknown[];
 };
 
@@ -1252,6 +1252,8 @@ async function loadMergedTextureMap(
       for (const [key, value] of Object.entries(model.textures)) {
         if (typeof value === "string") {
           ownTextures[key] = value;
+        } else if (isRecord(value) && typeof value.sprite === "string") {
+          ownTextures[key] = value.sprite;
         }
       }
     }
@@ -1294,6 +1296,8 @@ async function loadResolvedModelDefinition(
       for (const [key, value] of Object.entries(model.textures)) {
         if (typeof value === "string") {
           ownTextures[key] = value;
+        } else if (isRecord(value) && typeof value.sprite === "string") {
+          ownTextures[key] = value.sprite;
         }
       }
     }
