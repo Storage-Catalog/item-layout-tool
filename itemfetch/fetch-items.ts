@@ -6,9 +6,10 @@ import {
   parseCreativeModeTabs,
   parseFoods,
   parseItems,
+  parseVanillaBlockLoot,
 } from "./src/parser";
 import { loadJavaSources } from "./src/source-loader";
-import type { BlockLootBehavior, ParsedFood, ParsedItem } from "./src/types";
+import type { BlockLootBehavior, ParsedFood, ParsedItem, VanillaBlockLootEntry } from "./src/types";
 import { pathExists, runExec } from "./src/utils";
 
 type ItemIndex = Record<string, Record<string, unknown>>;
@@ -72,6 +73,8 @@ type OutputItem = {
     behavior: BlockLootBehavior["behavior"];
     noLootTable: boolean;
     overrideLootSourceBlock: string | null;
+    lootMethod: VanillaBlockLootEntry["lootMethod"] | null;
+    lootDropField: string | null;
   } | null;
 };
 
@@ -2205,6 +2208,7 @@ function toOutputItem(
   parsedItem: ParsedItem | null,
   parsedFood: ParsedFood | null,
   creativeTabs: string[],
+  vanillaBlockLootEntry: VanillaBlockLootEntry | null,
 ): OutputItem {
   return {
     id: itemId,
@@ -2231,6 +2235,8 @@ function toOutputItem(
           behavior: parsedItem.blockLoot.behavior,
           noLootTable: parsedItem.blockLoot.noLootTable,
           overrideLootSourceBlock: parsedItem.blockLoot.overrideLootSourceBlock,
+          lootMethod: vanillaBlockLootEntry?.lootMethod ?? null,
+          lootDropField: vanillaBlockLootEntry?.lootDropField ?? null,
         }
       : null,
   };
@@ -2338,6 +2344,7 @@ async function main(): Promise<void> {
     blocksJavaSource,
     foodsJavaSource,
     creativeModeTabsJavaSource,
+    vanillaBlockLootJavaSource,
     jarPath,
     cacheVersionRoot,
   } = await loadJavaSources();
@@ -2356,6 +2363,12 @@ async function main(): Promise<void> {
   const parsedBlocks = parseBlocks(blocksJavaSource);
   const blockMap = new Map(parsedBlocks.map((block) => [block.fieldName, block]));
   const parsedItems = parseItems(itemsJavaSource, blockMap);
+  const vanillaBlockLootEntries = vanillaBlockLootJavaSource
+    ? parseVanillaBlockLoot(vanillaBlockLootJavaSource)
+    : [];
+  const vanillaBlockLootByField = new Map(
+    vanillaBlockLootEntries.map((entry) => [entry.blockField, entry]),
+  );
   const parsedItemById = new Map(parsedItems.map((item) => [item.id, item]));
   const parsedItemByFieldName = new Map(parsedItems.map((item) => [item.fieldName, item]));
   const parsedFoods = foodsJavaSource ? parseFoods(foodsJavaSource) : [];
@@ -2428,6 +2441,9 @@ async function main(): Promise<void> {
       parsedFoodByReference,
       parsedFoodByFieldName,
     );
+    const vanillaBlockLootEntry = parsedItem?.blockField
+      ? (vanillaBlockLootByField.get(parsedItem.blockField) ?? null)
+      : null;
 
     if (resolved) {
       const textureFilename = `${itemId}.png`;
@@ -2446,6 +2462,7 @@ async function main(): Promise<void> {
         parsedItem,
         parsedFood,
         creativeTabs,
+        vanillaBlockLootEntry,
       ));
       texturedCount += 1;
     } else {

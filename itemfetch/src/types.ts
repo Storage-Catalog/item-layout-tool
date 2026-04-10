@@ -78,11 +78,18 @@ export type ParsedCreativeTab = {
   itemFields: string[];
 };
 
+export type VanillaBlockLootEntry = {
+  blockField: string;
+  lootMethod: "drop_self" | "drop_other" | "drop_when_silk_touch" | "no_drop" | "custom";
+  lootDropField: string | null;
+};
+
 export type LoadedJavaSources = {
   itemsJavaSource: string;
   blocksJavaSource: string;
   foodsJavaSource: string | null;
   creativeModeTabsJavaSource: string | null;
+  vanillaBlockLootJavaSource: string | null;
   jarPath: string | null;
   cacheVersionRoot: string | null;
   minecraftVersion: string | null;

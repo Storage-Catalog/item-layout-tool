@@ -14,7 +14,9 @@ import {
   LOCAL_CREATIVE_MODE_TABS_JAVA_PATH,
   LOCAL_FOODS_JAVA_PATH,
   LOCAL_ITEMS_JAVA_PATH,
+  LOCAL_VANILLA_BLOCK_LOOT_JAVA_PATH,
   TOOL_CACHE_ROOT,
+  VANILLA_BLOCK_LOOT_CLASS_CANDIDATES,
   VERSION_MANIFEST_URL,
   sanitizeForPath,
   toFabricManifestUrl,
@@ -231,7 +233,7 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
 
   if (LOCAL_ITEMS_JAVA_PATH && LOCAL_BLOCKS_JAVA_PATH) {
     console.log(`Using local Java files: ${LOCAL_ITEMS_JAVA_PATH}, ${LOCAL_BLOCKS_JAVA_PATH}`);
-    const [itemsJavaSource, blocksJavaSource, foodsJavaSource, creativeModeTabsJavaSource] =
+    const [itemsJavaSource, blocksJavaSource, foodsJavaSource, creativeModeTabsJavaSource, vanillaBlockLootJavaSource] =
       await Promise.all([
       readFile(LOCAL_ITEMS_JAVA_PATH, "utf8"),
       readFile(LOCAL_BLOCKS_JAVA_PATH, "utf8"),
@@ -239,12 +241,16 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
       LOCAL_CREATIVE_MODE_TABS_JAVA_PATH
         ? readFile(LOCAL_CREATIVE_MODE_TABS_JAVA_PATH, "utf8")
         : Promise.resolve(null),
+      LOCAL_VANILLA_BLOCK_LOOT_JAVA_PATH
+        ? readFile(LOCAL_VANILLA_BLOCK_LOOT_JAVA_PATH, "utf8")
+        : Promise.resolve(null),
     ]);
     return {
       itemsJavaSource,
       blocksJavaSource,
       foodsJavaSource,
       creativeModeTabsJavaSource,
+      vanillaBlockLootJavaSource,
       jarPath: null,
       cacheVersionRoot: null,
       minecraftVersion: null,
@@ -254,6 +260,7 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
         blocksJavaPath: LOCAL_BLOCKS_JAVA_PATH,
         foodsJavaPath: LOCAL_FOODS_JAVA_PATH,
         creativeModeTabsJavaPath: LOCAL_CREATIVE_MODE_TABS_JAVA_PATH,
+        vanillaBlockLootJavaPath: LOCAL_VANILLA_BLOCK_LOOT_JAVA_PATH,
       },
     };
   }
@@ -282,27 +289,37 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
     jarEntries,
     CREATIVE_MODE_TABS_CLASS_CANDIDATES,
   );
+  const vanillaBlockLootClassEntry = pickJarEntry(jarEntries, VANILLA_BLOCK_LOOT_CLASS_CANDIDATES);
   if (!itemsClassEntry || !blocksClassEntry || !foodsClassEntry || !creativeModeTabsClassEntry) {
     throw new Error(
       `Could not find required class entries in jar. Items=${itemsClassEntry ?? "missing"}, Blocks=${blocksClassEntry ?? "missing"}, Foods=${foodsClassEntry ?? "missing"}, CreativeModeTabs=${creativeModeTabsClassEntry ?? "missing"}.`,
     );
   }
 
+  if (!vanillaBlockLootClassEntry) {
+    console.warn("VanillaBlockLoot class not found in jar; block loot method data will be unavailable.");
+  }
+
   console.log(
-    `Decompiling ${itemsClassEntry}, ${blocksClassEntry}, ${foodsClassEntry}, and ${creativeModeTabsClassEntry}...`,
+    `Decompiling ${itemsClassEntry}, ${blocksClassEntry}, ${foodsClassEntry}, ${creativeModeTabsClassEntry}${vanillaBlockLootClassEntry ? `, and ${vanillaBlockLootClassEntry}` : ""}...`,
   );
-  const [itemsResult, blocksResult, foodsResult, creativeModeTabsResult] = await Promise.all([
-    decompileClass(jarPath, itemsClassEntry, cfrJarPath, versionRoot),
-    decompileClass(jarPath, blocksClassEntry, cfrJarPath, versionRoot),
-    decompileClass(jarPath, foodsClassEntry, cfrJarPath, versionRoot),
-    decompileClass(jarPath, creativeModeTabsClassEntry, cfrJarPath, versionRoot),
-  ]);
+  const [itemsResult, blocksResult, foodsResult, creativeModeTabsResult, vanillaBlockLootResult] =
+    await Promise.all([
+      decompileClass(jarPath, itemsClassEntry, cfrJarPath, versionRoot),
+      decompileClass(jarPath, blocksClassEntry, cfrJarPath, versionRoot),
+      decompileClass(jarPath, foodsClassEntry, cfrJarPath, versionRoot),
+      decompileClass(jarPath, creativeModeTabsClassEntry, cfrJarPath, versionRoot),
+      vanillaBlockLootClassEntry
+        ? decompileClass(jarPath, vanillaBlockLootClassEntry, cfrJarPath, versionRoot)
+        : Promise.resolve(null),
+    ]);
 
   return {
     itemsJavaSource: itemsResult.javaSource,
     blocksJavaSource: blocksResult.javaSource,
     foodsJavaSource: foodsResult.javaSource,
     creativeModeTabsJavaSource: creativeModeTabsResult.javaSource,
+    vanillaBlockLootJavaSource: vanillaBlockLootResult?.javaSource ?? null,
     jarPath,
     cacheVersionRoot: versionRoot,
     minecraftVersion: versionSource.selectedVersion,
@@ -319,10 +336,12 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
       blocksClassEntry,
       foodsClassEntry,
       creativeModeTabsClassEntry,
+      vanillaBlockLootClassEntry: vanillaBlockLootClassEntry ?? null,
       itemsJavaPath: itemsResult.javaPath,
       blocksJavaPath: blocksResult.javaPath,
       foodsJavaPath: foodsResult.javaPath,
       creativeModeTabsJavaPath: creativeModeTabsResult.javaPath,
+      vanillaBlockLootJavaPath: vanillaBlockLootResult?.javaPath ?? null,
       tempDirectory: os.tmpdir(),
     },
   };

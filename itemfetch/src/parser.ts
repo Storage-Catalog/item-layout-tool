@@ -4,6 +4,7 @@ import type {
   ParsedCreativeTab,
   ParsedFood,
   ParsedItem,
+  VanillaBlockLootEntry,
 } from "./types";
 import { stripMinecraftNamespace } from "./utils";
 
@@ -1163,4 +1164,53 @@ export function parseItems(itemsSource: string, blockMap: Map<string, ParsedBloc
   }
 
   return items;
+}
+
+export function parseVanillaBlockLoot(source: string): VanillaBlockLootEntry[] {
+  const entries = new Map<string, VanillaBlockLootEntry>();
+
+  const generatePattern = /protected\s+void\s+generate\s*\(\s*\)\s*\{/;
+  const match = generatePattern.exec(source);
+  if (!match) {
+    return [];
+  }
+
+  const openBrace = match.index + match[0].length - 1;
+  const closeBrace = findMatchingBrace(source, openBrace);
+  if (closeBrace === -1) {
+    return [];
+  }
+
+  const body = source.slice(openBrace + 1, closeBrace);
+
+  let m: RegExpExecArray | null;
+
+  const dropSelfPattern = /\bthis\.dropSelf\(\s*Blocks\.([A-Z0-9_]+)\s*\)/g;
+  while ((m = dropSelfPattern.exec(body)) !== null) {
+    entries.set(m[1], { blockField: m[1], lootMethod: "drop_self", lootDropField: null });
+  }
+
+  const dropSilkPattern = /\bthis\.dropWhenSilkTouch\(\s*Blocks\.([A-Z0-9_]+)\s*\)/g;
+  while ((m = dropSilkPattern.exec(body)) !== null) {
+    entries.set(m[1], { blockField: m[1], lootMethod: "drop_when_silk_touch", lootDropField: null });
+  }
+
+  const dropOtherPattern = /\bthis\.dropOther\(\s*Blocks\.([A-Z0-9_]+)\s*,\s*(?:Blocks|Items)\.([A-Z0-9_]+)\s*\)/g;
+  while ((m = dropOtherPattern.exec(body)) !== null) {
+    entries.set(m[1], { blockField: m[1], lootMethod: "drop_other", lootDropField: m[2] });
+  }
+
+  const noDropPattern = /\bthis\.add\(\s*Blocks\.([A-Z0-9_]+)\s*,\s*noDrop\s*\(\s*\)\s*\)/g;
+  while ((m = noDropPattern.exec(body)) !== null) {
+    entries.set(m[1], { blockField: m[1], lootMethod: "no_drop", lootDropField: null });
+  }
+
+  const addPattern = /\bthis\.add\(\s*Blocks\.([A-Z0-9_]+)\s*,/g;
+  while ((m = addPattern.exec(body)) !== null) {
+    if (!entries.has(m[1])) {
+      entries.set(m[1], { blockField: m[1], lootMethod: "custom", lootDropField: null });
+    }
+  }
+
+  return Array.from(entries.values());
 }

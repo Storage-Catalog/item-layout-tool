@@ -36,6 +36,10 @@ export const LOCAL_CREATIVE_MODE_TABS_JAVA_PATH =
   process.env.ITEMFETCH_CREATIVE_MODE_TABS_JAVA_PATH
     ? path.resolve(process.cwd(), process.env.ITEMFETCH_CREATIVE_MODE_TABS_JAVA_PATH)
     : null;
+export const LOCAL_VANILLA_BLOCK_LOOT_JAVA_PATH =
+  process.env.ITEMFETCH_VANILLA_BLOCK_LOOT_JAVA_PATH
+    ? path.resolve(process.cwd(), process.env.ITEMFETCH_VANILLA_BLOCK_LOOT_JAVA_PATH)
+    : null;
 
 export const ITEM_CLASS_CANDIDATES = [
   "net/minecraft/world/item/Items.class",
@@ -45,6 +49,9 @@ export const BLOCKS_CLASS_CANDIDATES = ["net/minecraft/world/level/block/Blocks.
 export const FOODS_CLASS_CANDIDATES = ["net/minecraft/world/food/Foods.class"];
 export const CREATIVE_MODE_TABS_CLASS_CANDIDATES = [
   "net/minecraft/world/item/CreativeModeTabs.class",
+];
+export const VANILLA_BLOCK_LOOT_CLASS_CANDIDATES = [
+  "net/minecraft/data/loot/packs/VanillaBlockLoot.class",
 ];
 
 export function toFabricManifestUrl(versionId: string): string {
