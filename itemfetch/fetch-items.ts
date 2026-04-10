@@ -2319,7 +2319,9 @@ function shouldIncludeInPlannerCatalog(
     itemId === "wither_spawn_egg" ||
     itemId === "vault" ||
     itemId === "frogspawn" ||
-    itemId === "player_head"
+    itemId === "player_head" ||
+    itemId === "written_book" ||
+    itemId === "firework_star"
   ) {
     return false;
   }
