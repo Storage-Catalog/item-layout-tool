@@ -2312,6 +2312,7 @@ function shouldIncludeInPlannerCatalog(
   itemId: string,
   parsedItem: ParsedItem | null,
   creativeTabs: string[],
+  vanillaBlockLootEntry: VanillaBlockLootEntry | null,
 ): boolean {
   if (
     itemId === "ender_dragon_spawn_egg" ||
@@ -2328,6 +2329,10 @@ function shouldIncludeInPlannerCatalog(
   }
 
   if (parsedItem?.blockLoot?.noLootTable === true) {
+    return false;
+  }
+
+  if (vanillaBlockLootEntry?.lootMethod === "drop_other") {
     return false;
   }
 
@@ -2424,7 +2429,10 @@ async function main(): Promise<void> {
     const creativeTabs = parsedItem
       ? Array.from(creativeTabIdsByItemId.get(parsedItem.id) ?? [])
       : [];
-    if (!shouldIncludeInPlannerCatalog(itemId, parsedItem, creativeTabs)) {
+    const vanillaBlockLootEntry = parsedItem?.blockField
+      ? (vanillaBlockLootByField.get(parsedItem.blockField) ?? null)
+      : null;
+    if (!shouldIncludeInPlannerCatalog(itemId, parsedItem, creativeTabs, vanillaBlockLootEntry)) {
       skippedFilteredItems.push(itemId);
       skippedCount += 1;
       processedCount += 1;
@@ -2441,9 +2449,6 @@ async function main(): Promise<void> {
       parsedFoodByReference,
       parsedFoodByFieldName,
     );
-    const vanillaBlockLootEntry = parsedItem?.blockField
-      ? (vanillaBlockLootByField.get(parsedItem.blockField) ?? null)
-      : null;
 
     if (resolved) {
       const textureFilename = `${itemId}.png`;
