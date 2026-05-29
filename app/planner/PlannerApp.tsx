@@ -31,6 +31,7 @@ import {
   exportLayoutAsLitematic,
   type LayoutExportMode,
 } from "./lib/layoutExport";
+import { exportLayoutAsCsv } from "./lib/layoutCsvExport";
 import type { FillDirection, HallId, HallType } from "./types";
 import { buildInitialHallConfigs, type StorageLayoutPreset } from "./layoutConfig";
 import { buildOrderedSlotIds } from "./utils";
@@ -576,6 +577,36 @@ export function PlannerApp() {
     }
   }
 
+  function handleExportCsvClick(): void {
+    setIsExportMenuOpen(false);
+
+    if (catalogItems.length === 0) {
+      window.alert("Cannot export CSV before the item catalog has loaded.");
+      return;
+    }
+
+    const csv = exportLayoutAsCsv({
+      catalogItems,
+      hallConfigs,
+      slotAssignments: activeSlotAssignments,
+      labelNames,
+      storageLayoutPreset,
+    });
+    const now = new Date().toISOString().replace(/[:]/g, "-");
+    const resolvedLayoutName =
+      labelNames.layoutName.trim().length > 0 ? labelNames.layoutName : "Untitled Layout";
+    const layoutFileName = toFilenameSegment(resolvedLayoutName);
+    const blob = new Blob([csv], {
+      type: "text/csv;charset=utf-8",
+    });
+    const downloadUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = downloadUrl;
+    anchor.download = `${layoutFileName}-items-${now}.csv`;
+    anchor.click();
+    URL.revokeObjectURL(downloadUrl);
+  }
+
   function handleRestoreAutosaveClick(): void {
     if (!pendingAutosaveRestore) {
       return;
@@ -657,6 +688,16 @@ export function PlannerApp() {
             </button>
             {isExportMenuOpen ? (
               <div className="absolute left-0 top-[calc(100%+0.35rem)] z-20 min-w-64 rounded-[0.45rem] border border-[rgba(114,88,46,0.3)] bg-[rgba(255,250,242,0.98)] p-1 shadow-[0_10px_22px_rgba(64,48,24,0.18)] dark:border-[rgba(111,135,165,0.5)] dark:bg-[rgba(21,31,45,0.98)] dark:shadow-[0_14px_28px_rgba(4,8,16,0.48)]">
+                <button
+                  type="button"
+                  className="block w-full rounded-[0.35rem] px-2 py-1.5 text-left text-[0.78rem] leading-tight text-[#3b2f22] hover:bg-[rgba(210,184,142,0.2)] dark:text-[#d6e3f5] dark:hover:bg-[rgba(92,124,173,0.28)]"
+                  onClick={handleExportCsvClick}
+                >
+                  <span className="block text-[0.8rem] font-semibold">CSV: Item Layout</span>
+                  <span className="mt-0.5 block text-[0.72rem] text-[#6d5a3f] dark:text-[#9fb2ce]">
+                    Each catalog item with assignment and location details.
+                  </span>
+                </button>
                 {LITEMATIC_EXPORT_OPTIONS.map((option) => (
                   <button
                     key={option.mode}
