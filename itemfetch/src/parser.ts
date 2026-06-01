@@ -879,6 +879,7 @@ export function parseFoods(foodsSource: string): ParsedFood[] {
 export function parseCreativeModeTabs(
   creativeModeTabsSource: string,
 ): ParsedCreativeTab[] {
+  const javaIdentifier = String.raw`[$A-Za-z_][$A-Za-z0-9_]*`;
   const keyFieldToId = new Map<string, string>();
   const keyPattern =
     /private\s+static\s+final\s+ResourceKey<CreativeModeTab>\s+([A-Z0-9_]+)\s*=\s*CreativeModeTabs\.createKey\(\s*"([^"]+)"\s*\)\s*;/g;
@@ -888,7 +889,10 @@ export function parseCreativeModeTabs(
   }
 
   const tabs: ParsedCreativeTab[] = [];
-  const registerPattern = /Registry\.register\s*\(\s*registry\s*,\s*([A-Z0-9_]+)\s*,/g;
+  const registerPattern = new RegExp(
+    String.raw`Registry\.register\s*\(\s*${javaIdentifier}\s*,\s*([A-Z0-9_]+)\s*,`,
+    "g",
+  );
   let registerMatch: RegExpExecArray | null = null;
   while ((registerMatch = registerPattern.exec(creativeModeTabsSource)) !== null) {
     const tabFieldName = registerMatch[1];
@@ -899,8 +903,9 @@ export function parseCreativeModeTabs(
     }
 
     const statement = creativeModeTabsSource.slice(statementStart, statementEnd + 1);
-    const displayItemsPattern =
-      /\.displayItems\s*\(\s*\(\s*[A-Za-z_][A-Za-z0-9_]*\s*,\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)\s*->\s*\{/;
+    const displayItemsPattern = new RegExp(
+      String.raw`\.displayItems\s*\(\s*\(\s*${javaIdentifier}\s*,\s*(${javaIdentifier})\s*\)\s*->\s*\{`,
+    );
     const displayItemsMatch = displayItemsPattern.exec(statement);
     const itemFields = new Set<string>();
 
@@ -1082,7 +1087,7 @@ function isUnstackableItemFactory(itemFactory: string | null): boolean {
 
   // Some tools are created via factory lambdas without explicit properties chains.
   // Example: "(Item.Properties p) -> new AxeItem(..., p)"
-  return /new\s+(?:[A-Za-z0-9_$.]+\.)?(?:AxeItem|HoeItem|ShovelItem)\s*\(/.test(
+  return /new\s+(?:[A-Za-z0-9_$.]+\.)?(?:AnimalArmorItem|ArmorItem|AxeItem|HoeItem|PickaxeItem|ShovelItem|SwordItem)\s*\(/.test(
     itemFactory,
   );
 }
@@ -1195,7 +1200,8 @@ export function parseVanillaBlockLoot(source: string): VanillaBlockLootEntry[] {
     entries.set(m[1], { blockField: m[1], lootMethod: "drop_when_silk_touch", lootDropField: null });
   }
 
-  const dropOtherPattern = /\bthis\.dropOther\(\s*Blocks\.([A-Z0-9_]+)\s*,\s*(?:Blocks|Items)\.([A-Z0-9_]+)\s*\)/g;
+  const dropOtherPattern =
+    /\bthis\.dropOther\(\s*Blocks\.([A-Z0-9_]+)\s*,\s*(?:\([^)]+\)\s*)?(?:Blocks|Items)\.([A-Z0-9_]+)\s*\)/g;
   while ((m = dropOtherPattern.exec(body)) !== null) {
     entries.set(m[1], { blockField: m[1], lootMethod: "drop_other", lootDropField: m[2] });
   }

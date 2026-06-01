@@ -73,7 +73,11 @@ async function resolveVersionSource(): Promise<{
 }> {
   const manifestList = await fetchJson<VersionManifestList>(VERSION_MANIFEST_URL);
 
-  const requested = (process.env.MINECRAFT_VERSION ?? manifestList.latest.release).trim();
+  const requested = (
+    process.env.ITEMFETCH_GAME_VERSION ??
+    process.env.MINECRAFT_VERSION ??
+    manifestList.latest.release
+  ).trim();
   const mojangVersionId = requested.endsWith("_unobfuscated")
     ? requested.replace(/_unobfuscated$/, "")
     : requested;
@@ -181,11 +185,71 @@ async function ensureClientJar(
   };
 }
 
+async function ensureClientMappings(
+  versionRoot: string,
+  manifest: VersionManifest,
+): Promise<{ mappingsPath: string; mappingsUrl: string; mappingsSha1: string | null }> {
+  const clientMappingsDownload = manifest.downloads?.client_mappings;
+  if (!clientMappingsDownload?.url) {
+    throw new Error("Mojang client jar requires downloads.client_mappings.url for named decompilation");
+  }
+
+  const mappingsPath = path.join(versionRoot, "client_mappings.txt");
+  const expectedSha1 = clientMappingsDownload.sha1?.toLowerCase() ?? null;
+  let shouldDownload = !(await pathExists(mappingsPath));
+
+  if (!shouldDownload && expectedSha1) {
+    const actualSha1 = (await sha1File(mappingsPath)).toLowerCase();
+    if (actualSha1 !== expectedSha1) {
+      shouldDownload = true;
+    }
+  }
+
+  if (shouldDownload) {
+    console.log(`Downloading client mappings...`);
+    await downloadFile(clientMappingsDownload.url, mappingsPath);
+  }
+
+  return {
+    mappingsPath,
+    mappingsUrl: clientMappingsDownload.url,
+    mappingsSha1: expectedSha1,
+  };
+}
+
+function parseOfficialClassMappings(mappingText: string): Map<string, string> {
+  const classMappings = new Map<string, string>();
+  for (const line of mappingText.split(/\r?\n/)) {
+    if (line.startsWith(" ") || line.startsWith("#")) {
+      continue;
+    }
+
+    const match = line.match(/^(.+) -> ([^:]+):$/);
+    if (!match) {
+      continue;
+    }
+
+    const officialEntry = `${match[1].replace(/\./g, "/")}.class`;
+    const obfuscatedEntry = `${match[2].replace(/\./g, "/")}.class`;
+    classMappings.set(officialEntry, obfuscatedEntry);
+  }
+
+  return classMappings;
+}
+
+function remapClassCandidates(
+  candidates: string[],
+  classMappings: Map<string, string>,
+): string[] {
+  return candidates.map((candidate) => classMappings.get(candidate) ?? candidate);
+}
+
 async function decompileClass(
   jarPath: string,
   classEntry: string,
   cfrJarPath: string,
   workingRoot: string,
+  obfuscationPath: string | null,
 ): Promise<{ javaPath: string; javaSource: string }> {
   const extractedRoot = path.join(workingRoot, "classes");
   const decompiledRoot = path.join(workingRoot, "decompiled");
@@ -211,6 +275,7 @@ async function decompileClass(
       "true",
       "--comments",
       "false",
+      ...(obfuscationPath ? ["--obfuscationpath", obfuscationPath] : []),
     ],
     { cwd: workingRoot },
   );
@@ -272,6 +337,9 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
 
   const { jarPath, jarUrl, jarSha1 } = await ensureClientJar(versionRoot, versionSource.manifest);
   const cfrJarPath = await ensureCfrJar();
+  let clientMappingsPath: string | null = null;
+  let clientMappingsUrl: string | null = null;
+  let clientMappingsSha1: string | null = null;
 
   console.log(`Inspecting jar entries...`);
   const jarEntriesText = await runExec("jar", ["tf", jarPath], {
@@ -282,14 +350,47 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
 
-  const itemsClassEntry = pickJarEntry(jarEntries, ITEM_CLASS_CANDIDATES);
-  const blocksClassEntry = pickJarEntry(jarEntries, BLOCKS_CLASS_CANDIDATES);
-  const foodsClassEntry = pickJarEntry(jarEntries, FOODS_CLASS_CANDIDATES);
-  const creativeModeTabsClassEntry = pickJarEntry(
-    jarEntries,
-    CREATIVE_MODE_TABS_CLASS_CANDIDATES,
-  );
-  const vanillaBlockLootClassEntry = pickJarEntry(jarEntries, VANILLA_BLOCK_LOOT_CLASS_CANDIDATES);
+  let itemsClassCandidates = ITEM_CLASS_CANDIDATES;
+  let blocksClassCandidates = BLOCKS_CLASS_CANDIDATES;
+  let foodsClassCandidates = FOODS_CLASS_CANDIDATES;
+  let creativeModeTabsClassCandidates = CREATIVE_MODE_TABS_CLASS_CANDIDATES;
+  let vanillaBlockLootClassCandidates = VANILLA_BLOCK_LOOT_CLASS_CANDIDATES;
+
+  let itemsClassEntry = pickJarEntry(jarEntries, itemsClassCandidates);
+  let blocksClassEntry = pickJarEntry(jarEntries, blocksClassCandidates);
+  let foodsClassEntry = pickJarEntry(jarEntries, foodsClassCandidates);
+  let creativeModeTabsClassEntry = pickJarEntry(jarEntries, creativeModeTabsClassCandidates);
+  let vanillaBlockLootClassEntry = pickJarEntry(jarEntries, vanillaBlockLootClassCandidates);
+
+  if (
+    versionSource.source === "mojang" &&
+    (!itemsClassEntry || !blocksClassEntry || !foodsClassEntry || !creativeModeTabsClassEntry)
+  ) {
+    const clientMappings = await ensureClientMappings(versionRoot, versionSource.manifest);
+    clientMappingsPath = clientMappings.mappingsPath;
+    clientMappingsUrl = clientMappings.mappingsUrl;
+    clientMappingsSha1 = clientMappings.mappingsSha1;
+    const classMappings = parseOfficialClassMappings(await readFile(clientMappingsPath, "utf8"));
+
+    itemsClassCandidates = remapClassCandidates(ITEM_CLASS_CANDIDATES, classMappings);
+    blocksClassCandidates = remapClassCandidates(BLOCKS_CLASS_CANDIDATES, classMappings);
+    foodsClassCandidates = remapClassCandidates(FOODS_CLASS_CANDIDATES, classMappings);
+    creativeModeTabsClassCandidates = remapClassCandidates(
+      CREATIVE_MODE_TABS_CLASS_CANDIDATES,
+      classMappings,
+    );
+    vanillaBlockLootClassCandidates = remapClassCandidates(
+      VANILLA_BLOCK_LOOT_CLASS_CANDIDATES,
+      classMappings,
+    );
+
+    itemsClassEntry = pickJarEntry(jarEntries, itemsClassCandidates);
+    blocksClassEntry = pickJarEntry(jarEntries, blocksClassCandidates);
+    foodsClassEntry = pickJarEntry(jarEntries, foodsClassCandidates);
+    creativeModeTabsClassEntry = pickJarEntry(jarEntries, creativeModeTabsClassCandidates);
+    vanillaBlockLootClassEntry = pickJarEntry(jarEntries, vanillaBlockLootClassCandidates);
+  }
+
   if (!itemsClassEntry || !blocksClassEntry || !foodsClassEntry || !creativeModeTabsClassEntry) {
     throw new Error(
       `Could not find required class entries in jar. Items=${itemsClassEntry ?? "missing"}, Blocks=${blocksClassEntry ?? "missing"}, Foods=${foodsClassEntry ?? "missing"}, CreativeModeTabs=${creativeModeTabsClassEntry ?? "missing"}.`,
@@ -305,12 +406,24 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
   );
   const [itemsResult, blocksResult, foodsResult, creativeModeTabsResult, vanillaBlockLootResult] =
     await Promise.all([
-      decompileClass(jarPath, itemsClassEntry, cfrJarPath, versionRoot),
-      decompileClass(jarPath, blocksClassEntry, cfrJarPath, versionRoot),
-      decompileClass(jarPath, foodsClassEntry, cfrJarPath, versionRoot),
-      decompileClass(jarPath, creativeModeTabsClassEntry, cfrJarPath, versionRoot),
+      decompileClass(jarPath, itemsClassEntry, cfrJarPath, versionRoot, clientMappingsPath),
+      decompileClass(jarPath, blocksClassEntry, cfrJarPath, versionRoot, clientMappingsPath),
+      decompileClass(jarPath, foodsClassEntry, cfrJarPath, versionRoot, clientMappingsPath),
+      decompileClass(
+        jarPath,
+        creativeModeTabsClassEntry,
+        cfrJarPath,
+        versionRoot,
+        clientMappingsPath,
+      ),
       vanillaBlockLootClassEntry
-        ? decompileClass(jarPath, vanillaBlockLootClassEntry, cfrJarPath, versionRoot)
+        ? decompileClass(
+            jarPath,
+            vanillaBlockLootClassEntry,
+            cfrJarPath,
+            versionRoot,
+            clientMappingsPath,
+          )
         : Promise.resolve(null),
     ]);
 
@@ -331,6 +444,9 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
       jarUrl,
       jarSha1,
       jarPath,
+      clientMappingsUrl,
+      clientMappingsSha1,
+      clientMappingsPath,
       cfrJarPath,
       itemsClassEntry,
       blocksClassEntry,

@@ -117,6 +117,68 @@ type SpecialTextureEntry = {
   filename: string;
 };
 
+function printUsage(): void {
+  console.log(`Usage: npm run fetch:items -- [--game-version <version>]
+
+Options:
+  --game-version, --minecraft-version, --mc-version  Minecraft version to fetch.
+  --help                                           Show this help text.
+
+Examples:
+  npm run fetch:items -- --game-version 1.21.8
+  npm run fetch:items -- --game-version=1.21.8
+`);
+}
+
+function applyCliOptions(argv: string[]): void {
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+
+    if (arg === "--help" || arg === "-h") {
+      printUsage();
+      process.exit(0);
+    }
+
+    if (
+      arg === "--game-version" ||
+      arg === "--minecraft-version" ||
+      arg === "--mc-version"
+    ) {
+      const value = argv[index + 1];
+      if (!value || value.startsWith("-")) {
+        throw new Error(`${arg} requires a version value`);
+      }
+      process.env.ITEMFETCH_GAME_VERSION = value;
+      index += 1;
+      continue;
+    }
+
+    const inlineMatch = arg.match(/^--(?:game-version|minecraft-version|mc-version)=(.+)$/);
+    if (inlineMatch) {
+      process.env.ITEMFETCH_GAME_VERSION = inlineMatch[1];
+      continue;
+    }
+
+    if (!arg.startsWith("-") && !process.env.ITEMFETCH_GAME_VERSION) {
+      process.env.ITEMFETCH_GAME_VERSION = arg;
+      continue;
+    }
+
+    throw new Error(`Unknown argument: ${arg}`);
+  }
+}
+
+try {
+  applyCliOptions(process.argv.slice(2));
+} catch (error) {
+  if (error instanceof Error) {
+    console.error(error.message);
+  } else {
+    console.error(error);
+  }
+  process.exit(1);
+}
+
 const LOCAL_ASSETS_ROOT_OVERRIDE = process.env.ITEMFETCH_ASSETS_LOCAL_DIR
   ? path.resolve(process.cwd(), process.env.ITEMFETCH_ASSETS_LOCAL_DIR)
   : null;
@@ -2485,6 +2547,8 @@ async function main(): Promise<void> {
     }
   });
 
+  const sortedOutputItems = [...outputItems].sort((a, b) => a.id.localeCompare(b.id));
+
   const output = {
     generatedAt: new Date().toISOString(),
     counts: {
@@ -2508,7 +2572,7 @@ async function main(): Promise<void> {
       itemsWithCreativeTabCount: outputItems.filter((item) => item.creativeTabs.length > 0).length,
       unresolvedCreativeTabItemFieldCount: unresolvedCreativeTabItemFieldNames.size,
     },
-    items: outputItems,
+    items: sortedOutputItems,
   };
 
   const cleanedOutput = omitNullOrFalseProperties(output);
