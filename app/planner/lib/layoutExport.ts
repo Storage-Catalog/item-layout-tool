@@ -2,8 +2,9 @@ import { withBasePath } from "../base-path";
 import type { CatalogItem, HallConfig, HallId, HallSideConfig } from "../types";
 import { misSlotId, nonMisSlotId } from "../utils";
 
-export type LayoutExportMode = "containers" | "item_frames" | "blocks_and_frames" | "boxes";
+export type LayoutExportMode = "containers" | "item_frames" | "blocks_and_frames" | "boxes" | "ssi_ss2_filters" | "ss3_filters";
 export type LayoutViewMode = "storage" | "flat";
+const FILTER_ROW_STRIDE = 2;
 
 export type LayoutExportOption = {
   mode: LayoutExportMode;
@@ -35,6 +36,18 @@ export const LITEMATIC_EXPORT_OPTIONS: readonly LayoutExportOption[] = [
     mode: "boxes",
     label: "Litematic: Full boxes",
     description: "Each slot is a full shulker box containing the assigned item.",
+    fileSuffix: "boxes",
+  },
+  {
+    mode: "ssi_ss2_filters",
+    label: "Litematic: SSI SS2 Filters",
+    description: "Preconfigured SSI SS2 item filter hoppers for each assigned item.",
+    fileSuffix: "boxes",
+  },
+  {
+    mode: "ss3_filters",
+    label: "Litematic: SS3 Filters",
+    description: "Preconfigured SS3 item filter hoppers for each assigned item.",
     fileSuffix: "boxes",
   }
 ] as const;
@@ -123,7 +136,7 @@ export async function exportLayoutAsLitematic(
   // set 0 0
   setBlockState(schematic, 0, 0, 0, "minecraft:diamond_block");
   setBlockState(schematic, 0, 1, 0, "minecraft:torch");
-  
+
   writeExportCells(schematic, cells);
 
   const rawBytes = schematic.to_litematic?.();
@@ -182,6 +195,18 @@ function resolveExportOption(mode: LayoutExportMode): LayoutExportOption {
     throw new Error(`Unsupported export mode: ${mode}`);
   }
   return option;
+}
+
+function isFilterExportMode(mode: LayoutExportMode): boolean {
+  return mode === "ssi_ss2_filters" || mode === "ss3_filters";
+}
+
+function nonMisRowStride(mode: LayoutExportMode): number {
+  return isFilterExportMode(mode) ? FILTER_ROW_STRIDE : 1;
+}
+
+function nonMisSideDepth(rows: number, mode: LayoutExportMode): number {
+  return rows <= 0 ? 0 : (rows - 1) * nonMisRowStride(mode) + 1;
 }
 
 function applyMetadata(
@@ -339,7 +364,7 @@ export function buildExportCellsForLayout(
   const hallDimensions = Object.fromEntries(
     Object.entries(hallConfigs).map(([hallId, config]) => [
       hallId,
-      measureHallDimensions(config),
+      measureHallDimensions(config, mode),
     ] as const),
   );
 
@@ -517,25 +542,31 @@ export function buildExportCellsForLayout(
 
     rotatedAndTranslated.forEach((cell) => {
       if (cell.type === "container") {
-        const blockStateParsed = cell.blockState.match(/^minecraft:(\w+)\[facing=(\w+),type=(\w+),waterlogged=(\w+)\]$/);
+        // parse block state
+        const blockStateParsed = cell.blockState.match(/^minecraft:(\w+)(\[.*\])?$/);
         if (blockStateParsed) {
-          const [, blockType, facing, chestType, waterlogged] = blockStateParsed;
-          let newFacing = facing;
-          switch (config.direction) {
-            case "north":
-              newFacing = rotateDirection(facing, -90);
-              break;
-            case "south":
-              newFacing = rotateDirection(facing, 90);
-              break;
-            case "west":
-              newFacing = rotateDirection(facing, 180);
-              break;
-            case "east":
-              // no rotation
-              break;
+          const [, blockType, blockStateProps] = blockStateParsed;
+          let facing = blockStateProps?.match(/facing=(\w+)/)?.[1];
+          if (facing) {
+            switch (config.direction) {
+              case "north":
+                facing = rotateDirection(facing, -90);
+                break;
+              case "south":
+                facing = rotateDirection(facing, 90);
+                break;
+              case "west":
+                facing = rotateDirection(facing, 180);
+                break;
+              case "east":
+                // no rotation
+                break;
+            }
+            const newBlockStateProps = blockStateProps
+              ? blockStateProps.replace(/facing=\w+/, `facing=${facing}`)
+              : `[facing=${facing}]`;
+            cell.blockState = `minecraft:${blockType}${newBlockStateProps}`;
           }
-          cell.blockState = `minecraft:${blockType}[facing=${newFacing},type=${chestType},waterlogged=${waterlogged}]`;
         }
       }
     });
@@ -604,7 +635,7 @@ function buildExportCellsForFlatLayout(
   return output;
 }
 
-export function measureHallDimensions(hallConfig: HallConfig): { leftSize: number; rightSize: number, totalSize: number, totalSlices: number } {
+export function measureHallDimensions(hallConfig: HallConfig, mode: LayoutExportMode = "containers"): { leftSize: number; rightSize: number, totalSize: number, totalSlices: number } {
   let leftSize = 0;
   let rightSize = 0;
   let totalSlices = 0;
@@ -613,13 +644,13 @@ export function measureHallDimensions(hallConfig: HallConfig): { leftSize: numbe
       const widthRemainder = section.slices % section.sideLeft.misWidth;
       leftSize = Math.max(leftSize, section.sideLeft.rowsPerSlice * (widthRemainder < 2 ? 2 : 1));
     } else {
-      leftSize = Math.max(leftSize, section.sideLeft.rowsPerSlice);
+      leftSize = Math.max(leftSize, nonMisSideDepth(section.sideLeft.rowsPerSlice, mode));
     }
     if (section.sideRight.type === "mis") {
       const widthRemainder = section.slices % section.sideRight.misWidth;
       rightSize = Math.max(rightSize, section.sideRight.rowsPerSlice * (widthRemainder < 2 ? 2 : 1));
     } else {
-      rightSize = Math.max(rightSize, section.sideRight.rowsPerSlice);
+      rightSize = Math.max(rightSize, nonMisSideDepth(section.sideRight.rowsPerSlice, mode));
     }
 
 
@@ -792,11 +823,12 @@ export function applySideToExportCells(
 
 
   } else if (sideConfig.type === "bulk" || sideConfig.type === "chest") {
+    const rowStride = nonMisRowStride(mode);
     for (let slice = 0; slice < numSlices; slice++) {
       const globalSlice = globalSliceStart + slice;
       for (let row = 0; row < rows; row++) {
         const posX = sectionStartX + slice;
-        const posZ = side === "left" ? (- rows + row) : (row + 1);
+        const posZ = side === "left" ? -((rows - row - 1) * rowStride + 1) : (row * rowStride + 1);
         const key = nonMisSlotId(hallId, globalSlice, side === "left" ? 0 : 1, row);
         const itemId = slotAssignments[key];
         if (!itemId) {
@@ -854,6 +886,37 @@ export function applySideToExportCells(
             blockState: `minecraft:shulker_box[facing=up]`,
             items: Array.from({ length: 27 }, (_, slot) => ({ slot, itemId, count: catalogItem?.maxStackSize || 64 })),
           });
+        } else if (mode === "ssi_ss2_filters" || mode === "ss3_filters") {
+          const catalogItem = itemById.get(itemId);
+
+          const dummyItemId = "minecraft:barrier"; // use barrier as a placeholder for empty slots in the filter
+
+          const is16Stackable = catalogItem?.maxStackSize === 16;
+          const items = Array.from({ length: 5 }, (_, slot) => {
+            if (slot === 0) {
+              if (mode === "ssi_ss2_filters") {
+                return { slot, itemId, count: 1 };
+              } else {
+                return { slot, itemId, count: is16Stackable ? 10 : 41 };
+              }
+            }
+
+            if (slot === 1 && mode === "ssi_ss2_filters") {
+              return { slot, itemId: dummyItemId, count: is16Stackable ? 12 : 18 };
+            }
+
+            return { slot, itemId: dummyItemId, count: 1 };
+          });
+
+
+          output.push({
+            type: "container",
+            x: posX,
+            z: posZ,
+            blockState: `minecraft:hopper[facing=${side === "left" ? "south" : "north"}]`,
+            items,
+          });
+
         } else {
           throw new Error("Unknown export mode");
         }
