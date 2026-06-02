@@ -117,6 +117,7 @@ function regexMatches(regex: RegExp, value: string): boolean {
 
 type ItemLibraryPanelProps = {
   catalogItems: CatalogItem[];
+  catalogGameVersion: string | null;
   isLoadingCatalog: boolean;
   catalogError: string | null;
   usedItemIds: Set<string>;
@@ -135,6 +136,7 @@ type ItemLibraryPanelProps = {
 
 export function ItemLibraryPanel({
   catalogItems,
+  catalogGameVersion,
   isLoadingCatalog,
   catalogError,
   usedItemIds,
@@ -438,7 +440,14 @@ export function ItemLibraryPanel({
     >
       <div className="grid gap-[0.4rem] border-b border-b-[rgba(134,106,67,0.3)] px-[0.95rem] pb-[0.9rem] pt-4 dark:border-b-[rgba(113,138,173,0.38)]">
         <div className="flex items-start justify-between gap-[0.45rem]">
-          <h2 className="m-0 text-[1.1rem] tracking-[0.02em] dark:text-[#e2edff]">Item Library</h2>
+          <div className="grid gap-[0.08rem]">
+            <h2 className="m-0 text-[1.1rem] tracking-[0.02em] dark:text-[#e2edff]">Item Library</h2>
+            {catalogGameVersion ? (
+              <span className="text-[0.68rem] font-semibold text-[#6d6256] dark:text-[#a6b9d5]">
+                Minecraft {catalogGameVersion}
+              </span>
+            ) : null}
+          </div>
           <div className="flex items-center gap-[0.2rem] rounded-[0.55rem] border border-[rgba(121,96,62,0.35)] bg-[rgba(255,250,239,0.95)] p-[0.2rem] dark:border-[rgba(112,136,167,0.5)] dark:bg-[rgba(19,31,47,0.92)]">
             <button
               type="button"

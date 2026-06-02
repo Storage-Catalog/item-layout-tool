@@ -2416,6 +2416,7 @@ async function main(): Promise<void> {
     vanillaBlockLootJavaSource,
     jarPath,
     cacheVersionRoot,
+    minecraftVersion,
   } = await loadJavaSources();
 
   if (!activeAssetsRoot) {
@@ -2551,6 +2552,7 @@ async function main(): Promise<void> {
 
   const output = {
     generatedAt: new Date().toISOString(),
+    gameVersion: minecraftVersion?.replace(/_unobfuscated$/, "") ?? null,
     counts: {
       itemCount: outputItems.length,
       texturedItemCount: texturedCount,

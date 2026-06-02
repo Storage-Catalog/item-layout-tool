@@ -61,6 +61,7 @@ export type RawCatalogItem = {
 };
 
 export type CatalogResponse = {
+  gameVersion?: unknown;
   items: RawCatalogItem[];
 };
 

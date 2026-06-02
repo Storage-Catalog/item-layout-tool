@@ -83,7 +83,7 @@ function toFilenameSegment(rawName: string): string {
 }
 
 export function PlannerApp() {
-  const { catalogItems, isLoadingCatalog, catalogError } = useCatalog();
+  const { catalogItems, catalogGameVersion, isLoadingCatalog, catalogError } = useCatalog();
   const {
     storageLayoutPreset,
     hallConfigs,
@@ -816,6 +816,7 @@ export function PlannerApp() {
 
         <ItemLibraryPanel
           catalogItems={catalogItems}
+          catalogGameVersion={catalogGameVersion}
           isLoadingCatalog={isLoadingCatalog}
           catalogError={catalogError}
           usedItemIds={usedItemIds}

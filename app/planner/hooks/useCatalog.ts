@@ -34,10 +34,12 @@ function getCatalogCandidateUrls(): string[] {
 
 export function useCatalog(): {
   catalogItems: CatalogItem[];
+  catalogGameVersion: string | null;
   isLoadingCatalog: boolean;
   catalogError: string | null;
 } {
   const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
+  const [catalogGameVersion, setCatalogGameVersion] = useState<string | null>(null);
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
   const [catalogError, setCatalogError] = useState<string | null>(null);
 
@@ -85,15 +87,19 @@ export function useCatalog(): {
             maxStackSize: parseMaxStackSize(item.maxStackSize),
           }))
           .sort((a, b) => a.id.localeCompare(b.id));
+        const rawGameVersion = (parsed as CatalogResponse).gameVersion;
+        const gameVersion = typeof rawGameVersion === "string" ? rawGameVersion : null;
 
         if (!cancelled) {
           setCatalogItems(items);
+          setCatalogGameVersion(gameVersion);
         }
       } catch (error: unknown) {
         if (!cancelled) {
           const message =
             error instanceof Error ? error.message : "Unknown catalog loading error";
           setCatalogError(message);
+          setCatalogGameVersion(null);
         }
       } finally {
         if (!cancelled) {
@@ -111,6 +117,7 @@ export function useCatalog(): {
 
   return {
     catalogItems,
+    catalogGameVersion,
     isLoadingCatalog,
     catalogError,
   };
