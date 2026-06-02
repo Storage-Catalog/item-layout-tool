@@ -30,6 +30,7 @@ export function useViewportNavigation(): {
     listener: (state: ViewportState) => void,
   ) => () => void;
   adjustZoom: (delta: number) => void;
+  panBy: (deltaX: number, deltaY: number, commitMode?: "immediate" | "throttled") => void;
   fitViewportToBounds: (
     bounds: { left: number; top: number; right: number; bottom: number },
     padding?: number,
@@ -194,14 +195,31 @@ export function useViewportNavigation(): {
     [updateViewportState],
   );
 
-  function adjustZoom(delta: number): void {
+  const adjustZoom = useCallback((delta: number): void => {
     if (!viewportRef.current) {
       return;
     }
 
     const rect = viewportRef.current.getBoundingClientRect();
     applyZoomAt(rect.width / 2, rect.height / 2, (currentZoom) => currentZoom + delta, "immediate");
-  }
+  }, [applyZoomAt]);
+
+  const panBy = useCallback((
+    deltaX: number,
+    deltaY: number,
+    commitMode: "immediate" | "throttled" = "immediate",
+  ): void => {
+    updateViewportState(
+      (current) => ({
+        ...current,
+        pan: {
+          x: current.pan.x + deltaX,
+          y: current.pan.y + deltaY,
+        },
+      }),
+      commitMode,
+    );
+  }, [updateViewportState]);
 
   const fitViewportToBounds = useCallback((
     bounds: { left: number; top: number; right: number; bottom: number },
@@ -378,6 +396,7 @@ export function useViewportNavigation(): {
     pan: state.pan,
     subscribeViewportTransform,
     adjustZoom,
+    panBy,
     fitViewportToBounds,
     recenterViewport,
     handlePointerDown,

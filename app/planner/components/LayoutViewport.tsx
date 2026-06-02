@@ -70,6 +70,11 @@ type LayoutViewportProps = {
     listener: (state: { zoom: number; pan: { x: number; y: number } }) => void,
   ) => () => void;
   onAdjustZoom: (delta: number) => void;
+  onPanViewportBy: (
+    deltaX: number,
+    deltaY: number,
+    commitMode?: "immediate" | "throttled",
+  ) => void;
   onFitViewportToBounds: (
     bounds: { left: number; top: number; right: number; bottom: number },
     padding?: number,
@@ -257,6 +262,17 @@ const SECTION_VISUAL_THEMES: SectionVisualTheme[] = [
 
 function defaultHallLabel(hallId: HallId): string {
   return `Hall ${hallId}`;
+}
+
+function shouldIgnoreViewerShortcut(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+  if (target.isContentEditable || target.closest('[contenteditable="true"]')) {
+    return true;
+  }
+  const tagName = target.tagName.toLowerCase();
+  return tagName === "input" || tagName === "textarea" || tagName === "select";
 }
 
 function expandedMisKey(target: ExpandedMisTarget): string {
@@ -466,6 +482,7 @@ export function LayoutViewport({
   pan,
   subscribeViewportTransform,
   onAdjustZoom,
+  onPanViewportBy,
   onFitViewportToBounds,
   onRecenterViewport,
   onPointerDown,
@@ -504,6 +521,16 @@ export function LayoutViewport({
   const zoomLayerRef = useRef<HTMLDivElement | null>(null);
   const pendingTransformRef = useRef<{ pan: { x: number; y: number }; zoom: number } | null>(null);
   const transformRafRef = useRef<number | null>(null);
+  const keyboardPanKeysRef = useRef(new Set<"KeyW" | "KeyA" | "KeyS" | "KeyD">());
+  const isKeyboardPanBoostedRef = useRef(false);
+  const keyboardPanRafRef = useRef<number | null>(null);
+  const keyboardPanTimestampRef = useRef<number | null>(null);
+  const layoutBoundsRef = useRef<WorldBounds | null>(null);
+  const onAdjustZoomRef = useRef(onAdjustZoom);
+  const onFitViewportToBoundsRef = useRef(onFitViewportToBounds);
+  const onPanViewportByRef = useRef(onPanViewportBy);
+  const onRecenterViewportRef = useRef(onRecenterViewport);
+  const moveCursorToRenderedSlotRef = useRef<((direction: "up" | "down" | "left" | "right") => void) | null>(null);
   const [viewportSize, setViewportSize] = useState<{ width: number; height: number }>({
     width: 0,
     height: 0,
@@ -917,11 +944,7 @@ export function LayoutViewport({
     };
   }, [center, hallConfigs, hallIds, storageLayoutPreset, viewMode]);
 
-  const storageBounds = useMemo(() => {
-    if (viewMode !== "storage") {
-      return null;
-    }
-
+  const layoutBounds = useMemo(() => {
     let minX = Number.POSITIVE_INFINITY;
     let minY = Number.POSITIVE_INFINITY;
     let maxX = Number.NEGATIVE_INFINITY;
@@ -962,15 +985,272 @@ export function LayoutViewport({
     }
 
     return { left: minX, top: minY, right: maxX, bottom: maxY };
-  }, [hallIds, hallLayout, viewMode]);
+  }, [hallIds, hallLayout]);
+  layoutBoundsRef.current = layoutBounds;
+  onAdjustZoomRef.current = onAdjustZoom;
+  onFitViewportToBoundsRef.current = onFitViewportToBounds;
+  onPanViewportByRef.current = onPanViewportBy;
+  onRecenterViewportRef.current = onRecenterViewport;
+
+  const moveCursorToRenderedSlot = useCallback(
+    (direction: "up" | "down" | "left" | "right"): void => {
+      const viewport = viewportRef.current;
+      if (!viewport) {
+        return;
+      }
+
+      const allSlots = Array.from(
+        viewport.querySelectorAll<HTMLElement>("[data-slot-id]"),
+      );
+      if (allSlots.length === 0) {
+        return;
+      }
+
+      const matchingCurrentSlots = cursorSlotId
+        ? allSlots.filter((slot) => slot.dataset.slotId === cursorSlotId)
+        : [];
+      const currentSlot =
+        matchingCurrentSlots.find((slot) => Boolean(slot.closest("[data-mis-panel]"))) ??
+        matchingCurrentSlots[0] ??
+        allSlots[0];
+      const currentSlotId = currentSlot.dataset.slotId;
+      if (!currentSlotId) {
+        return;
+      }
+
+      const currentPanel = currentSlot.closest("[data-mis-panel]");
+      const candidateSlots = allSlots.filter((slot) => {
+        const slotId = slot.dataset.slotId;
+        if (!slotId || slotId === currentSlotId) {
+          return false;
+        }
+        const slotPanel = slot.closest("[data-mis-panel]");
+        if (currentPanel) {
+          return slotPanel === currentPanel;
+        }
+        return !slotPanel;
+      });
+
+      const currentRect = currentSlot.getBoundingClientRect();
+      const currentX = currentRect.left + currentRect.width / 2;
+      const currentY = currentRect.top + currentRect.height / 2;
+      let bestSlotId: string | null = null;
+      let bestScore = Number.POSITIVE_INFINITY;
+
+      for (const slot of candidateSlots) {
+        const slotId = slot.dataset.slotId;
+        if (!slotId) {
+          continue;
+        }
+
+        const rect = slot.getBoundingClientRect();
+        const dx = rect.left + rect.width / 2 - currentX;
+        const dy = rect.top + rect.height / 2 - currentY;
+        let primary = 0;
+        let perpendicular = 0;
+        switch (direction) {
+          case "up":
+            primary = -dy;
+            perpendicular = Math.abs(dx);
+            break;
+          case "down":
+            primary = dy;
+            perpendicular = Math.abs(dx);
+            break;
+          case "left":
+            primary = -dx;
+            perpendicular = Math.abs(dy);
+            break;
+          case "right":
+            primary = dx;
+            perpendicular = Math.abs(dy);
+            break;
+        }
+
+        if (primary <= 1) {
+          continue;
+        }
+
+        const score = primary * primary + perpendicular * perpendicular * 2.5;
+        if (score < bestScore) {
+          bestScore = score;
+          bestSlotId = slotId;
+        }
+      }
+
+      if (bestSlotId) {
+        onCursorSlotChange(bestSlotId);
+      }
+    },
+    [cursorSlotId, onCursorSlotChange, viewportRef],
+  );
+  moveCursorToRenderedSlotRef.current = moveCursorToRenderedSlot;
 
   useEffect(() => {
-    if (didInitialFit.current || !storageBounds) {
+    if (didInitialFit.current || !layoutBounds) {
       return;
     }
-    onFitViewportToBounds(storageBounds, 24);
+    onFitViewportToBounds(layoutBounds, 24);
     didInitialFit.current = true;
-  }, [onFitViewportToBounds, storageBounds]);
+  }, [layoutBounds, onFitViewportToBounds]);
+
+  useEffect(() => {
+    const PAN_SPEED = 620;
+    const PAN_SHIFT_MULTIPLIER = 2.4;
+    const ZOOM_STEP = 0.2;
+    const panKeys = keyboardPanKeysRef.current;
+    const resolvePanKey = (event: KeyboardEvent): "KeyW" | "KeyA" | "KeyS" | "KeyD" | null => {
+      switch (event.code) {
+        case "KeyW":
+        case "KeyA":
+        case "KeyS":
+        case "KeyD":
+          return event.code;
+        default:
+          return null;
+      }
+    };
+
+    const stopKeyboardPan = (): void => {
+      if (keyboardPanRafRef.current !== null) {
+        window.cancelAnimationFrame(keyboardPanRafRef.current);
+        keyboardPanRafRef.current = null;
+      }
+      keyboardPanTimestampRef.current = null;
+    };
+
+    const runKeyboardPan = (timestamp: number): void => {
+      const previousTimestamp = keyboardPanTimestampRef.current;
+      keyboardPanTimestampRef.current = timestamp;
+      const elapsedSeconds =
+        previousTimestamp === null ? 1 / 60 : Math.min(0.05, (timestamp - previousTimestamp) / 1000);
+      const panSpeed = PAN_SPEED * (isKeyboardPanBoostedRef.current ? PAN_SHIFT_MULTIPLIER : 1);
+
+      let dx = 0;
+      let dy = 0;
+      if (panKeys.has("KeyW")) {
+        dy += panSpeed * elapsedSeconds;
+      }
+      if (panKeys.has("KeyS")) {
+        dy -= panSpeed * elapsedSeconds;
+      }
+      if (panKeys.has("KeyA")) {
+        dx += panSpeed * elapsedSeconds;
+      }
+      if (panKeys.has("KeyD")) {
+        dx -= panSpeed * elapsedSeconds;
+      }
+
+      if (dx !== 0 || dy !== 0) {
+        onPanViewportByRef.current(dx, dy, "throttled");
+        keyboardPanRafRef.current = window.requestAnimationFrame(runKeyboardPan);
+        return;
+      }
+
+      stopKeyboardPan();
+    };
+
+    const startKeyboardPan = (): void => {
+      if (keyboardPanRafRef.current !== null) {
+        return;
+      }
+      keyboardPanRafRef.current = window.requestAnimationFrame(runKeyboardPan);
+    };
+
+    function handleViewerKeyDown(event: KeyboardEvent): void {
+      if (event.key === "Shift") {
+        isKeyboardPanBoostedRef.current = true;
+        return;
+      }
+      if (event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+      if (shouldIgnoreViewerShortcut(event.target)) {
+        return;
+      }
+      const panKey = resolvePanKey(event);
+      if (event.shiftKey && !panKey) {
+        return;
+      }
+      if (panKey) {
+        event.preventDefault();
+        isKeyboardPanBoostedRef.current = event.shiftKey;
+        panKeys.add(panKey);
+        startKeyboardPan();
+        return;
+      }
+
+      switch (event.key) {
+        case " ":
+        case "Spacebar":
+          event.preventDefault();
+          if (layoutBoundsRef.current) {
+            onFitViewportToBoundsRef.current(layoutBoundsRef.current, 24);
+          } else {
+            onRecenterViewportRef.current();
+          }
+          break;
+        case "q":
+        case "Q":
+          event.preventDefault();
+          onAdjustZoomRef.current(-ZOOM_STEP);
+          break;
+        case "e":
+        case "E":
+          event.preventDefault();
+          onAdjustZoomRef.current(ZOOM_STEP);
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          moveCursorToRenderedSlotRef.current?.("up");
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          moveCursorToRenderedSlotRef.current?.("down");
+          break;
+        case "ArrowLeft":
+          event.preventDefault();
+          moveCursorToRenderedSlotRef.current?.("left");
+          break;
+        case "ArrowRight":
+          event.preventDefault();
+          moveCursorToRenderedSlotRef.current?.("right");
+          break;
+      }
+    }
+
+    function handleViewerKeyUp(event: KeyboardEvent): void {
+      const panKey = resolvePanKey(event);
+      if (panKey) {
+        panKeys.delete(panKey);
+        return;
+      }
+
+      switch (event.key) {
+        case "Shift":
+          isKeyboardPanBoostedRef.current = false;
+          break;
+      }
+    }
+
+    function handleWindowBlur(): void {
+      panKeys.clear();
+      isKeyboardPanBoostedRef.current = false;
+      stopKeyboardPan();
+    }
+
+    window.addEventListener("keydown", handleViewerKeyDown);
+    window.addEventListener("keyup", handleViewerKeyUp);
+    window.addEventListener("blur", handleWindowBlur);
+    return () => {
+      window.removeEventListener("keydown", handleViewerKeyDown);
+      window.removeEventListener("keyup", handleViewerKeyUp);
+      window.removeEventListener("blur", handleWindowBlur);
+      panKeys.clear();
+      isKeyboardPanBoostedRef.current = false;
+      stopKeyboardPan();
+    };
+  }, []);
 
   const expandedMisPanels = useMemo<ExpandedMisPanel[]>(() => {
     return expandedMisTargets

@@ -81,7 +81,7 @@ export function buildSlotCenters(
           const groupMainSize = groupLastSlice.mainStart + groupLastSlice.mainSize - groupFirstSlice.mainStart;
           const unitColumns = misColumns(sideConfig.misSlotsPerSlice);
           const unitRows = Math.max(1, Math.ceil(sideConfig.misSlotsPerSlice / unitColumns));
-          for (let row = 0; row < sideConfig.rowsPerSlice; row += 1) {
+          for (let misRow = 0; misRow < sideConfig.rowsPerSlice; misRow += 1) {
             const unitMain = groupMainSize;
             const unitCross = sideDepth / sideConfig.rowsPerSlice;
             const cellMain = unitMain / unitColumns;
@@ -89,18 +89,18 @@ export function buildSlotCenters(
 
             for (let index = 0; index < sideConfig.misSlotsPerSlice; index += 1) {
               const column = index % unitColumns;
-              const row = Math.floor(index / unitColumns);
+              const slotRow = Math.floor(index / unitColumns);
 
               if (orientation === "horizontal") {
                 const baseY = side === 0 ? hallTopLeft.y : hallTopLeft.y + hallTopLeft.height - sideDepth;
                 const x = hallTopLeft.x + groupMainStart + (column + 0.5) * cellMain;
-                const y = baseY + row * unitCross + (row + 0.5) * cellCross;
-                slotCenters.set(`${hallId}:m:${misSlice}:${side}:${row}:${index}`, { x, y });
+                const y = baseY + misRow * unitCross + (slotRow + 0.5) * cellCross;
+                slotCenters.set(`${hallId}:m:${misSlice}:${side}:${misRow}:${index}`, { x, y });
               } else {
                 const baseX = side === 0 ? hallTopLeft.x : hallTopLeft.x + hallTopLeft.width - sideDepth;
-                const x = baseX + row * unitCross + (row + 0.5) * cellCross;
+                const x = baseX + misRow * unitCross + (slotRow + 0.5) * cellCross;
                 const y = hallTopLeft.y + groupMainStart + (column + 0.5) * cellMain;
-                slotCenters.set(`${hallId}:m:${misSlice}:${side}:${row}:${index}`, { x, y });
+                slotCenters.set(`${hallId}:m:${misSlice}:${side}:${misRow}:${index}`, { x, y });
               }
             }
           }

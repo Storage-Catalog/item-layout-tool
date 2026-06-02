@@ -146,6 +146,7 @@ export function PlannerApp() {
     pan,
     subscribeViewportTransform,
     adjustZoom,
+    panBy,
     fitViewportToBounds,
     recenterViewport,
     handlePointerDown,
@@ -777,6 +778,7 @@ export function PlannerApp() {
             pan={pan}
             subscribeViewportTransform={subscribeViewportTransform}
             onAdjustZoom={adjustZoom}
+            onPanViewportBy={panBy}
             onFitViewportToBounds={fitViewportToBounds}
             onRecenterViewport={recenterViewport}
             onPointerDown={handlePointerDown}
