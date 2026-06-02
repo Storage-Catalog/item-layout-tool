@@ -548,6 +548,7 @@ export function PlannerApp() {
         hallConfigs,
         slotAssignments: activeSlotAssignments,
         itemById,
+        misSignalStrengths: labelNames.misSignalStrengths,
         layoutViewMode,
       });
 
