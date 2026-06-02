@@ -112,6 +112,14 @@ type MisContainerItem = {
   count: number;
 };
 
+type MisDummyCandidate = {
+  slot: number;
+  itemId: string;
+  maxAddCount: number;
+  equivalentItemsPerCount: number;
+  kind: "empty" | "assigned";
+};
+
 type NucleationModule = {
   default: () => Promise<unknown>;
   SchematicWrapper: new () => NucleationSchematicWrapper;
@@ -242,7 +250,7 @@ function fillMisContainerDummyItems(
     }
   }
 
-  let remainingDummyItems = calculateMisComparatorPrimer(
+  const requiredDummyItems = calculateMisComparatorPrimer(
     slotsPerSlice,
     signalStrength,
     Array.from(itemsBySlot.values()).map((item) => ({
@@ -250,20 +258,21 @@ function fillMisContainerDummyItems(
       count: item.count,
     })),
   ).itemCount;
+  if (requiredDummyItems <= 0) {
+    return Array.from(itemsBySlot.values()).sort((a, b) => a.slot - b.slot);
+  }
 
-  for (let slot = containerSlots - 1; slot >= 0 && remainingDummyItems > 0; slot -= 1) {
+  const candidates: MisDummyCandidate[] = [];
+  for (let slot = containerSlots - 1; slot >= 0; slot -= 1) {
     const existingItem = itemsBySlot.get(slot);
     if (!existingItem) {
-      const count = Math.min(64, Math.floor(remainingDummyItems));
-      if (count <= 0) {
-        continue;
-      }
-      itemsBySlot.set(slot, {
+      candidates.push({
         slot,
         itemId: "minecraft:barrier",
-        count,
+        maxAddCount: 64,
+        equivalentItemsPerCount: 1,
+        kind: "empty",
       });
-      remainingDummyItems -= count;
       continue;
     }
 
@@ -273,17 +282,81 @@ function fillMisContainerDummyItems(
       continue;
     }
 
-    const dummyItemsPerItem = 64 / maxStackSize;
-    const count = Math.min(availableItems, Math.floor(remainingDummyItems / dummyItemsPerItem));
-    if (count <= 0) {
+    const equivalentItemsPerCount = Math.round(64 / maxStackSize);
+    if (equivalentItemsPerCount <= 0) {
       continue;
     }
 
-    itemsBySlot.set(slot, {
-      ...existingItem,
-      count: existingItem.count + count,
+    candidates.push({
+      slot,
+      itemId: existingItem.itemId,
+      maxAddCount: availableItems,
+      equivalentItemsPerCount,
+      kind: "assigned",
     });
-    remainingDummyItems -= count * dummyItemsPerItem;
+  }
+
+  candidates.sort((a, b) => {
+    if (a.kind !== b.kind) {
+      return a.kind === "empty" ? -1 : 1;
+    }
+    return b.slot - a.slot;
+  });
+
+  const suffixPossible: boolean[][] = Array.from({ length: candidates.length + 1 }, () =>
+    Array.from({ length: requiredDummyItems + 1 }, () => false),
+  );
+  suffixPossible[candidates.length][0] = true;
+
+  for (let index = candidates.length - 1; index >= 0; index -= 1) {
+    const candidate = candidates[index];
+    const nextPossible = suffixPossible[index + 1];
+    const currentPossible = suffixPossible[index];
+    for (let subtotal = 0; subtotal <= requiredDummyItems; subtotal += 1) {
+      if (!nextPossible[subtotal]) {
+        continue;
+      }
+      for (let count = 0; count <= candidate.maxAddCount; count += 1) {
+        const nextSubtotal = subtotal + count * candidate.equivalentItemsPerCount;
+        if (nextSubtotal > requiredDummyItems) {
+          break;
+        }
+        currentPossible[nextSubtotal] = true;
+      }
+    }
+  }
+
+  let remainingDummyItems = requiredDummyItems;
+  while (remainingDummyItems > 0 && !suffixPossible[0][remainingDummyItems]) {
+    remainingDummyItems -= 1;
+  }
+
+  for (let index = 0; index < candidates.length && remainingDummyItems > 0; index += 1) {
+    const candidate = candidates[index];
+    const nextPossible = suffixPossible[index + 1];
+    let selectedCount = 0;
+    for (let count = Math.min(
+      candidate.maxAddCount,
+      Math.floor(remainingDummyItems / candidate.equivalentItemsPerCount),
+    ); count >= 0; count -= 1) {
+      const nextRemaining = remainingDummyItems - count * candidate.equivalentItemsPerCount;
+      if (nextPossible[nextRemaining]) {
+        selectedCount = count;
+        remainingDummyItems = nextRemaining;
+        break;
+      }
+    }
+
+    if (selectedCount <= 0) {
+      continue;
+    }
+
+    const existingItem = itemsBySlot.get(candidate.slot);
+    itemsBySlot.set(candidate.slot, {
+      slot: candidate.slot,
+      itemId: candidate.itemId,
+      count: (existingItem?.count ?? 0) + selectedCount,
+    });
   }
 
   return Array.from(itemsBySlot.values()).sort((a, b) => a.slot - b.slot);

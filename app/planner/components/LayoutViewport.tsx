@@ -78,8 +78,16 @@ type LayoutViewportProps = {
   onPointerDown: (event: PointerEvent<HTMLDivElement>) => boolean;
   onPointerMove: (event: PointerEvent<HTMLDivElement>) => void;
   onPointerEnd: (event: PointerEvent<HTMLDivElement>) => void;
-  onSlotDragOver: (event: DragEvent<HTMLElement>, slotId: string) => void;
-  onSlotDrop: (event: DragEvent<HTMLElement>, slotId: string) => void;
+  onSlotDragOver: (
+    event: DragEvent<HTMLElement>,
+    slotId: string,
+    options?: { preferFirstEmptyMisSlot?: boolean },
+  ) => void;
+  onSlotDrop: (
+    event: DragEvent<HTMLElement>,
+    slotId: string,
+    options?: { preferFirstEmptyMisSlot?: boolean },
+  ) => void;
   onViewportDropFallback: (event: DragEvent<HTMLElement>) => void;
   onCursorSlotChange: (slotId: string) => void;
   onCursorMisChange: (hallId: HallId, slice: number, side: 0 | 1, row: number) => void;
@@ -1051,6 +1059,7 @@ export function LayoutViewport({
     slotId: string,
     slotTintClassName?: string,
     useHallDirectionMapping = true,
+    placementOptions?: { preferFirstEmptyMisSlot?: boolean },
   ): ReactNode {
     const assignedItemId = slotAssignments[slotId];
     const assignedItem = assignedItemId ? itemById.get(assignedItemId) : undefined;
@@ -1156,11 +1165,11 @@ export function LayoutViewport({
         onDragEnd={onAnyDragEnd}
         onDragOver={(event) => {
           event.stopPropagation();
-          onSlotDragOver(event, slotId);
+          onSlotDragOver(event, slotId, placementOptions);
         }}
         onDrop={(event) => {
           event.stopPropagation();
-          onSlotDrop(event, slotId);
+          onSlotDrop(event, slotId, placementOptions);
         }}
         onContextMenu={(event) => {
           event.preventDefault();
@@ -1230,7 +1239,7 @@ export function LayoutViewport({
   }
 
   function renderPopupSlot(slotId: string): ReactNode {
-    return renderSlot(slotId, undefined, false);
+    return renderSlot(slotId, undefined, false, { preferFirstEmptyMisSlot: false });
   }
 
   function renderHallContent(

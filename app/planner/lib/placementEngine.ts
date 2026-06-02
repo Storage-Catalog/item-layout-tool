@@ -18,6 +18,7 @@ type BuildPlacementsInput = {
   payload: DragPayload;
   assignments: Record<string, string>;
   context: PlacementContext;
+  preferFirstEmptyMisSlot?: boolean;
 };
 
 type BuildSwapPlacementsInput = {
@@ -194,6 +195,7 @@ export function buildPlacements({
   payload,
   assignments,
   context,
+  preferFirstEmptyMisSlot = true,
 }: BuildPlacementsInput): PreviewPlacement[] {
   const { orderedSlotIds, orderedSlotIdSet, itemById } = context;
 
@@ -268,7 +270,9 @@ export function buildPlacements({
   }
 
   if (payload.kind === "item") {
-    const targetSlotId = findNextEmptyMisSlot(anchorSlotId, orderedSlotIds, working);
+    const targetSlotId = preferFirstEmptyMisSlot
+      ? findNextEmptyMisSlot(anchorSlotId, orderedSlotIds, working)
+      : anchorSlotId;
     return [
       {
         slotId: targetSlotId,

@@ -52,8 +52,16 @@ type UseLayoutAssignmentsResult = {
     slotIds: string[],
     originSlotId?: string,
   ) => void;
-  handleSlotDragOver: (event: DragEvent<HTMLElement>, slotId: string) => void;
-  handleSlotDrop: (event: DragEvent<HTMLElement>, slotId: string) => void;
+  handleSlotDragOver: (
+    event: DragEvent<HTMLElement>,
+    slotId: string,
+    options?: SlotPlacementOptions,
+  ) => void;
+  handleSlotDrop: (
+    event: DragEvent<HTMLElement>,
+    slotId: string,
+    options?: SlotPlacementOptions,
+  ) => void;
   handleViewportDropFallback: (event: DragEvent<HTMLElement>) => void;
   handleLibraryDragOver: (event: DragEvent<HTMLElement>) => void;
   handleLibraryDrop: (event: DragEvent<HTMLElement>) => void;
@@ -77,6 +85,10 @@ type ParsedMisRow = {
   slice: number;
   side: number;
   row: number;
+};
+
+type SlotPlacementOptions = {
+  preferFirstEmptyMisSlot?: boolean;
 };
 
 export function useLayoutAssignments({
@@ -554,12 +566,17 @@ export function useLayoutAssignments({
     setSelectedSlotIdsState(entries.map((entry) => entry.slotId));
   }
 
-  function buildPreviewSet(anchorSlotId: string, payload: DragPayload): PreviewPlacement[] {
+  function buildPreviewSet(
+    anchorSlotId: string,
+    payload: DragPayload,
+    options?: SlotPlacementOptions,
+  ): PreviewPlacement[] {
     const placements = buildPlacements({
       anchorSlotId,
       payload,
       assignments: activeSlotAssignments,
       context: placementContext,
+      preferFirstEmptyMisSlot: options?.preferFirstEmptyMisSlot,
     });
 
     const incomingEntries = getIncomingEntries(payload, itemById);
@@ -578,7 +595,11 @@ export function useLayoutAssignments({
     return parseDragPayload(event.dataTransfer.getData(DRAG_DATA_KEY)) ?? activeDragPayload;
   }
 
-  function handleSlotDragOver(event: DragEvent<HTMLElement>, slotId: string): void {
+  function handleSlotDragOver(
+    event: DragEvent<HTMLElement>,
+    slotId: string,
+    options?: SlotPlacementOptions,
+  ): void {
     event.preventDefault();
 
     const payload = getPayloadFromDragEvent(event);
@@ -598,13 +619,17 @@ export function useLayoutAssignments({
       return;
     }
 
-    const nextPreviews = buildPreviewSet(slotId, payload);
+    const nextPreviews = buildPreviewSet(slotId, payload, options);
     setDragPreviews((current) =>
       arePreviewsEqual(current, nextPreviews) ? current : nextPreviews,
     );
   }
 
-  function placePayload(anchorSlotId: string, payload: DragPayload): void {
+  function placePayload(
+    anchorSlotId: string,
+    payload: DragPayload,
+    options?: SlotPlacementOptions,
+  ): void {
     if (!orderedSlotIdSet.has(anchorSlotId)) {
       return;
     }
@@ -623,6 +648,7 @@ export function useLayoutAssignments({
         payload,
         assignments: current,
         context: placementContext,
+        preferFirstEmptyMisSlot: options?.preferFirstEmptyMisSlot,
       });
       if (placements.length === 0) {
         return current;
@@ -658,7 +684,11 @@ export function useLayoutAssignments({
     });
   }
 
-  function handleSlotDrop(event: DragEvent<HTMLElement>, anchorSlotId: string): void {
+  function handleSlotDrop(
+    event: DragEvent<HTMLElement>,
+    anchorSlotId: string,
+    options?: SlotPlacementOptions,
+  ): void {
     event.preventDefault();
 
     const payload = getPayloadFromDragEvent(event);
@@ -677,9 +707,10 @@ export function useLayoutAssignments({
       payload,
       assignments: activeSlotAssignments,
       context: placementContext,
+      preferFirstEmptyMisSlot: options?.preferFirstEmptyMisSlot,
     });
 
-    placePayload(anchorSlotId, payload);
+    placePayload(anchorSlotId, payload, options);
     if (payload.source === "layout") {
       setSelectedSlotIdsState(placements.map((placement) => placement.slotId));
     }
