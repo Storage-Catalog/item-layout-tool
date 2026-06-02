@@ -30,6 +30,7 @@ export type PlannerLabelNames = {
   hallNames: Record<HallId, string>;
   sectionNames: Record<string, string>;
   misNames: Record<string, string>;
+  misSignalStrengths: Record<string, number>;
 };
 
 export type LegacyHallConfig = {

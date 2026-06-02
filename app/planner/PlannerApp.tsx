@@ -137,6 +137,7 @@ export function PlannerApp() {
     handleHallNameChange,
     handleSectionNameChange,
     handleMisNameChange,
+    handleMisSignalStrengthChange,
   } = usePlannerLabelNames();
   const {
     viewportRef,
@@ -764,6 +765,7 @@ export function PlannerApp() {
             hallNames={labelNames.hallNames}
             sectionNames={labelNames.sectionNames}
             misNames={labelNames.misNames}
+            misSignalStrengths={labelNames.misSignalStrengths}
             cursorSlotId={cursorSlotId}
             cursorMovementHint={cursorMovementHint}
             viewportRef={viewportRef}
@@ -790,6 +792,7 @@ export function PlannerApp() {
             onHallNameChange={handleHallNameChange}
             onSectionNameChange={handleSectionNameChange}
             onMisNameChange={handleMisNameChange}
+            onMisSignalStrengthChange={handleMisSignalStrengthChange}
             onAddSection={handleAddSection}
             onRemoveSection={handleRemoveSection}
             onSlotItemDragStart={beginSlotItemDrag}

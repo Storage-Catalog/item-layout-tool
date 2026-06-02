@@ -41,6 +41,7 @@ import type {
 } from "../types";
 import { getHallSize, misSlotId, nonMisSlotId, resolveHallSlices, toTitle } from "../utils";
 import { buildPopupCursorHint } from "../lib/cursorHints";
+import { DEFAULT_MIS_SIGNAL_STRENGTH } from "../lib/plannerSnapshot";
 
 type LayoutViewportProps = {
   storageLayoutPreset: StorageLayoutPreset;
@@ -51,6 +52,7 @@ type LayoutViewportProps = {
   hallNames: Record<HallId, string>;
   sectionNames: Record<string, string>;
   misNames: Record<string, string>;
+  misSignalStrengths: Record<string, number>;
   cursorSlotId: string | null;
   cursorMovementHint: CursorMovementHint | null;
   viewportRef: RefObject<HTMLDivElement | null>;
@@ -112,6 +114,13 @@ type LayoutViewportProps = {
     side: 0 | 1,
     row: number,
     rawName: string,
+  ) => void;
+  onMisSignalStrengthChange: (
+    hallId: HallId,
+    slice: number,
+    side: 0 | 1,
+    row: number,
+    rawValue: string | number,
   ) => void;
   onAddSection: (hallId: HallId) => void;
   onRemoveSection: (hallId: HallId, sectionIndex: number) => void;
@@ -425,6 +434,7 @@ export function LayoutViewport({
   hallNames,
   sectionNames,
   misNames,
+  misSignalStrengths,
   cursorSlotId,
   cursorMovementHint,
   viewportRef,
@@ -451,6 +461,7 @@ export function LayoutViewport({
   onHallNameChange,
   onSectionNameChange,
   onMisNameChange,
+  onMisSignalStrengthChange,
   onAddSection,
   onRemoveSection,
   onSlotItemDragStart,
@@ -753,6 +764,19 @@ export function LayoutViewport({
     [misNames],
   );
 
+  const misSignalStrength = useCallback(
+    (target: ExpandedMisTarget): number =>
+      misSignalStrengths[expandedMisKey(target)] ?? DEFAULT_MIS_SIGNAL_STRENGTH,
+    [misSignalStrengths],
+  );
+
+  const updateMisSignalStrength = useCallback((
+    target: ExpandedMisTarget,
+    rawValue: string | number,
+  ): void => {
+    onMisSignalStrengthChange(target.hallId, target.slice, target.side, target.row, rawValue);
+  }, [onMisSignalStrengthChange]);
+
   const layoutSummary = useMemo(() => {
     let bulkTypes = 0;
     let chestTypes = 0;
@@ -941,10 +965,11 @@ export function LayoutViewport({
           columns,
           capacity: sideConfig.misSlotsPerSlice,
           fallbackLabel,
+          signalStrength: misSignalStrength(target),
         };
       })
       .filter((panel): panel is ExpandedMisPanel => panel !== null);
-  }, [expandedMisTargets, hallConfigs]);
+  }, [expandedMisTargets, hallConfigs, misSignalStrength]);
 
   const popupColumnsBySlotId = useMemo(() => {
     const map = new Map<string, number>();
@@ -2023,6 +2048,7 @@ export function LayoutViewport({
           )
         }
         onRenameMis={updateMisName}
+        onSignalStrengthChange={updateMisSignalStrength}
         misDisplayName={misDisplayName}
         renderSlot={renderPopupSlot}
       />

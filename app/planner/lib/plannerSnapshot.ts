@@ -15,6 +15,9 @@ const STORAGE_LAYOUT_PRESETS: StorageLayoutPreset[] = ["single", "double", "trip
 const FILL_DIRECTIONS: FillDirection[] = ["row", "column"];
 const HALL_TYPES: HallType[] = ["bulk", "chest", "mis"];
 const HALL_DIRECTIONS: HallDirection[] = ["north", "east", "south", "west"];
+export const DEFAULT_MIS_SIGNAL_STRENGTH = 2;
+export const MIN_MIS_SIGNAL_STRENGTH = 1;
+export const MAX_MIS_SIGNAL_STRENGTH = 15;
 
 export const SAVE_FILE_VERSION = 1;
 
@@ -41,6 +44,7 @@ export type PlannerLabelNamesDelta = {
   hallNames?: RecordDelta<string>;
   sectionNames?: RecordDelta<string>;
   misNames?: RecordDelta<string>;
+  misSignalStrengths?: RecordDelta<number>;
 };
 
 export type PlannerSnapshotDelta = {
@@ -82,6 +86,7 @@ export function createEmptyPlannerLabelNames(): PlannerLabelNames {
     hallNames: {},
     sectionNames: {},
     misNames: {},
+    misSignalStrengths: {},
   };
 }
 
@@ -186,12 +191,39 @@ function cloneNameMap(nameMap: Record<string, string>): Record<string, string> {
   );
 }
 
+function normalizeMisSignalStrength(value: unknown): number {
+  return clamp(
+    Math.round(toFiniteNumber(value, DEFAULT_MIS_SIGNAL_STRENGTH)),
+    MIN_MIS_SIGNAL_STRENGTH,
+    MAX_MIS_SIGNAL_STRENGTH,
+  );
+}
+
+function cloneMisSignalStrengthMap(signalStrengths: Record<string, number>): Record<string, number> {
+  return Object.fromEntries(
+    Object.entries(signalStrengths)
+      .filter((entry): entry is [string, number] => {
+        const [key, value] = entry;
+        return (
+          typeof key === "string" &&
+          key.trim().length > 0 &&
+          typeof value === "number" &&
+          Number.isFinite(value) &&
+          normalizeMisSignalStrength(value) !== DEFAULT_MIS_SIGNAL_STRENGTH
+        );
+      })
+      .map(([key, value]) => [key, normalizeMisSignalStrength(value)] as const)
+      .sort((a, b) => a[0].localeCompare(b[0])),
+  );
+}
+
 export function clonePlannerLabelNames(labelNames: PlannerLabelNames): PlannerLabelNames {
   return {
     layoutName: labelNames.layoutName.trim(),
     hallNames: cloneHallNames(labelNames.hallNames),
     sectionNames: cloneNameMap(labelNames.sectionNames),
     misNames: cloneNameMap(labelNames.misNames),
+    misSignalStrengths: cloneMisSignalStrengthMap(labelNames.misSignalStrengths),
   };
 }
 
@@ -280,6 +312,41 @@ function applyStringRecordDelta(
   base: Record<string, string>,
   delta: RecordDelta<string>,
 ): Record<string, string> {
+  const next = { ...base };
+  for (const key of delta.remove) {
+    delete next[key];
+  }
+  for (const [key, value] of Object.entries(delta.set)) {
+    next[key] = value;
+  }
+  return next;
+}
+
+function diffNumberRecord(
+  previous: Record<string, number>,
+  next: Record<string, number>,
+): RecordDelta<number> | null {
+  const delta = createRecordDelta<number>();
+
+  const nextEntries = Object.entries(next).sort((a, b) => a[0].localeCompare(b[0]));
+  for (const [key, value] of nextEntries) {
+    if (previous[key] !== value) {
+      delta.set[key] = value;
+    }
+  }
+
+  const removedKeys = Object.keys(previous)
+    .filter((key) => !(key in next))
+    .sort((a, b) => a.localeCompare(b));
+  delta.remove.push(...removedKeys);
+
+  return hasRecordDelta(delta) ? delta : null;
+}
+
+function applyNumberRecordDelta(
+  base: Record<string, number>,
+  delta: RecordDelta<number>,
+): Record<string, number> {
   const next = { ...base };
   for (const key of delta.remove) {
     delete next[key];
@@ -379,8 +446,9 @@ function diffPlannerLabelNames(
   const hallNames = diffHallNameRecord(previous.hallNames, next.hallNames);
   const sectionNames = diffStringRecord(previous.sectionNames, next.sectionNames);
   const misNames = diffStringRecord(previous.misNames, next.misNames);
+  const misSignalStrengths = diffNumberRecord(previous.misSignalStrengths, next.misSignalStrengths);
 
-  if (!layoutName && !hallNames && !sectionNames && !misNames) {
+  if (!layoutName && !hallNames && !sectionNames && !misNames && !misSignalStrengths) {
     return null;
   }
 
@@ -389,6 +457,7 @@ function diffPlannerLabelNames(
     hallNames: hallNames ?? undefined,
     sectionNames: sectionNames ?? undefined,
     misNames: misNames ?? undefined,
+    misSignalStrengths: misSignalStrengths ?? undefined,
   };
 }
 
@@ -405,6 +474,9 @@ function applyPlannerLabelNamesDelta(
     misNames: delta.misNames
       ? applyStringRecordDelta(base.misNames, delta.misNames)
       : base.misNames,
+    misSignalStrengths: delta.misSignalStrengths
+      ? applyNumberRecordDelta(base.misSignalStrengths, delta.misSignalStrengths)
+      : base.misSignalStrengths,
   };
 }
 
@@ -647,6 +719,27 @@ function parseNameMap(value: unknown): Record<string, string> {
   return Object.fromEntries(entries);
 }
 
+function parseMisSignalStrengthMap(value: unknown): Record<string, number> {
+  if (!isRecord(value)) {
+    return {};
+  }
+
+  const entries = Object.entries(value)
+    .filter((entry): entry is [string, unknown] => {
+      const [key, signalStrength] = entry;
+      return (
+        typeof key === "string" &&
+        key.trim().length > 0 &&
+        Number.isFinite(Number(signalStrength)) &&
+        normalizeMisSignalStrength(signalStrength) !== DEFAULT_MIS_SIGNAL_STRENGTH
+      );
+    })
+    .map(([key, signalStrength]) => [key, normalizeMisSignalStrength(signalStrength)] as const)
+    .sort((a, b) => a[0].localeCompare(b[0]));
+
+  return Object.fromEntries(entries);
+}
+
 function parsePlannerLabelNames(value: unknown): PlannerLabelNames {
   if (!isRecord(value)) {
     return createEmptyPlannerLabelNames();
@@ -662,6 +755,7 @@ function parsePlannerLabelNames(value: unknown): PlannerLabelNames {
     hallNames: parseHallNames(value.hallNames),
     sectionNames: parseNameMap(value.sectionNames),
     misNames: parseNameMap(value.misNames),
+    misSignalStrengths: parseMisSignalStrengthMap(value.misSignalStrengths),
   };
 }
 
@@ -692,6 +786,7 @@ export function parsePlannerSnapshot(value: unknown): PlannerSnapshot | null {
           hallNames: value.hallNames,
           sectionNames: value.sectionNames,
           misNames: value.misNames,
+          misSignalStrengths: value.misSignalStrengths,
         });
 
   return {

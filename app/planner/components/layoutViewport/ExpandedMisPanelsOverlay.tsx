@@ -14,6 +14,7 @@ export type ExpandedMisPanel = ExpandedMisTarget & {
   columns: number;
   capacity: number;
   fallbackLabel: string;
+  signalStrength: number;
 };
 
 type ExpandedMisPanelsOverlayProps = {
@@ -27,6 +28,7 @@ type ExpandedMisPanelsOverlayProps = {
   onAnyDragEnd: () => void;
   onClosePanel: (target: ExpandedMisTarget) => void;
   onRenameMis: (target: ExpandedMisTarget, rawName: string) => void;
+  onSignalStrengthChange: (target: ExpandedMisTarget, rawValue: string | number) => void;
   misDisplayName: (target: ExpandedMisTarget, fallback: string) => string;
   renderSlot: (slotId: string) => ReactNode;
 };
@@ -38,6 +40,7 @@ export function ExpandedMisPanelsOverlay({
   onAnyDragEnd,
   onClosePanel,
   onRenameMis,
+  onSignalStrengthChange,
   misDisplayName,
   renderSlot,
 }: ExpandedMisPanelsOverlayProps) {
@@ -87,7 +90,7 @@ export function ExpandedMisPanelsOverlay({
               }}
               onDragEnd={onAnyDragEnd}
             >
-              <div className="grid gap-[0.08rem]">
+              <div className="grid min-w-0 flex-1 gap-[0.08rem]">
                 <div className="text-[0.78rem] font-bold tracking-[0.02em]">
                   <span
                     className="rounded-[0.22rem] px-[0.12rem] normal-case focus:bg-[rgba(255,255,255,0.84)] focus:outline-none dark:focus:bg-[rgba(33,49,72,0.92)]"
@@ -114,13 +117,53 @@ export function ExpandedMisPanelsOverlay({
                   {panel.capacity} assigned
                 </div>
               </div>
-              <button
-                type="button"
-                className={`rounded-[0.4rem] border px-2 py-[0.2rem] text-[0.72rem] font-semibold ${closeClass}`}
-                onClick={() => onClosePanel(panelTarget)}
-              >
-                Close
-              </button>
+              <div className="flex shrink-0 items-center gap-2">
+                <div
+                  className="group/ss flex h-[1.55rem] items-center gap-1 rounded-[0.38rem] border border-[rgba(82,104,88,0.32)] bg-[rgba(255,255,255,0.58)] px-1.5 text-[0.66rem] font-bold tabular-nums dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(18,32,49,0.54)]"
+                  title="MIS signal strength"
+                  onPointerDown={(event) => event.stopPropagation()}
+                  onClick={(event) => event.stopPropagation()}
+                  onDragStart={(event) => event.preventDefault()}
+                >
+                  <span className="whitespace-nowrap">SS {panel.signalStrength}</span>
+                  <div className="hidden items-center gap-1 group-hover/ss:flex group-focus-within/ss:flex">
+                    {[2, 3].map((value) => {
+                      const isSelected = panel.signalStrength === value;
+                      return (
+                        <button
+                          key={value}
+                          type="button"
+                          aria-pressed={isSelected}
+                          className={`h-5 min-w-5 rounded-[0.28rem] border px-1 text-[0.66rem] leading-none ${isSelected
+                            ? "border-[rgba(46,80,66,0.72)] bg-[rgba(211,238,219,0.95)] text-[#24483a] dark:border-[rgba(116,207,184,0.65)] dark:bg-[rgba(25,82,73,0.92)] dark:text-[#d8fff4]"
+                            : "border-[rgba(82,104,88,0.34)] bg-[rgba(255,255,255,0.76)] text-current hover:bg-[rgba(232,244,235,0.9)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(28,47,68,0.82)] dark:hover:bg-[rgba(38,70,82,0.92)]"
+                          }`}
+                          onClick={() => onSignalStrengthChange(panelTarget, value)}
+                        >
+                          {value}
+                        </button>
+                      );
+                    })}
+                    <input
+                      type="number"
+                      min={1}
+                      max={15}
+                      inputMode="numeric"
+                      aria-label="Custom MIS signal strength"
+                      className="h-5 w-9 rounded-[0.28rem] border border-[rgba(82,104,88,0.34)] bg-[rgba(255,255,255,0.82)] px-1 text-center text-[0.66rem] font-bold text-current outline-none focus:border-[rgba(46,80,66,0.72)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(28,47,68,0.86)] dark:focus:border-[rgba(116,207,184,0.65)]"
+                      value={panel.signalStrength}
+                      onChange={(event) => onSignalStrengthChange(panelTarget, event.currentTarget.value)}
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className={`rounded-[0.4rem] border px-2 py-[0.2rem] text-[0.72rem] font-semibold ${closeClass}`}
+                  onClick={() => onClosePanel(panelTarget)}
+                >
+                  Close
+                </button>
+              </div>
             </header>
             <div className="max-h-[64vh] overflow-auto p-4">
               <div

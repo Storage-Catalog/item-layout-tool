@@ -1,11 +1,15 @@
 import { useCallback, useState } from "react";
 import type { HallId, PlannerLabelNames } from "../types";
 import {
+  DEFAULT_MIS_SIGNAL_STRENGTH,
+  MAX_MIS_SIGNAL_STRENGTH,
+  MIN_MIS_SIGNAL_STRENGTH,
   clonePlannerLabelNames,
   createEmptyPlannerLabelNames,
   misNameKey,
   sectionNameKey,
 } from "../lib/plannerSnapshot";
+import { clamp } from "../utils";
 
 type UsePlannerLabelNamesResult = {
   labelNames: PlannerLabelNames;
@@ -19,6 +23,13 @@ type UsePlannerLabelNamesResult = {
     side: 0 | 1,
     row: number,
     rawName: string,
+  ) => void;
+  handleMisSignalStrengthChange: (
+    hallId: HallId,
+    slice: number,
+    side: 0 | 1,
+    row: number,
+    rawValue: string | number,
   ) => void;
 };
 
@@ -142,6 +153,51 @@ export function usePlannerLabelNames(): UsePlannerLabelNamesResult {
     });
   }, []);
 
+  const handleMisSignalStrengthChange = useCallback((
+    hallId: HallId,
+    slice: number,
+    side: 0 | 1,
+    row: number,
+    rawValue: string | number,
+  ) => {
+    const numericValue = typeof rawValue === "number" ? rawValue : Number(rawValue);
+    if (!Number.isFinite(numericValue)) {
+      return;
+    }
+    const signalStrength = clamp(
+      Math.round(numericValue),
+      MIN_MIS_SIGNAL_STRENGTH,
+      MAX_MIS_SIGNAL_STRENGTH,
+    );
+    const key = misNameKey(hallId, slice, side, row);
+
+    setLabelNames((current) => {
+      if (signalStrength === DEFAULT_MIS_SIGNAL_STRENGTH) {
+        if (!(key in current.misSignalStrengths)) {
+          return current;
+        }
+        const nextMisSignalStrengths = { ...current.misSignalStrengths };
+        delete nextMisSignalStrengths[key];
+        return {
+          ...current,
+          misSignalStrengths: nextMisSignalStrengths,
+        };
+      }
+
+      if (current.misSignalStrengths[key] === signalStrength) {
+        return current;
+      }
+
+      return {
+        ...current,
+        misSignalStrengths: {
+          ...current.misSignalStrengths,
+          [key]: signalStrength,
+        },
+      };
+    });
+  }, []);
+
   return {
     labelNames,
     replaceLabelNames,
@@ -149,5 +205,6 @@ export function usePlannerLabelNames(): UsePlannerLabelNamesResult {
     handleHallNameChange,
     handleSectionNameChange,
     handleMisNameChange,
+    handleMisSignalStrengthChange,
   };
 }
