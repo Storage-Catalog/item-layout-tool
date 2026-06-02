@@ -27,6 +27,45 @@ export function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
+export type MisComparatorPrimer = {
+  itemCount: number;
+  stacks: number;
+  items: number;
+  containerSlots: 27 | 54;
+};
+
+export function calculateMisComparatorPrimer(
+  usableSlots: number,
+  signalStrengthThreshold: number,
+  assignedItemMaxStackSizes: readonly number[] = [],
+): MisComparatorPrimer {
+  const containerSlots = usableSlots <= 27 ? 27 : 54;
+  const threshold = clamp(Math.round(signalStrengthThreshold), 1, 15);
+  const maxItemCount = containerSlots * 64;
+  const thresholdItemCount = ((threshold - 1) * maxItemCount) / 14;
+  const assignedItemEquivalentCount = assignedItemMaxStackSizes.reduce((total, maxStackSize) => {
+    const stackSize = clamp(Math.floor(maxStackSize), 1, 64);
+    return total + 64 / stackSize;
+  }, 0);
+  const itemCount = clamp(
+    Math.ceil(thresholdItemCount - assignedItemEquivalentCount) - 1,
+    0,
+    maxItemCount,
+  );
+
+  return {
+    itemCount,
+    stacks: Math.floor(itemCount / 64),
+    items: itemCount % 64,
+    containerSlots,
+  };
+}
+
+export function formatStackItemCount(itemCount: number): string {
+  const normalized = Math.max(0, Math.floor(itemCount));
+  return `${Math.floor(normalized / 64)} stacks + ${normalized % 64} items`;
+}
+
 export function toTitle(input: string): string {
   return input
     .split("_")

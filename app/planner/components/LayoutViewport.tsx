@@ -955,6 +955,10 @@ export function LayoutViewport({
           { length: sideConfig.misSlotsPerSlice },
           (_, index) => misSlotId(target.hallId, target.slice, target.side, target.row, index),
         );
+        const assignedItemMaxStackSizes = slotIds
+          .map((slotId) => slotAssignments[slotId])
+          .filter((itemId): itemId is string => Boolean(itemId))
+          .map((itemId) => itemById.get(itemId)?.maxStackSize ?? 64);
         const columns =
           sideConfig.misSlotsPerSlice % 9 === 0
             ? 9
@@ -966,10 +970,11 @@ export function LayoutViewport({
           capacity: sideConfig.misSlotsPerSlice,
           fallbackLabel,
           signalStrength: misSignalStrength(target),
+          assignedItemMaxStackSizes,
         };
       })
       .filter((panel): panel is ExpandedMisPanel => panel !== null);
-  }, [expandedMisTargets, hallConfigs, misSignalStrength]);
+  }, [expandedMisTargets, hallConfigs, itemById, misSignalStrength, slotAssignments]);
 
   const popupColumnsBySlotId = useMemo(() => {
     const map = new Map<string, number>();

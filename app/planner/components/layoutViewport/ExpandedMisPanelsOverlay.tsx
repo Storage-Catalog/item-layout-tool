@@ -1,6 +1,7 @@
 import type { DragEvent, ReactNode } from "react";
 import { SLOT_SIZE } from "../../constants";
 import type { HallId } from "../../types";
+import { calculateMisComparatorPrimer, formatStackItemCount } from "../../utils";
 
 export type ExpandedMisTarget = {
   hallId: HallId;
@@ -15,6 +16,7 @@ export type ExpandedMisPanel = ExpandedMisTarget & {
   capacity: number;
   fallbackLabel: string;
   signalStrength: number;
+  assignedItemMaxStackSizes: number[];
 };
 
 type ExpandedMisPanelsOverlayProps = {
@@ -72,6 +74,11 @@ export function ExpandedMisPanelsOverlay({
           side: panel.side,
           row: panel.row,
         };
+        const comparatorPrimer = calculateMisComparatorPrimer(
+          panel.capacity,
+          panel.signalStrength,
+          panel.assignedItemMaxStackSizes,
+        );
         return (
           <div
             key={`${panel.hallId}:${panel.slice}:${panel.side}:${panel.row}`}
@@ -115,6 +122,9 @@ export function ExpandedMisPanelsOverlay({
                 <div className={`text-[0.68rem] ${subTextClass}`}>
                   {panel.slotIds.filter((slotId) => Boolean(slotAssignments[slotId])).length}/
                   {panel.capacity} assigned
+                </div>
+                <div className={`text-[0.68rem] ${subTextClass}`}>
+                  Dummy: {formatStackItemCount(comparatorPrimer.itemCount)}
                 </div>
               </div>
               <div className="flex shrink-0 items-center gap-2">
