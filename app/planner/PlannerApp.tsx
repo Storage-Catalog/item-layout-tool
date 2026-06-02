@@ -699,7 +699,7 @@ export function PlannerApp() {
                   className="block w-full rounded-[0.35rem] px-2 py-1.5 text-left text-[0.78rem] leading-tight text-[#3b2f22] hover:bg-[rgba(210,184,142,0.2)] dark:text-[#d6e3f5] dark:hover:bg-[rgba(92,124,173,0.28)]"
                   onClick={handleExportCsvClick}
                 >
-                  <span className="block text-[0.8rem] font-semibold">CSV: Item Layout</span>
+                  <span className="block text-[0.8rem] font-semibold">CSV: Item List Spreadsheet</span>
                   <span className="mt-0.5 block text-[0.72rem] text-[#6d5a3f] dark:text-[#9fb2ce]">
                     A spreadsheet containing each catalog item with assignment and location details.
                   </span>
