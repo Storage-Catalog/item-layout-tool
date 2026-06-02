@@ -59,7 +59,7 @@ export function calculateMisComparatorPrimer(
       ? 0
       : Math.floor((assignedItemEquivalentCount / maxItemCount) * 14) + 1;
   const itemCount = clamp(
-    Math.ceil(thresholdItemCount - assignedItemEquivalentCount) - 1,
+    Math.ceil(thresholdItemCount - assignedItemEquivalentCount),
     0,
     maxItemCount,
   );
@@ -69,7 +69,7 @@ export function calculateMisComparatorPrimer(
     stacks: Math.floor(itemCount / 64),
     items: itemCount % 64,
     containerSlots,
-    isOverThreshold: assignedSignalStrength >= threshold,
+    isOverThreshold: assignedSignalStrength > threshold,
   };
 }
 

@@ -142,7 +142,7 @@ export function ExpandedMisPanelsOverlay({
                 </div>
                 <div className={`text-[0.68rem] ${dummyClass}`}>
                   {comparatorPrimer.isOverThreshold
-                    ? `Invalid: Current SS ≥ SS${panel.signalStrength}!`
+                    ? `Invalid: Current SS > SS${panel.signalStrength}!`
                     : `Dummy: ${formatStackItemCount(comparatorPrimer.itemCount)}`}
                 </div>
               </div>
