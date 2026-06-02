@@ -1,7 +1,11 @@
-import type { DragEvent, ReactNode } from "react";
+import { useState, type DragEvent, type ReactNode } from "react";
 import { SLOT_SIZE } from "../../constants";
 import type { HallId } from "../../types";
-import { calculateMisComparatorPrimer, formatStackItemCount } from "../../utils";
+import {
+  type MisAssignedItemCount,
+  calculateMisComparatorPrimer,
+  formatStackItemCount,
+} from "../../utils";
 
 export type ExpandedMisTarget = {
   hallId: HallId;
@@ -16,7 +20,8 @@ export type ExpandedMisPanel = ExpandedMisTarget & {
   capacity: number;
   fallbackLabel: string;
   signalStrength: number;
-  assignedItemMaxStackSizes: number[];
+  multiplicity: number;
+  assignedItems: MisAssignedItemCount[];
 };
 
 type ExpandedMisPanelsOverlayProps = {
@@ -31,6 +36,7 @@ type ExpandedMisPanelsOverlayProps = {
   onClosePanel: (target: ExpandedMisTarget) => void;
   onRenameMis: (target: ExpandedMisTarget, rawName: string) => void;
   onSignalStrengthChange: (target: ExpandedMisTarget, rawValue: string | number) => void;
+  onMultiplicityChange: (target: ExpandedMisTarget, rawValue: string | number) => void;
   misDisplayName: (target: ExpandedMisTarget, fallback: string) => string;
   renderSlot: (slotId: string) => ReactNode;
 };
@@ -43,9 +49,12 @@ export function ExpandedMisPanelsOverlay({
   onClosePanel,
   onRenameMis,
   onSignalStrengthChange,
+  onMultiplicityChange,
   misDisplayName,
   renderSlot,
 }: ExpandedMisPanelsOverlayProps) {
+  const [openConfigKey, setOpenConfigKey] = useState<string | null>(null);
+
   if (panels.length === 0) {
     return null;
   }
@@ -77,11 +86,19 @@ export function ExpandedMisPanelsOverlay({
         const comparatorPrimer = calculateMisComparatorPrimer(
           panel.capacity,
           panel.signalStrength,
-          panel.assignedItemMaxStackSizes,
+          panel.assignedItems,
         );
+        const dummyClass = comparatorPrimer.isOverThreshold
+          ? "text-[#b42318] dark:text-[#ff9a8d]"
+          : subTextClass;
+        const configButtonClass = comparatorPrimer.isOverThreshold
+          ? "border-[rgba(185,28,28,0.42)] bg-[rgba(254,226,226,0.82)] text-[#8f1d1d] dark:border-[rgba(248,113,113,0.52)] dark:bg-[rgba(91,28,28,0.62)] dark:text-[#fecaca]"
+          : "border-[rgba(82,104,88,0.32)] bg-[rgba(255,255,255,0.58)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(18,32,49,0.54)]";
+        const panelKey = `${panel.hallId}:${panel.slice}:${panel.side}:${panel.row}`;
+        const isConfigMenuOpen = openConfigKey === panelKey;
         return (
           <div
-            key={`${panel.hallId}:${panel.slice}:${panel.side}:${panel.row}`}
+            key={panelKey}
             className={`w-[min(30vw,370px)] overflow-hidden rounded-[0.85rem] border shadow-[0_12px_34px_rgba(38,48,33,0.28)] dark:shadow-[0_16px_38px_rgba(4,8,16,0.5)] max-[980px]:w-[78vw] ${frameClass}`}
             data-mis-panel
           >
@@ -123,48 +140,98 @@ export function ExpandedMisPanelsOverlay({
                   {panel.slotIds.filter((slotId) => Boolean(slotAssignments[slotId])).length}/
                   {panel.capacity} assigned
                 </div>
-                <div className={`text-[0.68rem] ${subTextClass}`}>
-                  Dummy: {formatStackItemCount(comparatorPrimer.itemCount)}
+                <div className={`text-[0.68rem] ${dummyClass}`}>
+                  {comparatorPrimer.isOverThreshold
+                    ? `Invalid: Current SS ≥ SS${panel.signalStrength}!`
+                    : `Dummy: ${formatStackItemCount(comparatorPrimer.itemCount)}`}
                 </div>
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 <div
-                  className="group/ss flex h-[1.55rem] items-center gap-1 rounded-[0.38rem] border border-[rgba(82,104,88,0.32)] bg-[rgba(255,255,255,0.58)] px-1.5 text-[0.66rem] font-bold tabular-nums dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(18,32,49,0.54)]"
-                  title="MIS signal strength"
+                  className="relative"
                   onPointerDown={(event) => event.stopPropagation()}
                   onClick={(event) => event.stopPropagation()}
                   onDragStart={(event) => event.preventDefault()}
                 >
-                  <span className="whitespace-nowrap">SS {panel.signalStrength}</span>
-                  <div className="hidden items-center gap-1 group-hover/ss:flex group-focus-within/ss:flex">
-                    {[2, 3].map((value) => {
-                      const isSelected = panel.signalStrength === value;
-                      return (
-                        <button
-                          key={value}
-                          type="button"
-                          aria-pressed={isSelected}
-                          className={`h-5 min-w-5 rounded-[0.28rem] border px-1 text-[0.66rem] leading-none ${isSelected
-                            ? "border-[rgba(46,80,66,0.72)] bg-[rgba(211,238,219,0.95)] text-[#24483a] dark:border-[rgba(116,207,184,0.65)] dark:bg-[rgba(25,82,73,0.92)] dark:text-[#d8fff4]"
-                            : "border-[rgba(82,104,88,0.34)] bg-[rgba(255,255,255,0.76)] text-current hover:bg-[rgba(232,244,235,0.9)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(28,47,68,0.82)] dark:hover:bg-[rgba(38,70,82,0.92)]"
-                          }`}
-                          onClick={() => onSignalStrengthChange(panelTarget, value)}
-                        >
-                          {value}
-                        </button>
-                      );
-                    })}
-                    <input
-                      type="number"
-                      min={1}
-                      max={15}
-                      inputMode="numeric"
-                      aria-label="Custom MIS signal strength"
-                      className="h-5 w-9 rounded-[0.28rem] border border-[rgba(82,104,88,0.34)] bg-[rgba(255,255,255,0.82)] px-1 text-center text-[0.66rem] font-bold text-current outline-none focus:border-[rgba(46,80,66,0.72)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(28,47,68,0.86)] dark:focus:border-[rgba(116,207,184,0.65)]"
-                      value={panel.signalStrength}
-                      onChange={(event) => onSignalStrengthChange(panelTarget, event.currentTarget.value)}
-                    />
-                  </div>
+                  <button
+                    type="button"
+                    className={`h-[1.55rem] min-w-17 rounded-[0.38rem] border px-1.5 text-[0.66rem] font-bold tabular-nums ${configButtonClass}`}
+                    title="MIS config"
+                    aria-expanded={isConfigMenuOpen}
+                    onClick={() =>
+                      setOpenConfigKey((current) => (current === panelKey ? null : panelKey))
+                    }
+                  >
+                    M{panel.multiplicity}, SS{panel.signalStrength}
+                  </button>
+                  {isConfigMenuOpen ? (
+                    <div className="absolute right-0 top-[calc(100%+0.25rem)] z-10 grid min-w-52 gap-1.5 rounded-[0.38rem] border border-[rgba(82,104,88,0.32)] bg-[rgba(255,255,255,0.96)] p-1.5 shadow-[0_8px_18px_rgba(39,50,38,0.18)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(18,32,49,0.96)] dark:shadow-[0_10px_22px_rgba(4,8,16,0.42)]">
+                      <div className="grid grid-cols-[6rem_auto] items-center gap-1">
+                        <span className="text-[0.66rem] font-bold">Multiplicity</span>
+                        <div className="flex items-center gap-1">
+                          {[1, 2].map((value) => {
+                            const isSelected = panel.multiplicity === value;
+                            return (
+                              <button
+                                key={value}
+                                type="button"
+                                aria-pressed={isSelected}
+                                className={`h-5 min-w-5 rounded-[0.28rem] border px-1 text-[0.66rem] font-bold leading-none ${isSelected
+                                  ? "border-[rgba(46,80,66,0.72)] bg-[rgba(211,238,219,0.95)] text-[#24483a] dark:border-[rgba(116,207,184,0.65)] dark:bg-[rgba(25,82,73,0.92)] dark:text-[#d8fff4]"
+                                  : "border-[rgba(82,104,88,0.34)] bg-[rgba(255,255,255,0.76)] text-current hover:bg-[rgba(232,244,235,0.9)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(28,47,68,0.82)] dark:hover:bg-[rgba(38,70,82,0.92)]"
+                                }`}
+                                onClick={() => onMultiplicityChange(panelTarget, value)}
+                              >
+                                {value}
+                              </button>
+                            );
+                          })}
+                          <input
+                            type="number"
+                            min={1}
+                            max={16}
+                            inputMode="numeric"
+                            aria-label="Custom MIS multiplicity"
+                            className="h-5 w-9 rounded-[0.28rem] border border-[rgba(82,104,88,0.34)] bg-[rgba(255,255,255,0.82)] px-1 text-center text-[0.66rem] font-bold text-current outline-none focus:border-[rgba(46,80,66,0.72)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(28,47,68,0.86)] dark:focus:border-[rgba(116,207,184,0.65)]"
+                            value={panel.multiplicity}
+                            onChange={(event) => onMultiplicityChange(panelTarget, event.currentTarget.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-[6rem_auto] items-center gap-1">
+                        <span className="text-[0.66rem] font-bold">Signal strength</span>
+                        <div className="flex items-center gap-1">
+                          {[2, 3].map((value) => {
+                            const isSelected = panel.signalStrength === value;
+                            return (
+                              <button
+                                key={value}
+                                type="button"
+                                aria-pressed={isSelected}
+                                className={`h-5 min-w-5 rounded-[0.28rem] border px-1 text-[0.66rem] font-bold leading-none ${isSelected
+                                  ? "border-[rgba(46,80,66,0.72)] bg-[rgba(211,238,219,0.95)] text-[#24483a] dark:border-[rgba(116,207,184,0.65)] dark:bg-[rgba(25,82,73,0.92)] dark:text-[#d8fff4]"
+                                  : "border-[rgba(82,104,88,0.34)] bg-[rgba(255,255,255,0.76)] text-current hover:bg-[rgba(232,244,235,0.9)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(28,47,68,0.82)] dark:hover:bg-[rgba(38,70,82,0.92)]"
+                                }`}
+                                onClick={() => onSignalStrengthChange(panelTarget, value)}
+                              >
+                                {value}
+                              </button>
+                            );
+                          })}
+                          <input
+                            type="number"
+                            min={1}
+                            max={15}
+                            inputMode="numeric"
+                            aria-label="Custom MIS signal strength"
+                            className="h-5 w-9 rounded-[0.28rem] border border-[rgba(82,104,88,0.34)] bg-[rgba(255,255,255,0.82)] px-1 text-center text-[0.66rem] font-bold text-current outline-none focus:border-[rgba(46,80,66,0.72)] dark:border-[rgba(112,139,176,0.42)] dark:bg-[rgba(28,47,68,0.86)] dark:focus:border-[rgba(116,207,184,0.65)]"
+                            value={panel.signalStrength}
+                            onChange={(event) => onSignalStrengthChange(panelTarget, event.currentTarget.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
                 <button
                   type="button"

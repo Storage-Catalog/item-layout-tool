@@ -18,6 +18,9 @@ const HALL_DIRECTIONS: HallDirection[] = ["north", "east", "south", "west"];
 export const DEFAULT_MIS_SIGNAL_STRENGTH = 2;
 export const MIN_MIS_SIGNAL_STRENGTH = 1;
 export const MAX_MIS_SIGNAL_STRENGTH = 15;
+export const DEFAULT_MIS_MULTIPLICITY = 1;
+export const MIN_MIS_MULTIPLICITY = 1;
+export const MAX_MIS_MULTIPLICITY = 16;
 
 export const SAVE_FILE_VERSION = 1;
 
@@ -45,6 +48,7 @@ export type PlannerLabelNamesDelta = {
   sectionNames?: RecordDelta<string>;
   misNames?: RecordDelta<string>;
   misSignalStrengths?: RecordDelta<number>;
+  misMultiplicities?: RecordDelta<number>;
 };
 
 export type PlannerSnapshotDelta = {
@@ -87,6 +91,7 @@ export function createEmptyPlannerLabelNames(): PlannerLabelNames {
     sectionNames: {},
     misNames: {},
     misSignalStrengths: {},
+    misMultiplicities: {},
   };
 }
 
@@ -199,6 +204,14 @@ function normalizeMisSignalStrength(value: unknown): number {
   );
 }
 
+function normalizeMisMultiplicity(value: unknown): number {
+  return clamp(
+    Math.round(toFiniteNumber(value, DEFAULT_MIS_MULTIPLICITY)),
+    MIN_MIS_MULTIPLICITY,
+    MAX_MIS_MULTIPLICITY,
+  );
+}
+
 function cloneMisSignalStrengthMap(signalStrengths: Record<string, number>): Record<string, number> {
   return Object.fromEntries(
     Object.entries(signalStrengths)
@@ -217,6 +230,24 @@ function cloneMisSignalStrengthMap(signalStrengths: Record<string, number>): Rec
   );
 }
 
+function cloneMisMultiplicityMap(multiplicities: Record<string, number>): Record<string, number> {
+  return Object.fromEntries(
+    Object.entries(multiplicities)
+      .filter((entry): entry is [string, number] => {
+        const [key, value] = entry;
+        return (
+          typeof key === "string" &&
+          key.trim().length > 0 &&
+          typeof value === "number" &&
+          Number.isFinite(value) &&
+          normalizeMisMultiplicity(value) !== DEFAULT_MIS_MULTIPLICITY
+        );
+      })
+      .map(([key, value]) => [key, normalizeMisMultiplicity(value)] as const)
+      .sort((a, b) => a[0].localeCompare(b[0])),
+  );
+}
+
 export function clonePlannerLabelNames(labelNames: PlannerLabelNames): PlannerLabelNames {
   return {
     layoutName: labelNames.layoutName.trim(),
@@ -224,6 +255,7 @@ export function clonePlannerLabelNames(labelNames: PlannerLabelNames): PlannerLa
     sectionNames: cloneNameMap(labelNames.sectionNames),
     misNames: cloneNameMap(labelNames.misNames),
     misSignalStrengths: cloneMisSignalStrengthMap(labelNames.misSignalStrengths),
+    misMultiplicities: cloneMisMultiplicityMap(labelNames.misMultiplicities),
   };
 }
 
@@ -447,8 +479,9 @@ function diffPlannerLabelNames(
   const sectionNames = diffStringRecord(previous.sectionNames, next.sectionNames);
   const misNames = diffStringRecord(previous.misNames, next.misNames);
   const misSignalStrengths = diffNumberRecord(previous.misSignalStrengths, next.misSignalStrengths);
+  const misMultiplicities = diffNumberRecord(previous.misMultiplicities, next.misMultiplicities);
 
-  if (!layoutName && !hallNames && !sectionNames && !misNames && !misSignalStrengths) {
+  if (!layoutName && !hallNames && !sectionNames && !misNames && !misSignalStrengths && !misMultiplicities) {
     return null;
   }
 
@@ -458,6 +491,7 @@ function diffPlannerLabelNames(
     sectionNames: sectionNames ?? undefined,
     misNames: misNames ?? undefined,
     misSignalStrengths: misSignalStrengths ?? undefined,
+    misMultiplicities: misMultiplicities ?? undefined,
   };
 }
 
@@ -477,6 +511,9 @@ function applyPlannerLabelNamesDelta(
     misSignalStrengths: delta.misSignalStrengths
       ? applyNumberRecordDelta(base.misSignalStrengths, delta.misSignalStrengths)
       : base.misSignalStrengths,
+    misMultiplicities: delta.misMultiplicities
+      ? applyNumberRecordDelta(base.misMultiplicities, delta.misMultiplicities)
+      : base.misMultiplicities,
   };
 }
 
@@ -740,6 +777,27 @@ function parseMisSignalStrengthMap(value: unknown): Record<string, number> {
   return Object.fromEntries(entries);
 }
 
+function parseMisMultiplicityMap(value: unknown): Record<string, number> {
+  if (!isRecord(value)) {
+    return {};
+  }
+
+  const entries = Object.entries(value)
+    .filter((entry): entry is [string, unknown] => {
+      const [key, multiplicity] = entry;
+      return (
+        typeof key === "string" &&
+        key.trim().length > 0 &&
+        Number.isFinite(Number(multiplicity)) &&
+        normalizeMisMultiplicity(multiplicity) !== DEFAULT_MIS_MULTIPLICITY
+      );
+    })
+    .map(([key, multiplicity]) => [key, normalizeMisMultiplicity(multiplicity)] as const)
+    .sort((a, b) => a[0].localeCompare(b[0]));
+
+  return Object.fromEntries(entries);
+}
+
 function parsePlannerLabelNames(value: unknown): PlannerLabelNames {
   if (!isRecord(value)) {
     return createEmptyPlannerLabelNames();
@@ -756,6 +814,7 @@ function parsePlannerLabelNames(value: unknown): PlannerLabelNames {
     sectionNames: parseNameMap(value.sectionNames),
     misNames: parseNameMap(value.misNames),
     misSignalStrengths: parseMisSignalStrengthMap(value.misSignalStrengths),
+    misMultiplicities: parseMisMultiplicityMap(value.misMultiplicities),
   };
 }
 
@@ -787,6 +846,7 @@ export function parsePlannerSnapshot(value: unknown): PlannerSnapshot | null {
           sectionNames: value.sectionNames,
           misNames: value.misNames,
           misSignalStrengths: value.misSignalStrengths,
+          misMultiplicities: value.misMultiplicities,
         });
 
   return {

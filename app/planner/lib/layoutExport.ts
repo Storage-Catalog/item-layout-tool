@@ -1,7 +1,7 @@
 import { withBasePath } from "../base-path";
 import type { CatalogItem, HallConfig, HallId, HallSideConfig } from "../types";
 import { calculateMisComparatorPrimer, clamp, misSlotId, nonMisSlotId } from "../utils";
-import { DEFAULT_MIS_SIGNAL_STRENGTH } from "./plannerSnapshot";
+import { DEFAULT_MIS_MULTIPLICITY, DEFAULT_MIS_SIGNAL_STRENGTH } from "./plannerSnapshot";
 
 export type LayoutExportMode = "containers" | "item_frames" | "blocks_and_frames" | "boxes" | "ssi_ss2_filters" | "ss3_filters";
 export type LayoutViewMode = "storage" | "flat";
@@ -60,6 +60,7 @@ type LayoutLitematicExportInput = {
   slotAssignments: Record<string, string>;
   itemById: Map<string, CatalogItem>;
   misSignalStrengths?: Record<string, number>;
+  misMultiplicities?: Record<string, number>;
   layoutViewMode?: LayoutViewMode;
 };
 
@@ -129,6 +130,7 @@ export async function exportLayoutAsLitematic(
     input.mode,
     input.layoutViewMode ?? "storage",
     input.misSignalStrengths,
+    input.misMultiplicities,
   );
   if (cells.length === 0) {
     throw new Error("No assigned items found to export.");
@@ -243,7 +245,10 @@ function fillMisContainerDummyItems(
   let remainingDummyItems = calculateMisComparatorPrimer(
     slotsPerSlice,
     signalStrength,
-    Array.from(itemsBySlot.values()).map((item) => maxStackSizeForItem(itemById, item.itemId)),
+    Array.from(itemsBySlot.values()).map((item) => ({
+      maxStackSize: maxStackSizeForItem(itemById, item.itemId),
+      count: item.count,
+    })),
   ).itemCount;
 
   for (let slot = containerSlots - 1; slot >= 0 && remainingDummyItems > 0; slot -= 1) {
@@ -429,9 +434,10 @@ export function buildExportCellsForLayout(
   mode: LayoutExportMode = "containers",
   viewMode: LayoutViewMode = "storage",
   misSignalStrengths: Record<string, number> = {},
+  misMultiplicities: Record<string, number> = {},
 ): ExportCell[] {
   if (viewMode === "flat") {
-    return buildExportCellsForFlatLayout(slotAssignments, itemById, hallConfigs, mode, misSignalStrengths);
+    return buildExportCellsForFlatLayout(slotAssignments, itemById, hallConfigs, mode, misSignalStrengths, misMultiplicities);
   }
 
   const output: ExportCell[] = [];
@@ -573,6 +579,7 @@ export function buildExportCellsForLayout(
       hallId,
       mode,
       misSignalStrengths,
+      misMultiplicities,
     );
     // first, rotate cells based on hall direction, then translate to hall coordinates
     const rotatedAndTranslated = hallCells.map((cell) => {
@@ -659,6 +666,7 @@ function buildExportCellsForFlatLayout(
   hallConfigs: Record<HallId, HallConfig>,
   mode: LayoutExportMode,
   misSignalStrengths: Record<string, number>,
+  misMultiplicities: Record<string, number>,
 ): ExportCell[] {
   const output: ExportCell[] = [];
   const hallIds = Object.keys(hallConfigs)
@@ -681,6 +689,7 @@ function buildExportCellsForFlatLayout(
       hallId,
       mode,
       misSignalStrengths,
+      misMultiplicities,
     );
     if (hallCells.length === 0) {
       continue;
@@ -753,6 +762,7 @@ export function buildExportCellsForLayoutHall(
   hallId: HallId,
   mode: LayoutExportMode = "containers",
   misSignalStrengths: Record<string, number> = {},
+  misMultiplicities: Record<string, number> = {},
 ): ExportCell[] {
   const output: ExportCell[] = [];
 
@@ -781,6 +791,7 @@ export function buildExportCellsForLayoutHall(
       "left",
       mode,
       misSignalStrengths,
+      misMultiplicities,
     );
 
     applySideToExportCells(
@@ -795,6 +806,7 @@ export function buildExportCellsForLayoutHall(
       "right",
       mode,
       misSignalStrengths,
+      misMultiplicities,
     );
 
     sectionStartX += sliceCount + 1; // add 1 block of spacing between sections
@@ -815,6 +827,7 @@ export function applySideToExportCells(
   side: "left" | "right",
   mode: LayoutExportMode = "containers",
   misSignalStrengths: Record<string, number> = {},
+  misMultiplicities: Record<string, number> = {},
 ): void {
   const rows = sideConfig.rowsPerSlice;
   if (sideConfig.type === "mis") {
@@ -831,11 +844,14 @@ export function applySideToExportCells(
       for (let row = 0; row < rows; row++) {
 
         let items: MisContainerItem[] = [];
+        const configKey = misSignalStrengthKey(hallId, misSlice, side === "left" ? 0 : 1, row);
+        const multiplicity = misMultiplicities[configKey] ?? DEFAULT_MIS_MULTIPLICITY;
         for (let slot = 0; slot < slotsPerSlice; slot++) {
           const key = misSlotId(hallId, misSlice, side === "left" ? 0 : 1, row, slot);
           const itemId = slotAssignments[key];
           if (itemId) {
-            items.push({ slot, itemId, count: 1 });
+            const count = clamp(multiplicity, 1, maxStackSizeForItem(itemById, itemId));
+            items.push({ slot, itemId, count });
           }
         }
 
@@ -845,7 +861,7 @@ export function applySideToExportCells(
 
         if (isFilterExportMode(mode)) {
           const signalStrength =
-            misSignalStrengths[misSignalStrengthKey(hallId, misSlice, side === "left" ? 0 : 1, row)] ??
+            misSignalStrengths[configKey] ??
             DEFAULT_MIS_SIGNAL_STRENGTH;
           items = fillMisContainerDummyItems(items, slotsPerSlice, signalStrength, itemById);
         }

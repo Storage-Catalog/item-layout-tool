@@ -138,6 +138,7 @@ export function PlannerApp() {
     handleSectionNameChange,
     handleMisNameChange,
     handleMisSignalStrengthChange,
+    handleMisMultiplicityChange,
   } = usePlannerLabelNames();
   const {
     viewportRef,
@@ -549,6 +550,7 @@ export function PlannerApp() {
         slotAssignments: activeSlotAssignments,
         itemById,
         misSignalStrengths: labelNames.misSignalStrengths,
+        misMultiplicities: labelNames.misMultiplicities,
         layoutViewMode,
       });
 
@@ -767,6 +769,7 @@ export function PlannerApp() {
             sectionNames={labelNames.sectionNames}
             misNames={labelNames.misNames}
             misSignalStrengths={labelNames.misSignalStrengths}
+            misMultiplicities={labelNames.misMultiplicities}
             cursorSlotId={cursorSlotId}
             cursorMovementHint={cursorMovementHint}
             viewportRef={viewportRef}
@@ -794,6 +797,7 @@ export function PlannerApp() {
             onSectionNameChange={handleSectionNameChange}
             onMisNameChange={handleMisNameChange}
             onMisSignalStrengthChange={handleMisSignalStrengthChange}
+            onMisMultiplicityChange={handleMisMultiplicityChange}
             onAddSection={handleAddSection}
             onRemoveSection={handleRemoveSection}
             onSlotItemDragStart={beginSlotItemDrag}

@@ -1,8 +1,11 @@
 import { useCallback, useState } from "react";
 import type { HallId, PlannerLabelNames } from "../types";
 import {
+  DEFAULT_MIS_MULTIPLICITY,
   DEFAULT_MIS_SIGNAL_STRENGTH,
+  MAX_MIS_MULTIPLICITY,
   MAX_MIS_SIGNAL_STRENGTH,
+  MIN_MIS_MULTIPLICITY,
   MIN_MIS_SIGNAL_STRENGTH,
   clonePlannerLabelNames,
   createEmptyPlannerLabelNames,
@@ -25,6 +28,13 @@ type UsePlannerLabelNamesResult = {
     rawName: string,
   ) => void;
   handleMisSignalStrengthChange: (
+    hallId: HallId,
+    slice: number,
+    side: 0 | 1,
+    row: number,
+    rawValue: string | number,
+  ) => void;
+  handleMisMultiplicityChange: (
     hallId: HallId,
     slice: number,
     side: 0 | 1,
@@ -198,6 +208,51 @@ export function usePlannerLabelNames(): UsePlannerLabelNamesResult {
     });
   }, []);
 
+  const handleMisMultiplicityChange = useCallback((
+    hallId: HallId,
+    slice: number,
+    side: 0 | 1,
+    row: number,
+    rawValue: string | number,
+  ) => {
+    const numericValue = typeof rawValue === "number" ? rawValue : Number(rawValue);
+    if (!Number.isFinite(numericValue)) {
+      return;
+    }
+    const multiplicity = clamp(
+      Math.round(numericValue),
+      MIN_MIS_MULTIPLICITY,
+      MAX_MIS_MULTIPLICITY,
+    );
+    const key = misNameKey(hallId, slice, side, row);
+
+    setLabelNames((current) => {
+      if (multiplicity === DEFAULT_MIS_MULTIPLICITY) {
+        if (!(key in current.misMultiplicities)) {
+          return current;
+        }
+        const nextMisMultiplicities = { ...current.misMultiplicities };
+        delete nextMisMultiplicities[key];
+        return {
+          ...current,
+          misMultiplicities: nextMisMultiplicities,
+        };
+      }
+
+      if (current.misMultiplicities[key] === multiplicity) {
+        return current;
+      }
+
+      return {
+        ...current,
+        misMultiplicities: {
+          ...current.misMultiplicities,
+          [key]: multiplicity,
+        },
+      };
+    });
+  }, []);
+
   return {
     labelNames,
     replaceLabelNames,
@@ -206,5 +261,6 @@ export function usePlannerLabelNames(): UsePlannerLabelNamesResult {
     handleSectionNameChange,
     handleMisNameChange,
     handleMisSignalStrengthChange,
+    handleMisMultiplicityChange,
   };
 }

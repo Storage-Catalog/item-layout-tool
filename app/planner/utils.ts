@@ -32,21 +32,32 @@ export type MisComparatorPrimer = {
   stacks: number;
   items: number;
   containerSlots: 27 | 54;
+  isOverThreshold: boolean;
+};
+
+export type MisAssignedItemCount = {
+  maxStackSize: number;
+  count: number;
 };
 
 export function calculateMisComparatorPrimer(
   usableSlots: number,
   signalStrengthThreshold: number,
-  assignedItemMaxStackSizes: readonly number[] = [],
+  assignedItems: readonly MisAssignedItemCount[] = [],
 ): MisComparatorPrimer {
   const containerSlots = usableSlots <= 27 ? 27 : 54;
   const threshold = clamp(Math.round(signalStrengthThreshold), 1, 15);
   const maxItemCount = containerSlots * 64;
   const thresholdItemCount = ((threshold - 1) * maxItemCount) / 14;
-  const assignedItemEquivalentCount = assignedItemMaxStackSizes.reduce((total, maxStackSize) => {
-    const stackSize = clamp(Math.floor(maxStackSize), 1, 64);
-    return total + 64 / stackSize;
+  const assignedItemEquivalentCount = assignedItems.reduce((total, item) => {
+    const stackSize = clamp(Math.floor(item.maxStackSize), 1, 64);
+    const count = clamp(Math.floor(item.count), 0, stackSize);
+    return total + count * (64 / stackSize);
   }, 0);
+  const assignedSignalStrength =
+    assignedItemEquivalentCount <= 0
+      ? 0
+      : Math.floor((assignedItemEquivalentCount / maxItemCount) * 14) + 1;
   const itemCount = clamp(
     Math.ceil(thresholdItemCount - assignedItemEquivalentCount) - 1,
     0,
@@ -58,6 +69,7 @@ export function calculateMisComparatorPrimer(
     stacks: Math.floor(itemCount / 64),
     items: itemCount % 64,
     containerSlots,
+    isOverThreshold: assignedSignalStrength >= threshold,
   };
 }
 

@@ -39,9 +39,16 @@ import type {
   HallType,
   PreviewPlacement,
 } from "../types";
-import { getHallSize, misSlotId, nonMisSlotId, resolveHallSlices, toTitle } from "../utils";
+import {
+  calculateMisComparatorPrimer,
+  getHallSize,
+  misSlotId,
+  nonMisSlotId,
+  resolveHallSlices,
+  toTitle,
+} from "../utils";
 import { buildPopupCursorHint } from "../lib/cursorHints";
-import { DEFAULT_MIS_SIGNAL_STRENGTH } from "../lib/plannerSnapshot";
+import { DEFAULT_MIS_MULTIPLICITY, DEFAULT_MIS_SIGNAL_STRENGTH } from "../lib/plannerSnapshot";
 
 type LayoutViewportProps = {
   storageLayoutPreset: StorageLayoutPreset;
@@ -53,6 +60,7 @@ type LayoutViewportProps = {
   sectionNames: Record<string, string>;
   misNames: Record<string, string>;
   misSignalStrengths: Record<string, number>;
+  misMultiplicities: Record<string, number>;
   cursorSlotId: string | null;
   cursorMovementHint: CursorMovementHint | null;
   viewportRef: RefObject<HTMLDivElement | null>;
@@ -116,6 +124,13 @@ type LayoutViewportProps = {
     rawName: string,
   ) => void;
   onMisSignalStrengthChange: (
+    hallId: HallId,
+    slice: number,
+    side: 0 | 1,
+    row: number,
+    rawValue: string | number,
+  ) => void;
+  onMisMultiplicityChange: (
     hallId: HallId,
     slice: number,
     side: 0 | 1,
@@ -435,6 +450,7 @@ export function LayoutViewport({
   sectionNames,
   misNames,
   misSignalStrengths,
+  misMultiplicities,
   cursorSlotId,
   cursorMovementHint,
   viewportRef,
@@ -462,6 +478,7 @@ export function LayoutViewport({
   onSectionNameChange,
   onMisNameChange,
   onMisSignalStrengthChange,
+  onMisMultiplicityChange,
   onAddSection,
   onRemoveSection,
   onSlotItemDragStart,
@@ -770,12 +787,25 @@ export function LayoutViewport({
     [misSignalStrengths],
   );
 
+  const misMultiplicity = useCallback(
+    (target: ExpandedMisTarget): number =>
+      misMultiplicities[expandedMisKey(target)] ?? DEFAULT_MIS_MULTIPLICITY,
+    [misMultiplicities],
+  );
+
   const updateMisSignalStrength = useCallback((
     target: ExpandedMisTarget,
     rawValue: string | number,
   ): void => {
     onMisSignalStrengthChange(target.hallId, target.slice, target.side, target.row, rawValue);
   }, [onMisSignalStrengthChange]);
+
+  const updateMisMultiplicity = useCallback((
+    target: ExpandedMisTarget,
+    rawValue: string | number,
+  ): void => {
+    onMisMultiplicityChange(target.hallId, target.slice, target.side, target.row, rawValue);
+  }, [onMisMultiplicityChange]);
 
   const layoutSummary = useMemo(() => {
     let bulkTypes = 0;
@@ -955,10 +985,13 @@ export function LayoutViewport({
           { length: sideConfig.misSlotsPerSlice },
           (_, index) => misSlotId(target.hallId, target.slice, target.side, target.row, index),
         );
-        const assignedItemMaxStackSizes = slotIds
+        const assignedItems = slotIds
           .map((slotId) => slotAssignments[slotId])
           .filter((itemId): itemId is string => Boolean(itemId))
-          .map((itemId) => itemById.get(itemId)?.maxStackSize ?? 64);
+          .map((itemId) => ({
+            maxStackSize: itemById.get(itemId)?.maxStackSize ?? 64,
+            count: misMultiplicity(target),
+          }));
         const columns =
           sideConfig.misSlotsPerSlice % 9 === 0
             ? 9
@@ -970,11 +1003,12 @@ export function LayoutViewport({
           capacity: sideConfig.misSlotsPerSlice,
           fallbackLabel,
           signalStrength: misSignalStrength(target),
-          assignedItemMaxStackSizes,
+          multiplicity: misMultiplicity(target),
+          assignedItems,
         };
       })
       .filter((panel): panel is ExpandedMisPanel => panel !== null);
-  }, [expandedMisTargets, hallConfigs, itemById, misSignalStrength, slotAssignments]);
+  }, [expandedMisTargets, hallConfigs, itemById, misMultiplicity, misSignalStrength, slotAssignments]);
 
   const popupColumnsBySlotId = useMemo(() => {
     const map = new Map<string, number>();
@@ -1361,6 +1395,15 @@ export function LayoutViewport({
               row,
             };
             const misTargetKey = expandedMisKey(misTarget);
+            const assignedItems = assignedIds.map((itemId) => ({
+              maxStackSize: itemById.get(itemId)?.maxStackSize ?? 64,
+              count: misMultiplicity(misTarget),
+            }));
+            const isMisInvalid = calculateMisComparatorPrimer(
+              sideConfig.misSlotsPerSlice,
+              misSignalStrength(misTarget),
+              assignedItems,
+            ).isOverThreshold;
             const expandedIndex = expandedMisTargets.findIndex(
               (entry) => expandedMisKey(entry) === misTargetKey,
             );
@@ -1451,8 +1494,11 @@ export function LayoutViewport({
                       }}
                     >{misDisplayName(misTarget, `MIS ${misGroupNumber}`)}</span>
                   </div>
-                  <div className="leading-none text-[0.48rem] font-semibold text-[#33524f] dark:text-[#a4cfd1]">
-                    {previewEntries.length}/{sideConfig.misSlotsPerSlice}
+                  <div className="flex items-center gap-[0.12rem] leading-none text-[0.48rem] font-semibold text-[#33524f] dark:text-[#a4cfd1]">
+                    <span>{previewEntries.length}/{sideConfig.misSlotsPerSlice}</span>
+                    {isMisInvalid ? (
+                      <span className="text-[#b42318] dark:text-[#ff9a8d]">*Invalid</span>
+                    ) : null}
                   </div>
                   <div
                     className="grid content-start gap-0.5"
@@ -1559,8 +1605,11 @@ export function LayoutViewport({
                       }}
                     >{misDisplayName(misTarget, `MIS ${misGroupNumber}`)}</span>
                   </div>
-                  <div className="leading-none text-[0.48rem] font-semibold text-[#33524f] dark:text-[#a4cfd1]">
-                    {previewEntries.length}/{sideConfig.misSlotsPerSlice}
+                  <div className="flex items-center gap-[0.12rem] leading-none text-[0.48rem] font-semibold text-[#33524f] dark:text-[#a4cfd1]">
+                    <span>{previewEntries.length}/{sideConfig.misSlotsPerSlice}</span>
+                    {isMisInvalid ? (
+                      <span className="text-[#b42318] dark:text-[#ff9a8d]">*Invalid</span>
+                    ) : null}
                   </div>
                   <div
                     className="grid content-start gap-0.5"
@@ -2054,6 +2103,7 @@ export function LayoutViewport({
         }
         onRenameMis={updateMisName}
         onSignalStrengthChange={updateMisSignalStrength}
+        onMultiplicityChange={updateMisMultiplicity}
         misDisplayName={misDisplayName}
         renderSlot={renderPopupSlot}
       />
