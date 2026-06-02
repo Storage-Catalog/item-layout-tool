@@ -697,7 +697,7 @@ export function PlannerApp() {
                 >
                   <span className="block text-[0.8rem] font-semibold">CSV: Item Layout</span>
                   <span className="mt-0.5 block text-[0.72rem] text-[#6d5a3f] dark:text-[#9fb2ce]">
-                    Each catalog item with assignment and location details.
+                    A spreadsheet containing each catalog item with assignment and location details.
                   </span>
                 </button>
                 {LITEMATIC_EXPORT_OPTIONS.map((option) => (
