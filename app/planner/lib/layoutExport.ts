@@ -43,13 +43,13 @@ export const LITEMATIC_EXPORT_OPTIONS: readonly LayoutExportOption[] = [
     mode: "ssi_ss2_filters",
     label: "Litematic: SSI SS2 Filters + MIS",
     description: "Preconfigured SSI SS2 item filter hoppers for each assigned item. MIS chests are preconfigured with dummy items.",
-    fileSuffix: "boxes",
+    fileSuffix: "ssi-ss2-filters",
   },
   {
     mode: "ss3_filters",
     label: "Litematic: SS3 Filters + MIS",
     description: "Preconfigured SS3 item filter hoppers for each assigned item. MIS chests are preconfigured with dummy items.",
-    fileSuffix: "boxes",
+    fileSuffix: "ss3-filters",
   }
 ] as const;
 
