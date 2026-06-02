@@ -986,12 +986,6 @@ export function LayoutViewport({
 
     return { left: minX, top: minY, right: maxX, bottom: maxY };
   }, [hallIds, hallLayout]);
-  layoutBoundsRef.current = layoutBounds;
-  onAdjustZoomRef.current = onAdjustZoom;
-  onFitViewportToBoundsRef.current = onFitViewportToBounds;
-  onPanViewportByRef.current = onPanViewportBy;
-  onRecenterViewportRef.current = onRecenterViewport;
-
   const moveCursorToRenderedSlot = useCallback(
     (direction: "up" | "down" | "left" | "right"): void => {
       const viewport = viewportRef.current;
@@ -1084,7 +1078,22 @@ export function LayoutViewport({
     },
     [cursorSlotId, onCursorSlotChange, viewportRef],
   );
-  moveCursorToRenderedSlotRef.current = moveCursorToRenderedSlot;
+
+  useEffect(() => {
+    layoutBoundsRef.current = layoutBounds;
+    onAdjustZoomRef.current = onAdjustZoom;
+    onFitViewportToBoundsRef.current = onFitViewportToBounds;
+    onPanViewportByRef.current = onPanViewportBy;
+    onRecenterViewportRef.current = onRecenterViewport;
+    moveCursorToRenderedSlotRef.current = moveCursorToRenderedSlot;
+  }, [
+    layoutBounds,
+    moveCursorToRenderedSlot,
+    onAdjustZoom,
+    onFitViewportToBounds,
+    onPanViewportBy,
+    onRecenterViewport,
+  ]);
 
   useEffect(() => {
     if (didInitialFit.current || !layoutBounds) {
