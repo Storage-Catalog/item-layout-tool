@@ -2383,7 +2383,8 @@ function shouldIncludeInPlannerCatalog(
     itemId === "frogspawn" ||
     itemId === "player_head" ||
     itemId === "written_book" ||
-    itemId === "firework_star"
+    itemId === "firework_star" ||
+    itemId === "budding_amethyst"
   ) {
     return false;
   }

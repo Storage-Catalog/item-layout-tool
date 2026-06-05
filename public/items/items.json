@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-02T06:30:22.184Z",
+  "generatedAt": "2026-06-05T21:42:13.748Z",
   "gameVersion": "26.1.2",
   "counts": {
-    "itemCount": 1152,
-    "texturedItemCount": 1152,
+    "itemCount": 1151,
+    "texturedItemCount": 1151,
     "missingTextureItemCount": 0,
-    "filteredOutItemCount": 354,
+    "filteredOutItemCount": 355,
     "codeItemCount": 1482,
-    "itemsWithCodeDataCount": 1128,
+    "itemsWithCodeDataCount": 1127,
     "blockCount": 1144,
     "noLootTableBlockCount": 22,
     "overrideLootTableBlockCount": 61,
@@ -16,7 +16,7 @@
     "itemsWithFoodDataCount": 36,
     "creativeTabCount": 14,
     "creativeTabsWithItemsCount": 11,
-    "itemsWithCreativeTabCount": 1124,
+    "itemsWithCreativeTabCount": 1123,
     "unresolvedCreativeTabItemFieldCount": 3
   },
   "items": [
@@ -2225,21 +2225,6 @@
       "creativeTabs": [
         "tools_and_utilities"
       ]
-    },
-    {
-      "id": "budding_amethyst",
-      "texturePath": "/items/textures/budding_amethyst.png",
-      "sourceTexture": "minecraft:block/budding_amethyst",
-      "sourceModel": "minecraft:block/budding_amethyst",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "natural_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default",
-        "lootMethod": "custom"
-      }
     },
     {
       "id": "burn_pottery_sherd",
