@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-05T21:42:13.748Z",
+  "generatedAt": "2026-06-05T23:11:07.105Z",
   "gameVersion": "26.1.2",
   "counts": {
-    "itemCount": 1151,
-    "texturedItemCount": 1151,
+    "itemCount": 1143,
+    "texturedItemCount": 1143,
     "missingTextureItemCount": 0,
-    "filteredOutItemCount": 355,
+    "filteredOutItemCount": 363,
     "codeItemCount": 1482,
-    "itemsWithCodeDataCount": 1127,
+    "itemsWithCodeDataCount": 1119,
     "blockCount": 1144,
     "noLootTableBlockCount": 22,
     "overrideLootTableBlockCount": 61,
@@ -16,7 +16,7 @@
     "itemsWithFoodDataCount": 36,
     "creativeTabCount": 14,
     "creativeTabsWithItemsCount": 11,
-    "itemsWithCreativeTabCount": 1123,
+    "itemsWithCreativeTabCount": 1115,
     "unresolvedCreativeTabItemFieldCount": 3
   },
   "items": [
@@ -7123,104 +7123,6 @@
       }
     },
     {
-      "id": "infested_chiseled_stone_bricks",
-      "texturePath": "/items/textures/infested_chiseled_stone_bricks.png",
-      "sourceTexture": "minecraft:block/chiseled_stone_bricks",
-      "sourceModel": "minecraft:block/chiseled_stone_bricks",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "functional_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default"
-      }
-    },
-    {
-      "id": "infested_cobblestone",
-      "texturePath": "/items/textures/infested_cobblestone.png",
-      "sourceTexture": "minecraft:block/cobblestone",
-      "sourceModel": "minecraft:block/cobblestone",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "functional_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default"
-      }
-    },
-    {
-      "id": "infested_cracked_stone_bricks",
-      "texturePath": "/items/textures/infested_cracked_stone_bricks.png",
-      "sourceTexture": "minecraft:block/cracked_stone_bricks",
-      "sourceModel": "minecraft:block/cracked_stone_bricks",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "functional_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default"
-      }
-    },
-    {
-      "id": "infested_deepslate",
-      "texturePath": "/items/textures/infested_deepslate.png",
-      "sourceTexture": "minecraft:block/deepslate_top",
-      "sourceModel": "minecraft:block/deepslate",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "functional_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default"
-      }
-    },
-    {
-      "id": "infested_mossy_stone_bricks",
-      "texturePath": "/items/textures/infested_mossy_stone_bricks.png",
-      "sourceTexture": "minecraft:block/mossy_stone_bricks",
-      "sourceModel": "minecraft:block/mossy_stone_bricks",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "functional_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default"
-      }
-    },
-    {
-      "id": "infested_stone",
-      "texturePath": "/items/textures/infested_stone.png",
-      "sourceTexture": "minecraft:block/stone",
-      "sourceModel": "minecraft:block/stone",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "functional_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default"
-      }
-    },
-    {
-      "id": "infested_stone_bricks",
-      "texturePath": "/items/textures/infested_stone_bricks.png",
-      "sourceTexture": "minecraft:block/stone_bricks",
-      "sourceModel": "minecraft:block/stone_bricks",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "functional_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default"
-      }
-    },
-    {
       "id": "ink_sac",
       "texturePath": "/items/textures/ink_sac.png",
       "sourceTexture": "minecraft:item/ink_sac",
@@ -12521,21 +12423,6 @@
       }
     },
     {
-      "id": "reinforced_deepslate",
-      "texturePath": "/items/textures/reinforced_deepslate.png",
-      "sourceTexture": "minecraft:block/reinforced_deepslate_top",
-      "sourceModel": "minecraft:block/reinforced_deepslate",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "building_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default",
-        "lootMethod": "custom"
-      }
-    },
-    {
       "id": "repeater",
       "texturePath": "/items/textures/repeater.png",
       "sourceTexture": "minecraft:item/repeater",
@@ -14434,7 +14321,7 @@
       ],
       "blockLoot": {
         "behavior": "default",
-        "lootMethod": "custom"
+        "lootMethod": "no_drop"
       }
     },
     {
@@ -14449,7 +14336,7 @@
       ],
       "blockLoot": {
         "behavior": "default",
-        "lootMethod": "custom"
+        "lootMethod": "no_drop"
       }
     },
     {

@@ -80,7 +80,13 @@ export type ParsedCreativeTab = {
 
 export type VanillaBlockLootEntry = {
   blockField: string;
-  lootMethod: "drop_self" | "drop_other" | "drop_when_silk_touch" | "no_drop" | "custom";
+  lootMethod:
+    | "drop_self"
+    | "drop_other"
+    | "drop_when_silk_touch"
+    | "other_when_silk_touch"
+    | "no_drop"
+    | "custom";
   lootDropField: string | null;
 };
 

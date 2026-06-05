@@ -2379,12 +2379,10 @@ function shouldIncludeInPlannerCatalog(
   if (
     itemId === "ender_dragon_spawn_egg" ||
     itemId === "wither_spawn_egg" ||
-    itemId === "vault" ||
     itemId === "frogspawn" ||
     itemId === "player_head" ||
     itemId === "written_book" ||
-    itemId === "firework_star" ||
-    itemId === "budding_amethyst"
+    itemId === "firework_star"
   ) {
     return false;
   }
@@ -2397,7 +2395,15 @@ function shouldIncludeInPlannerCatalog(
     return false;
   }
 
-  if (vanillaBlockLootEntry?.lootMethod === "drop_other") {
+  if (itemId === "suspicious_gravel" || itemId === "suspicious_sand") {
+    return true;
+  }
+
+  if (
+    vanillaBlockLootEntry?.lootMethod === "drop_other" ||
+    vanillaBlockLootEntry?.lootMethod === "other_when_silk_touch" ||
+    vanillaBlockLootEntry?.lootMethod === "no_drop"
+  ) {
     return false;
   }
 

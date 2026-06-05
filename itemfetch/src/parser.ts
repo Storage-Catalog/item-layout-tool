@@ -1200,13 +1200,24 @@ export function parseVanillaBlockLoot(source: string): VanillaBlockLootEntry[] {
     entries.set(m[1], { blockField: m[1], lootMethod: "drop_when_silk_touch", lootDropField: null });
   }
 
+  const otherWhenSilkTouchPattern =
+    /\bthis\.otherWhenSilkTouch\(\s*Blocks\.([A-Z0-9_]+)\s*,\s*Blocks\.([A-Z0-9_]+)\s*\)/g;
+  while ((m = otherWhenSilkTouchPattern.exec(body)) !== null) {
+    entries.set(m[1], {
+      blockField: m[1],
+      lootMethod: "other_when_silk_touch",
+      lootDropField: m[2],
+    });
+  }
+
   const dropOtherPattern =
     /\bthis\.dropOther\(\s*Blocks\.([A-Z0-9_]+)\s*,\s*(?:\([^)]+\)\s*)?(?:Blocks|Items)\.([A-Z0-9_]+)\s*\)/g;
   while ((m = dropOtherPattern.exec(body)) !== null) {
     entries.set(m[1], { blockField: m[1], lootMethod: "drop_other", lootDropField: m[2] });
   }
 
-  const noDropPattern = /\bthis\.add\(\s*Blocks\.([A-Z0-9_]+)\s*,\s*noDrop\s*\(\s*\)\s*\)/g;
+  const noDropPattern =
+    /\bthis\.add\(\s*Blocks\.([A-Z0-9_]+)\s*,\s*(?:[A-Za-z0-9_$.]+\.)?noDrop\s*\(\s*\)\s*\)/g;
   while ((m = noDropPattern.exec(body)) !== null) {
     entries.set(m[1], { blockField: m[1], lootMethod: "no_drop", lootDropField: null });
   }
