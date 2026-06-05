@@ -78,6 +78,27 @@ type OutputItem = {
   } | null;
 };
 
+type ItemCsvRow = {
+  itemName: string;
+  id: string;
+  maxStackSize: string;
+  hasBlock: "Yes" | "No";
+  creativeTabs: string;
+  blockLootBehavior: string;
+  noLootTable: "Yes" | "No";
+  overrideLootSourceBlock: string;
+  vanillaLootMethod: string;
+  lootDropField: string;
+  included: "Yes" | "No";
+};
+
+type ItemCsvOutput = {
+  csv: string;
+  itemCount: number;
+  includedCount: number;
+  excludedCount: number;
+};
+
 type ParsedPng = {
   width: number;
   height: number;
@@ -118,15 +139,19 @@ type SpecialTextureEntry = {
 };
 
 function printUsage(): void {
-  console.log(`Usage: npm run fetch:items -- [--game-version <version>]
+  console.log(`Usage: npm run fetch:items -- [--game-version <version>] [--csv | --csv-only]
 
 Options:
   --game-version, --minecraft-version, --mc-version  Minecraft version to fetch.
+  --csv                                            Also write an all-items CSV export.
+  --csv-only                                       Write only the all-items CSV export.
+  --csv-output <path>                              CSV output path.
   --help                                           Show this help text.
 
 Examples:
   npm run fetch:items -- --game-version 1.21.8
   npm run fetch:items -- --game-version=1.21.8
+  npm run fetch:items -- --csv-only
 `);
 }
 
@@ -137,6 +162,33 @@ function applyCliOptions(argv: string[]): void {
     if (arg === "--help" || arg === "-h") {
       printUsage();
       process.exit(0);
+    }
+
+    if (arg === "--csv") {
+      process.env.ITEMFETCH_CSV = "1";
+      continue;
+    }
+
+    if (arg === "--csv-only") {
+      process.env.ITEMFETCH_CSV = "1";
+      process.env.ITEMFETCH_CSV_ONLY = "1";
+      continue;
+    }
+
+    if (arg === "--csv-output") {
+      const value = argv[index + 1];
+      if (!value || value.startsWith("-")) {
+        throw new Error(`${arg} requires a path value`);
+      }
+      process.env.ITEMFETCH_CSV_OUTPUT_PATH = value;
+      index += 1;
+      continue;
+    }
+
+    const csvOutputMatch = arg.match(/^--csv-output=(.+)$/);
+    if (csvOutputMatch) {
+      process.env.ITEMFETCH_CSV_OUTPUT_PATH = csvOutputMatch[1];
+      continue;
     }
 
     if (
@@ -191,6 +243,13 @@ const SPECIAL_TEXTURE_ROOT = path.resolve(process.cwd(), "itemfetch/special");
 const OUTPUT_ROOT = path.resolve(process.cwd(), "public/items");
 const OUTPUT_TEXTURE_ROOT = path.join(OUTPUT_ROOT, "textures");
 const OUTPUT_INDEX_PATH = path.join(OUTPUT_ROOT, "items.json");
+const OUTPUT_CSV_PATH = path.resolve(
+  process.cwd(),
+  process.env.ITEMFETCH_CSV_OUTPUT_PATH ?? "public/items/items.csv",
+);
+const SHOULD_WRITE_CSV =
+  process.env.ITEMFETCH_CSV === "1" || process.env.ITEMFETCH_CSV_ONLY === "1";
+const CSV_ONLY = process.env.ITEMFETCH_CSV_ONLY === "1";
 const MODEL_RENDER_SIZE = Number(process.env.ITEMFETCH_MODEL_RENDER_SIZE ?? "64");
 const MODEL_RENDER_SUPERSAMPLE = Math.max(
   1,
@@ -2382,7 +2441,8 @@ function shouldIncludeInPlannerCatalog(
     itemId === "frogspawn" ||
     itemId === "player_head" ||
     itemId === "written_book" ||
-    itemId === "firework_star"
+    itemId === "firework_star" ||
+    itemId === "petrified_oak_slab"
   ) {
     return false;
   }
@@ -2412,6 +2472,113 @@ function shouldIncludeInPlannerCatalog(
   }
 
   return true;
+}
+
+const ITEM_CSV_HEADERS = [
+  "Item Name",
+  "ID",
+  "Max Stack Size",
+  "Has Block",
+  "Creative Tabs",
+  "Block Loot Behavior",
+  "No Loot Table",
+  "Override Loot Source Block",
+  "Vanilla Loot Method",
+  "Loot Drop Field",
+  "Included",
+] as const;
+
+function toTitle(input: string): string {
+  return input
+    .split("_")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function csvEscape(value: string | number): string {
+  const raw = String(value);
+  if (!/[",\r\n]/.test(raw)) {
+    return raw;
+  }
+  return `"${raw.replace(/"/g, '""')}"`;
+}
+
+function yesNo(value: boolean): "Yes" | "No" {
+  return value ? "Yes" : "No";
+}
+
+function buildItemsCsv(input: {
+  itemIds: string[];
+  parsedItemById: Map<string, ParsedItem>;
+  creativeTabIdsByItemId: Map<string, Set<string>>;
+  vanillaBlockLootByField: Map<string, VanillaBlockLootEntry>;
+}): ItemCsvOutput {
+  const rows: ItemCsvRow[] = input.itemIds.map((itemId) => {
+    const parsedItem = input.parsedItemById.get(itemId) ?? null;
+    const creativeTabs = parsedItem
+      ? Array.from(input.creativeTabIdsByItemId.get(parsedItem.id) ?? [])
+      : [];
+    const vanillaBlockLootEntry = parsedItem?.blockField
+      ? (input.vanillaBlockLootByField.get(parsedItem.blockField) ?? null)
+      : null;
+    const blockLoot = parsedItem?.blockLoot ?? null;
+    const included = shouldIncludeInPlannerCatalog(
+      itemId,
+      parsedItem,
+      creativeTabs,
+      vanillaBlockLootEntry,
+    );
+
+    return {
+      itemName: toTitle(itemId),
+      id: itemId,
+      maxStackSize: parsedItem ? String(parsedItem.maxStackSize) : "",
+      hasBlock: yesNo(parsedItem?.registration === "block"),
+      creativeTabs: creativeTabs.join("; "),
+      blockLootBehavior: blockLoot?.behavior ?? "",
+      noLootTable: yesNo(blockLoot?.noLootTable === true),
+      overrideLootSourceBlock: blockLoot?.overrideLootSourceBlock ?? "",
+      vanillaLootMethod: vanillaBlockLootEntry?.lootMethod ?? "",
+      lootDropField: vanillaBlockLootEntry?.lootDropField ?? "",
+      included: yesNo(included),
+    };
+  });
+  const includedCount = rows.filter((row) => row.included === "Yes").length;
+  const excludedCount = rows.length - includedCount;
+
+  rows.sort((a, b) => {
+    const nameComparison = a.itemName.localeCompare(b.itemName, undefined, {
+      numeric: true,
+      sensitivity: "base",
+    });
+    return nameComparison !== 0 ? nameComparison : a.id.localeCompare(b.id);
+  });
+
+  const csvRows = rows.map((row) =>
+    [
+      row.itemName,
+      row.id,
+      row.maxStackSize,
+      row.hasBlock,
+      row.creativeTabs,
+      row.blockLootBehavior,
+      row.noLootTable,
+      row.overrideLootSourceBlock,
+      row.vanillaLootMethod,
+      row.lootDropField,
+      row.included,
+    ]
+      .map(csvEscape)
+      .join(","),
+  );
+
+  return {
+    csv: `${ITEM_CSV_HEADERS.join(",")}\r\n${csvRows.join("\r\n")}\r\n`,
+    itemCount: rows.length,
+    includedCount,
+    excludedCount,
+  };
 }
 
 async function main(): Promise<void> {
@@ -2480,6 +2647,25 @@ async function main(): Promise<void> {
   let itemIds = Array.from(itemIdsSet).sort();
   if (ITEM_LIMIT > 0) {
     itemIds = itemIds.slice(0, ITEM_LIMIT);
+  }
+
+  if (SHOULD_WRITE_CSV) {
+    const csvOutput = buildItemsCsv({
+      itemIds,
+      parsedItemById,
+      creativeTabIdsByItemId,
+      vanillaBlockLootByField,
+    });
+    await mkdir(path.dirname(OUTPUT_CSV_PATH), { recursive: true });
+    await writeFile(OUTPUT_CSV_PATH, csvOutput.csv, "utf8");
+    console.log(`Wrote ${OUTPUT_CSV_PATH}`);
+    console.log(
+      `CSV item summary: ${csvOutput.itemCount} found, ${csvOutput.includedCount} included, ${csvOutput.excludedCount} excluded`,
+    );
+
+    if (CSV_ONLY) {
+      return;
+    }
   }
 
   await mkdir(OUTPUT_ROOT, { recursive: true });

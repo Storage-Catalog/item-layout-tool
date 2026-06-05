@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-05T23:11:07.105Z",
+  "generatedAt": "2026-06-05T23:19:20.210Z",
   "gameVersion": "26.1.2",
   "counts": {
-    "itemCount": 1143,
-    "texturedItemCount": 1143,
+    "itemCount": 1142,
+    "texturedItemCount": 1142,
     "missingTextureItemCount": 0,
-    "filteredOutItemCount": 363,
+    "filteredOutItemCount": 364,
     "codeItemCount": 1482,
-    "itemsWithCodeDataCount": 1119,
+    "itemsWithCodeDataCount": 1118,
     "blockCount": 1144,
     "noLootTableBlockCount": 22,
     "overrideLootTableBlockCount": 61,
@@ -10501,19 +10501,6 @@
       "creativeTabs": [
         "natural_blocks"
       ],
-      "blockLoot": {
-        "behavior": "default",
-        "lootMethod": "custom"
-      }
-    },
-    {
-      "id": "petrified_oak_slab",
-      "texturePath": "/items/textures/petrified_oak_slab.png",
-      "sourceTexture": "minecraft:block/oak_planks",
-      "sourceModel": "minecraft:block/petrified_oak_slab",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [],
       "blockLoot": {
         "behavior": "default",
         "lootMethod": "custom"
