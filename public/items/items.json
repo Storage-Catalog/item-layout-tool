@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-05T23:19:20.210Z",
+  "generatedAt": "2026-06-06T02:36:33.455Z",
   "gameVersion": "26.1.2",
   "counts": {
-    "itemCount": 1142,
-    "texturedItemCount": 1142,
+    "itemCount": 1141,
+    "texturedItemCount": 1141,
     "missingTextureItemCount": 0,
-    "filteredOutItemCount": 364,
+    "filteredOutItemCount": 365,
     "codeItemCount": 1482,
-    "itemsWithCodeDataCount": 1118,
+    "itemsWithCodeDataCount": 1117,
     "blockCount": 1144,
     "noLootTableBlockCount": 22,
     "overrideLootTableBlockCount": 61,
@@ -16,7 +16,7 @@
     "itemsWithFoodDataCount": 36,
     "creativeTabCount": 14,
     "creativeTabsWithItemsCount": 11,
-    "itemsWithCreativeTabCount": 1115,
+    "itemsWithCreativeTabCount": 1114,
     "unresolvedCreativeTabItemFieldCount": 3
   },
   "items": [
@@ -2919,21 +2919,6 @@
         "saturationModifier": 0.3,
         "alwaysEdible": true,
         "effectCount": 0
-      }
-    },
-    {
-      "id": "chorus_plant",
-      "texturePath": "/items/textures/chorus_plant.png",
-      "sourceTexture": "block/chorus_plant",
-      "sourceModel": "minecraft:block/chorus_plant",
-      "registration": "block",
-      "maxStackSize": 64,
-      "creativeTabs": [
-        "natural_blocks"
-      ],
-      "blockLoot": {
-        "behavior": "default",
-        "lootMethod": "custom"
       }
     },
     {

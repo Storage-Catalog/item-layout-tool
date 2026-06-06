@@ -2442,7 +2442,8 @@ function shouldIncludeInPlannerCatalog(
     itemId === "player_head" ||
     itemId === "written_book" ||
     itemId === "firework_star" ||
-    itemId === "petrified_oak_slab"
+    itemId === "petrified_oak_slab" ||
+    itemId === "chorus_plant"
   ) {
     return false;
   }
