@@ -82,6 +82,18 @@ function toFilenameSegment(rawName: string): string {
   return normalized.length > 0 ? normalized : "planner-layout";
 }
 
+function hasFileTransfer(dataTransfer: DataTransfer | null): dataTransfer is DataTransfer {
+  return Array.from(dataTransfer?.types ?? []).includes("Files");
+}
+
+function isPlannerJsonFile(file: File): boolean {
+  return file.type === "application/json" || file.name.toLowerCase().endsWith(".json");
+}
+
+function getPlannerJsonFile(fileList: FileList): File | null {
+  return Array.from(fileList).find(isPlannerJsonFile) ?? null;
+}
+
 export function PlannerApp() {
   const { catalogItems, catalogGameVersion, isLoadingCatalog, catalogError } = useCatalog();
   const {
@@ -496,13 +508,7 @@ export function PlannerApp() {
     openFileInputRef.current?.click();
   }
 
-  async function handleOpenFileChange(event: ChangeEvent<HTMLInputElement>): Promise<void> {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) {
-      return;
-    }
-
+  const openPlannerFile = useCallback(async (file: File): Promise<void> => {
     try {
       const parsed = parsePlannerSnapshot(JSON.parse(await file.text()) as unknown);
       if (!parsed) {
@@ -513,7 +519,53 @@ export function PlannerApp() {
     } catch {
       window.alert("Could not open file. The selected file is not valid JSON.");
     }
+  }, [applySnapshot]);
+
+  async function handleOpenFileChange(event: ChangeEvent<HTMLInputElement>): Promise<void> {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) {
+      return;
+    }
+
+    await openPlannerFile(file);
   }
+
+  useEffect(() => {
+    function handleWindowDragOver(event: DragEvent): void {
+      const dataTransfer = event.dataTransfer;
+      if (!hasFileTransfer(dataTransfer)) {
+        return;
+      }
+
+      event.preventDefault();
+      dataTransfer.dropEffect = "copy";
+    }
+
+    function handleWindowDrop(event: DragEvent): void {
+      const dataTransfer = event.dataTransfer;
+      if (!hasFileTransfer(dataTransfer)) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      const file = getPlannerJsonFile(dataTransfer.files);
+      if (!file) {
+        window.alert("Could not open file. Expected a planner save JSON file.");
+        return;
+      }
+
+      void openPlannerFile(file);
+    }
+
+    window.addEventListener("dragover", handleWindowDragOver);
+    window.addEventListener("drop", handleWindowDrop);
+    return () => {
+      window.removeEventListener("dragover", handleWindowDragOver);
+      window.removeEventListener("drop", handleWindowDrop);
+    };
+  }, [openPlannerFile]);
 
   function handleSaveClick(): void {
     const saveFile: PlannerSaveFile = {
