@@ -10,7 +10,9 @@ import {
   SAVE_FILE_VERSION,
   buildPlannerSnapshot,
   cloneHallConfigs,
+  cloneFilterExportConfig,
   cloneSlotAssignments,
+  createDefaultFilterExportConfig,
   parsePlannerSnapshot,
   snapshotToKey,
 } from "./lib/plannerSnapshot";
@@ -32,8 +34,20 @@ import {
   type LayoutExportMode,
 } from "./lib/layoutExport";
 import { exportLayoutAsCsv } from "./lib/layoutCsvExport";
-import type { FillDirection, HallId, HallType } from "./types";
-import { buildInitialHallConfigs, type StorageLayoutPreset } from "./layoutConfig";
+import type {
+  FillDirection,
+  FilterExportHallSettings,
+  FilterExportItemType,
+  FilterExportSettings,
+  FilterExportType,
+  HallId,
+  HallType,
+} from "./types";
+import {
+  buildInitialHallConfigs,
+  getLayoutHallName,
+  type StorageLayoutPreset,
+} from "./layoutConfig";
 import { buildOrderedSlotIds } from "./utils";
 import { withBasePath } from "./base-path";
 
@@ -41,6 +55,26 @@ const TOOLBAR_BUTTON_CLASS =
   "cursor-pointer rounded-[0.35rem] bg-transparent px-[0.46rem] py-[0.2rem] text-[0.8rem] font-semibold text-[#3b2f22] hover:text-[#241c14] hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(122,99,66,0.35)] disabled:cursor-not-allowed disabled:opacity-45 dark:text-[#cad9ef] dark:hover:text-[#eff6ff] dark:focus-visible:ring-[rgba(148,163,184,0.45)]";
 const AUTOSAVE_DEBOUNCE_MS = 800;
 const LAYOUT_NAME_PLACEHOLDER = "Untitled Layout";
+const FILTER_EXPORT_MODE: LayoutExportMode = "filters";
+
+const FILTER_EXPORT_CHOICES: readonly {
+  value: FilterExportType;
+  label: string;
+  disabled?: boolean;
+}[] = [
+  { value: "ssi_ss2", label: "SSI/SS2" },
+  { value: "ss3", label: "SS3" },
+  { value: "box_sorters", label: "Box sorters" },
+];
+const FILTER_EXPORT_ITEM_TYPES: readonly {
+  value: FilterExportItemType;
+  label: string;
+}[] = [
+  { value: "chest", label: "Chest" },
+  { value: "bulk", label: "Bulk" },
+];
+const FILTER_MIS_SIGNAL_STRENGTH_VALUES = Array.from({ length: 14 }, (_, index) => index + 2);
+const FILTER_MIS_MULTIPLICITY_VALUES = Array.from({ length: 14 }, (_, index) => index + 1);
 
 function shouldIgnoreHistoryHotkeys(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) {
@@ -92,6 +126,10 @@ function isPlannerJsonFile(file: File): boolean {
 
 function getPlannerJsonFile(fileList: FileList): File | null {
   return Array.from(fileList).find(isPlannerJsonFile) ?? null;
+}
+
+function isSupportedFilterExportChoice(value: FilterExportType): value is FilterExportType {
+  return value === "ssi_ss2" || value === "ss3" || value === "box_sorters";
 }
 
 export function PlannerApp() {
@@ -149,8 +187,6 @@ export function PlannerApp() {
     handleHallNameChange,
     handleSectionNameChange,
     handleMisNameChange,
-    handleMisSignalStrengthChange,
-    handleMisMultiplicityChange,
   } = usePlannerLabelNames();
   const {
     viewportRef,
@@ -175,6 +211,9 @@ export function PlannerApp() {
   const [isAutosaveRestoreResolved, setIsAutosaveRestoreResolved] = useState(false);
   const [isExportMenuOpen, setIsExportMenuOpen] = useState(false);
   const [isExportingLayout, setIsExportingLayout] = useState(false);
+  const [isFilterExportDialogOpen, setIsFilterExportDialogOpen] = useState(false);
+  const [filterExportConfig, setFilterExportConfig] = useState(createDefaultFilterExportConfig);
+  const [filterExportPage, setFilterExportPage] = useState<"defaults" | HallId>("defaults");
   const [layoutViewMode, setLayoutViewMode] = useState<"storage" | "flat">("storage");
   const openFileInputRef = useRef<HTMLInputElement | null>(null);
   const exportMenuRef = useRef<HTMLDivElement | null>(null);
@@ -188,13 +227,31 @@ export function PlannerApp() {
         hallConfigs,
         slotAssignments: activeSlotAssignments,
         labelNames,
+        filterExportConfig,
       }),
-    [activeSlotAssignments, fillDirection, hallConfigs, labelNames, storageLayoutPreset],
+    [
+      activeSlotAssignments,
+      fillDirection,
+      filterExportConfig,
+      hallConfigs,
+      labelNames,
+      storageLayoutPreset,
+    ],
   );
   const plannerSnapshotKey = useMemo(
     () => snapshotToKey(plannerSnapshot),
     [plannerSnapshot],
   );
+  const hallIds = useMemo(
+    () => Object.keys(hallConfigs).map((key) => Number(key)).sort((a, b) => a - b),
+    [hallConfigs],
+  );
+
+  useEffect(() => {
+    if (typeof filterExportPage === "number" && !hallIds.includes(filterExportPage)) {
+      setFilterExportPage("defaults");
+    }
+  }, [filterExportPage, hallIds]);
 
   type ApplySnapshotOptions = {
     recenter?: boolean;
@@ -216,6 +273,9 @@ export function PlannerApp() {
         orderedSlotIds: snapshotOrderedSlotIds,
       });
       replaceLabelNames(snapshot.labelNames);
+      const filterExportConfig = cloneFilterExportConfig(snapshot.filterExportConfig);
+      setFilterExportConfig(filterExportConfig);
+      setFilterExportPage("defaults");
       if (options?.recenter ?? true) {
         recenterViewport();
       }
@@ -586,7 +646,10 @@ export function PlannerApp() {
     URL.revokeObjectURL(downloadUrl);
   }
 
-  async function handleExportLayoutClick(mode: LayoutExportMode): Promise<void> {
+  async function handleExportLayoutClick(
+    mode: LayoutExportMode,
+    filterSettings?: ReturnType<typeof cloneFilterExportConfig>,
+  ): Promise<void> {
     setIsExportMenuOpen(false);
 
     if (Object.keys(activeSlotAssignments).length === 0) {
@@ -597,14 +660,16 @@ export function PlannerApp() {
     try {
       setIsExportingLayout(true);
       const exported = await exportLayoutAsLitematic({
-        mode,
         layoutName: labelNames.layoutName,
         hallConfigs,
         slotAssignments: activeSlotAssignments,
         itemById,
-        misSignalStrengths: labelNames.misSignalStrengths,
-        misMultiplicities: labelNames.misMultiplicities,
-        layoutViewMode,
+        options: {
+          mode,
+          viewMode: layoutViewMode,
+          filterDefaults: filterSettings?.defaults,
+          hallFilterSettings: filterSettings?.halls,
+        },
       });
 
       const now = new Date().toISOString().replace(/[:]/g, "-");
@@ -626,6 +691,9 @@ export function PlannerApp() {
       anchor.download = `${layoutFileName}-${viewFileName}-${exportTypeFileName}-${now}.litematic`;
       anchor.click();
       URL.revokeObjectURL(downloadUrl);
+      if (mode === FILTER_EXPORT_MODE) {
+        setIsFilterExportDialogOpen(false);
+      }
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "Could not export litematic file.";
@@ -633,6 +701,77 @@ export function PlannerApp() {
     } finally {
       setIsExportingLayout(false);
     }
+  }
+
+  function handleExportMenuOptionClick(mode: LayoutExportMode): void {
+    if (mode === FILTER_EXPORT_MODE) {
+      setIsExportMenuOpen(false);
+      setIsFilterExportDialogOpen(true);
+      return;
+    }
+
+    void handleExportLayoutClick(mode);
+  }
+
+  function updateFilterDefaults(updates: Partial<FilterExportSettings>): void {
+    setFilterExportConfig((current) =>
+      cloneFilterExportConfig({
+        ...current,
+        defaults: {
+          ...current.defaults,
+          ...updates,
+        },
+      }),
+    );
+  }
+
+  function updateHallFilterSettings(
+    hallId: HallId,
+    updates: FilterExportHallSettings,
+  ): void {
+    setFilterExportConfig((current) => {
+      const nextHallSettings = {
+        ...(current.halls[hallId] ?? {}),
+        ...updates,
+      };
+      const nextHalls = {
+        ...current.halls,
+        [hallId]: nextHallSettings,
+      };
+      return cloneFilterExportConfig({
+        ...current,
+        halls: nextHalls,
+      });
+    });
+  }
+
+  function clearHallFilterSetting(
+    hallId: HallId,
+    key: keyof FilterExportHallSettings,
+  ): void {
+    setFilterExportConfig((current) => {
+      const nextHallSettings = { ...(current.halls[hallId] ?? {}) };
+      delete nextHallSettings[key];
+      const nextHalls = { ...current.halls };
+      if (
+        nextHallSettings.chestType === undefined &&
+        nextHallSettings.bulkType === undefined &&
+        nextHallSettings.misSignalStrength === undefined &&
+        nextHallSettings.misMultiplicity === undefined
+      ) {
+        delete nextHalls[hallId];
+      } else {
+        nextHalls[hallId] = nextHallSettings;
+      }
+      return cloneFilterExportConfig({
+        ...current,
+        halls: nextHalls,
+      });
+    });
+  }
+
+  function handleFilterExportConfirm(): void {
+    void handleExportLayoutClick(FILTER_EXPORT_MODE, filterExportConfig);
   }
 
   function handleExportCsvClick(): void {
@@ -689,6 +828,50 @@ export function PlannerApp() {
   const autosaveLayoutName =
     pendingAutosaveRestore?.snapshot.labelNames.layoutName || LAYOUT_NAME_PLACEHOLDER;
   const layoutNameWidthText = labelNames.layoutName || LAYOUT_NAME_PLACEHOLDER;
+
+  const filterButtonClass = (
+    isSelected: boolean,
+    isInheritedDefault: boolean,
+    isDisabled = false,
+  ): string => {
+    if (isDisabled) {
+      return "cursor-not-allowed rounded-full border border-[rgba(116,104,89,0.22)] bg-[rgba(232,226,216,0.55)] px-2.5 py-[0.32rem] text-[0.72rem] font-bold text-[#8d8273] opacity-65 dark:border-[rgba(110,130,158,0.26)] dark:bg-[rgba(45,55,70,0.5)] dark:text-[#8391a8]";
+    }
+    if (isSelected) {
+      return "rounded-full border border-[rgba(42,100,76,0.72)] bg-[rgba(210,239,221,0.98)] px-2.5 py-[0.32rem] text-[0.72rem] font-bold text-[#224c38] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.6)] dark:border-[rgba(98,205,176,0.68)] dark:bg-[rgba(25,82,73,0.96)] dark:text-[#d8fff4]";
+    }
+    if (isInheritedDefault) {
+      return "rounded-full border border-[rgba(42,100,76,0.62)] bg-[rgba(255,255,255,0.64)] px-2.5 py-[0.32rem] text-[0.72rem] font-bold text-[#2f7656] hover:bg-[rgba(245,235,218,0.9)] dark:border-[rgba(98,205,176,0.58)] dark:bg-[rgba(25,39,58,0.72)] dark:text-[#8fe6ce] dark:hover:bg-[rgba(39,59,83,0.92)]";
+    }
+    return "rounded-full border border-[rgba(120,98,66,0.32)] bg-[rgba(255,255,255,0.64)] px-2.5 py-[0.32rem] text-[0.72rem] font-bold text-[#4b3a28] hover:bg-[rgba(245,235,218,0.9)] dark:border-[rgba(112,136,167,0.42)] dark:bg-[rgba(25,39,58,0.72)] dark:text-[#cddcf0] dark:hover:bg-[rgba(39,59,83,0.92)]";
+  };
+
+  const misPresetButtonClass = (
+    isSelected: boolean,
+    isInheritedDefault: boolean,
+    index: number,
+    total: number,
+  ): string =>
+    `h-7 min-w-[1.72rem] border px-1 text-[0.7rem] font-bold tabular-nums first:ml-0 ${
+      index === 0 ? "rounded-l-full" : "-ml-px"
+    } ${index === total - 1 ? "rounded-r-full" : ""} ${
+      isSelected
+        ? "relative z-[1] border-[rgba(42,100,76,0.72)] bg-[rgba(210,239,221,0.98)] text-[#224c38] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.6)] dark:border-[rgba(98,205,176,0.68)] dark:bg-[rgba(25,82,73,0.96)] dark:text-[#d8fff4]"
+        : isInheritedDefault
+          ? "relative z-[1] border-[rgba(42,100,76,0.62)] bg-[rgba(255,255,255,0.64)] text-[#2f7656] hover:bg-[rgba(245,235,218,0.9)] dark:border-[rgba(98,205,176,0.58)] dark:bg-[rgba(25,39,58,0.72)] dark:text-[#8fe6ce] dark:hover:bg-[rgba(39,59,83,0.92)]"
+          : "border-[rgba(120,98,66,0.32)] bg-[rgba(255,255,255,0.64)] text-[#4b3a28] hover:bg-[rgba(245,235,218,0.9)] dark:border-[rgba(112,136,167,0.42)] dark:bg-[rgba(25,39,58,0.72)] dark:text-[#cddcf0] dark:hover:bg-[rgba(39,59,83,0.92)]"
+    }`;
+
+  const filterPageHallId = typeof filterExportPage === "number" ? filterExportPage : null;
+  const filterPageHallSettings = filterPageHallId
+    ? filterExportConfig.halls[filterPageHallId] ?? {}
+    : {};
+  const isFilterDefaultsPage = filterPageHallId === null;
+  const filterPageLabel = isFilterDefaultsPage
+    ? "Defaults"
+    : labelNames.hallNames[filterPageHallId] ??
+      getLayoutHallName(storageLayoutPreset, filterPageHallId) ??
+      `Hall ${filterPageHallId}`;
 
   return (
     <div className="flex h-screen min-h-screen flex-col overflow-hidden bg-[radial-gradient(circle_at_15%_12%,#fff8e8_0%,rgba(255,248,232,0)_35%),radial-gradient(circle_at_88%_8%,#e2f1ee_0%,rgba(226,241,238,0)_30%),linear-gradient(180deg,#f9f4ea_0%,#f2eadd_100%)] text-[#1f1a16] dark:bg-[radial-gradient(circle_at_15%_12%,rgba(108,138,184,0.28)_0%,rgba(108,138,184,0)_35%),radial-gradient(circle_at_88%_8%,rgba(91,159,153,0.2)_0%,rgba(91,159,153,0)_30%),linear-gradient(180deg,#121c29_0%,#0c141f_100%)] dark:text-[#e4ecf7] max-[1200px]:h-auto max-[1200px]:overflow-auto" data-planner-scroll-shell>
@@ -762,7 +945,7 @@ export function PlannerApp() {
                     key={option.mode}
                     type="button"
                     className="block w-full rounded-[0.35rem] px-2 py-1.5 text-left text-[0.78rem] leading-tight text-[#3b2f22] hover:bg-[rgba(210,184,142,0.2)] dark:text-[#d6e3f5] dark:hover:bg-[rgba(92,124,173,0.28)]"
-                    onClick={() => void handleExportLayoutClick(option.mode)}
+                    onClick={() => handleExportMenuOptionClick(option.mode)}
                   >
                     <span className="block text-[0.8rem] font-semibold">{option.label}</span>
                     <span className="mt-0.5 block text-[0.72rem] text-[#6d5a3f] dark:text-[#9fb2ce]">
@@ -821,8 +1004,6 @@ export function PlannerApp() {
             hallNames={labelNames.hallNames}
             sectionNames={labelNames.sectionNames}
             misNames={labelNames.misNames}
-            misSignalStrengths={labelNames.misSignalStrengths}
-            misMultiplicities={labelNames.misMultiplicities}
             cursorSlotId={cursorSlotId}
             cursorMovementHint={cursorMovementHint}
             viewportRef={viewportRef}
@@ -850,8 +1031,6 @@ export function PlannerApp() {
             onHallNameChange={handleHallNameChange}
             onSectionNameChange={handleSectionNameChange}
             onMisNameChange={handleMisNameChange}
-            onMisSignalStrengthChange={handleMisSignalStrengthChange}
-            onMisMultiplicityChange={handleMisMultiplicityChange}
             onAddSection={handleAddSection}
             onRemoveSection={handleRemoveSection}
             onSlotItemDragStart={beginSlotItemDrag}
@@ -882,6 +1061,275 @@ export function PlannerApp() {
           onAnyDragEnd={clearDragState}
         />
       </div>
+
+      {isFilterExportDialogOpen ? (
+        <div className="fixed inset-0 z-60 grid place-items-center bg-[rgba(19,15,10,0.45)] px-4">
+          <div
+            className="grid max-h-[88vh] w-full max-w-2xl grid-rows-[auto_1fr_auto] overflow-hidden rounded-[0.8rem] border border-[rgba(126,101,67,0.46)] bg-[linear-gradient(180deg,rgba(255,252,244,0.98)_0%,rgba(247,236,217,0.98)_100%)] shadow-[0_16px_42px_rgba(23,19,13,0.35)] dark:border-[rgba(116,142,178,0.52)] dark:bg-[linear-gradient(180deg,rgba(23,35,53,0.98)_0%,rgba(15,25,38,0.98)_100%)] dark:shadow-[0_20px_46px_rgba(4,8,14,0.52)]"
+            data-no-pan
+          >
+            <header className="flex items-center justify-between gap-3 border-b border-[rgba(126,101,67,0.26)] px-4 py-3 dark:border-[rgba(116,142,178,0.35)]">
+              <h3 className="m-0 text-[1rem] font-bold text-[#3b3126] dark:text-[#dbe6f7]">
+                Litematic: Filters
+              </h3>
+              <div className="flex min-w-0 items-center justify-end gap-2">
+                <select
+                  className="min-w-0 max-w-[15rem] rounded-[0.4rem] border border-[rgba(122,99,66,0.35)] bg-[rgba(255,255,255,0.78)] px-2 py-[0.24rem] text-[0.74rem] font-semibold text-[#4b3a28] outline-none focus:border-[rgba(42,100,76,0.62)] dark:border-[rgba(112,136,167,0.45)] dark:bg-[rgba(25,39,58,0.86)] dark:text-[#d4e2f4] dark:focus:border-[rgba(98,205,176,0.58)]"
+                  aria-label="Filter export config page"
+                  value={isFilterDefaultsPage ? "defaults" : String(filterPageHallId)}
+                  onChange={(event) => {
+                    const value = event.currentTarget.value;
+                    setFilterExportPage(value === "defaults" ? "defaults" : Number(value));
+                  }}
+                >
+                  <option value="defaults">Defaults</option>
+                  {hallIds.map((hallId) => {
+                    const hallName =
+                      labelNames.hallNames[hallId] ??
+                      getLayoutHallName(storageLayoutPreset, hallId) ??
+                      `Hall ${hallId}`;
+                    return (
+                      <option key={hallId} value={hallId}>
+                        {hallName}
+                      </option>
+                    );
+                  })}
+                </select>
+                <button
+                  type="button"
+                  className="rounded-[0.4rem] border border-[rgba(122,99,66,0.35)] bg-[rgba(255,255,255,0.7)] px-2 py-[0.22rem] text-[0.74rem] font-semibold text-[#4b3a28] dark:border-[rgba(112,136,167,0.45)] dark:bg-[rgba(25,39,58,0.86)] dark:text-[#d4e2f4]"
+                  onClick={() => setIsFilterExportDialogOpen(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </header>
+            <div className="min-h-0 overflow-auto px-4 py-3">
+              <section className="grid gap-1.5 rounded-[0.45rem] border border-[rgba(126,101,67,0.22)] bg-[rgba(255,255,255,0.34)] p-2.5 dark:border-[rgba(116,142,178,0.32)] dark:bg-[rgba(20,32,48,0.52)]">
+                <div className="grid gap-0.5 pb-1">
+                  <h4 className="m-0 text-[0.82rem] font-bold text-[#3f3328] dark:text-[#dbe6f7]">
+                    Filter type
+                  </h4>
+                  <p className="m-0 text-[0.7rem] leading-[1.3] text-[#6a5d4b] dark:text-[#9fb2ce]">
+                    Choose the default hopper filter type, then override individual halls only when they differ.
+                  </p>
+                </div>
+                <div className="grid gap-1 rounded-[0.36rem] bg-[rgba(255,255,255,0.38)] px-2 py-1.5 text-[0.68rem] leading-[1.25] text-[#6a5d4b] dark:bg-[rgba(15,25,38,0.42)] dark:text-[#9fb2ce]">
+                  <p className="m-0">
+                    <span className="font-bold text-[#3f3328] dark:text-[#dbe6f7]">SSI/SS2:</span>{" "}
+                    For signal strength isolated AB-tileable signal strength 2 filters. One filter item in first slot, dummy items in slots 2-5 so that total signal strength is 2.
+                  </p>
+                  <p className="m-0">
+                    <span className="font-bold text-[#3f3328] dark:text-[#dbe6f7]">SS3:</span>{" "}
+                    For traditional tileable signal strength 3 filters. 41 filter items (10 if 16-stackable) in first slot, dummy items in slots 2-5 so that total signal strength is 3.
+                  </p>
+                  <p className="m-0">
+                    <span className="font-bold text-[#3f3328] dark:text-[#dbe6f7]">Box sorters:</span>{" "}
+                    For first-item box sorters. Downward hopper with one filter item in first slot, then shulker boxes to block other slots.
+                  </p>
+                </div>
+                <div className="grid gap-1">
+                  <div className="text-[0.7rem] font-bold text-[#3f3328] dark:text-[#dbe6f7]">
+                    {filterPageLabel}
+                  </div>
+                  {FILTER_EXPORT_ITEM_TYPES.map((itemType) => {
+                    const settingKey =
+                      itemType.value === "chest" ? "chestType" : "bulkType";
+                    const defaultType = filterExportConfig.defaults[settingKey];
+                    const override = filterPageHallSettings[settingKey];
+                    return (
+                      <div
+                        key={itemType.value}
+                        className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-t border-[rgba(126,101,67,0.1)] py-1.5 dark:border-[rgba(116,142,178,0.18)]"
+                      >
+                        <span className="truncate text-[0.72rem] font-semibold text-[#5f5446] dark:text-[#a8b9d1]">
+                          {itemType.label}
+                        </span>
+                        <div className="flex shrink-0 flex-wrap justify-end gap-1.5">
+                          {FILTER_EXPORT_CHOICES.map((option) => {
+                            const isSupported = isSupportedFilterExportChoice(option.value);
+                            const isSelected = isFilterDefaultsPage
+                              ? option.value === defaultType
+                              : option.value === override;
+                            const isInheritedDefault =
+                              !isFilterDefaultsPage &&
+                              override === undefined &&
+                              option.value === defaultType;
+                            return (
+                              <button
+                                key={option.value}
+                                type="button"
+                                aria-pressed={isSelected}
+                                disabled={option.disabled}
+                                className={filterButtonClass(
+                                  isSelected,
+                                  isInheritedDefault,
+                                  option.disabled,
+                                )}
+                                title={option.disabled ? "Coming later" : undefined}
+                                onClick={() => {
+                                  if (!isSupported) {
+                                    return;
+                                  }
+                                  if (isFilterDefaultsPage) {
+                                    updateFilterDefaults({ [settingKey]: option.value });
+                                    return;
+                                  }
+                                  if (!filterPageHallId) {
+                                    return;
+                                  }
+                                  if (isSelected) {
+                                    clearHallFilterSetting(filterPageHallId, settingKey);
+                                  } else {
+                                    updateHallFilterSettings(filterPageHallId, {
+                                      [settingKey]: option.value,
+                                    });
+                                  }
+                                }}
+                              >
+                                {option.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+              <section className="mt-3 grid gap-2 rounded-[0.45rem] border border-[rgba(126,101,67,0.22)] bg-[rgba(255,255,255,0.34)] p-2.5 dark:border-[rgba(116,142,178,0.32)] dark:bg-[rgba(20,32,48,0.52)]">
+                <div className="grid gap-0.5">
+                  <h4 className="m-0 text-[0.82rem] font-bold text-[#3f3328] dark:text-[#dbe6f7]">
+                    MIS settings
+                  </h4>
+                  <p className="m-0 text-[0.7rem] leading-[1.3] text-[#6a5d4b] dark:text-[#9fb2ce]">
+                    Set the signal strength and multiplicity values used for filling MIS chests with dummy items.
+                  </p>
+                </div>
+                <div className="grid gap-2">
+                  <div className="grid gap-1.5 sm:grid-cols-[7.75rem_minmax(0,1fr)] sm:items-center">
+                    <span className="text-[0.72rem] font-semibold text-[#5f5446] dark:text-[#a8b9d1]">
+                      Signal strength
+                    </span>
+                    <div
+                      className="flex max-w-full items-center justify-end overflow-x-auto py-0.5"
+                      role="group"
+                      aria-label="Default MIS signal strength"
+                    >
+                      {FILTER_MIS_SIGNAL_STRENGTH_VALUES.map((value, index) => (
+                        <button
+                          key={value}
+                          type="button"
+                          aria-pressed={
+                            isFilterDefaultsPage
+                              ? filterExportConfig.defaults.misSignalStrength === value
+                              : filterPageHallSettings.misSignalStrength === value
+                          }
+                          className={misPresetButtonClass(
+                            isFilterDefaultsPage
+                              ? filterExportConfig.defaults.misSignalStrength === value
+                              : filterPageHallSettings.misSignalStrength === value,
+                            !isFilterDefaultsPage &&
+                              filterPageHallSettings.misSignalStrength === undefined &&
+                              filterExportConfig.defaults.misSignalStrength === value,
+                            index,
+                            FILTER_MIS_SIGNAL_STRENGTH_VALUES.length,
+                          )}
+                          onClick={() => {
+                            if (isFilterDefaultsPage) {
+                              updateFilterDefaults({ misSignalStrength: value });
+                              return;
+                            }
+                            if (!filterPageHallId) {
+                              return;
+                            }
+                            if (filterPageHallSettings.misSignalStrength === value) {
+                              clearHallFilterSetting(filterPageHallId, "misSignalStrength");
+                            } else {
+                              updateHallFilterSettings(filterPageHallId, {
+                                misSignalStrength: value,
+                              });
+                            }
+                          }}
+                        >
+                          {value}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid gap-1.5 sm:grid-cols-[7.75rem_minmax(0,1fr)] sm:items-center">
+                    <span className="text-[0.72rem] font-semibold text-[#5f5446] dark:text-[#a8b9d1]">
+                      Multiplicity
+                    </span>
+                    <div
+                      className="flex max-w-full items-center justify-end overflow-x-auto py-0.5"
+                      role="group"
+                      aria-label="Default MIS multiplicity"
+                    >
+                      {FILTER_MIS_MULTIPLICITY_VALUES.map((value, index) => (
+                        <button
+                          key={value}
+                          type="button"
+                          aria-pressed={
+                            isFilterDefaultsPage
+                              ? filterExportConfig.defaults.misMultiplicity === value
+                              : filterPageHallSettings.misMultiplicity === value
+                          }
+                          className={misPresetButtonClass(
+                            isFilterDefaultsPage
+                              ? filterExportConfig.defaults.misMultiplicity === value
+                              : filterPageHallSettings.misMultiplicity === value,
+                            !isFilterDefaultsPage &&
+                              filterPageHallSettings.misMultiplicity === undefined &&
+                              filterExportConfig.defaults.misMultiplicity === value,
+                            index,
+                            FILTER_MIS_MULTIPLICITY_VALUES.length,
+                          )}
+                          onClick={() => {
+                            if (isFilterDefaultsPage) {
+                              updateFilterDefaults({ misMultiplicity: value });
+                              return;
+                            }
+                            if (!filterPageHallId) {
+                              return;
+                            }
+                            if (filterPageHallSettings.misMultiplicity === value) {
+                              clearHallFilterSetting(filterPageHallId, "misMultiplicity");
+                            } else {
+                              updateHallFilterSettings(filterPageHallId, {
+                                misMultiplicity: value,
+                              });
+                            }
+                          }}
+                        >
+                          {value}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <footer className="flex items-center justify-end gap-2 border-t border-[rgba(126,101,67,0.26)] px-4 py-3 dark:border-[rgba(116,142,178,0.35)]">
+              <button
+                type="button"
+                className="rounded-[0.45rem] border border-[rgba(122,99,66,0.45)] bg-[rgba(255,255,255,0.88)] px-3 py-[0.34rem] text-[0.78rem] font-semibold text-[#3b2f22] dark:border-[rgba(115,136,165,0.55)] dark:bg-[rgba(28,42,61,0.95)] dark:text-[#d5e3f8]"
+                onClick={() => setIsFilterExportDialogOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="rounded-[0.45rem] border border-[rgba(61,116,87,0.52)] bg-[rgba(231,250,238,0.95)] px-3 py-[0.34rem] text-[0.78rem] font-semibold text-[#204b35] disabled:cursor-not-allowed disabled:opacity-55 dark:border-[rgba(79,157,139,0.62)] dark:bg-[rgba(28,73,66,0.92)] dark:text-[#bcefe4]"
+                disabled={isExportingLayout}
+                onClick={handleFilterExportConfirm}
+              >
+                {isExportingLayout ? "Exporting..." : "Export"}
+              </button>
+            </footer>
+          </div>
+        </div>
+      ) : null}
 
       {pendingAutosaveRestore ? (
         <div className="fixed inset-0 z-70 grid place-items-center bg-[rgba(19,15,10,0.45)] px-4">

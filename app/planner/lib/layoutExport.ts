@@ -1,9 +1,23 @@
 import { withBasePath } from "../base-path";
-import type { CatalogItem, HallConfig, HallId, HallSideConfig } from "../types";
+import type {
+  CatalogItem,
+  FilterExportHallSettings,
+  FilterExportItemType,
+  FilterExportSettings,
+  FilterExportType,
+  HallConfig,
+  HallId,
+  HallSideConfig,
+} from "../types";
 import { calculateMisComparatorPrimer, clamp, misSlotId, nonMisSlotId } from "../utils";
-import { DEFAULT_MIS_MULTIPLICITY, DEFAULT_MIS_SIGNAL_STRENGTH } from "./plannerSnapshot";
+import {
+  DEFAULT_BULK_FILTER_EXPORT_TYPE,
+  DEFAULT_CHEST_FILTER_EXPORT_TYPE,
+  DEFAULT_MIS_MULTIPLICITY,
+  DEFAULT_MIS_SIGNAL_STRENGTH,
+} from "./plannerSnapshot";
 
-export type LayoutExportMode = "containers" | "item_frames" | "blocks_and_frames" | "boxes" | "ssi_ss2_filters" | "ss3_filters";
+export type LayoutExportMode = "containers" | "item_frames" | "blocks_and_frames" | "filters";
 export type LayoutViewMode = "storage" | "flat";
 const FILTER_ROW_STRIDE = 2;
 
@@ -15,12 +29,6 @@ export type LayoutExportOption = {
 };
 
 export const LITEMATIC_EXPORT_OPTIONS: readonly LayoutExportOption[] = [
-  {
-    mode: "containers",
-    label: "Litematic: Containers",
-    description: "Each slot is a barrel containing the assigned item.",
-    fileSuffix: "containers",
-  },
   {
     mode: "item_frames",
     label: "Litematic: Item Frames",
@@ -34,34 +42,39 @@ export const LITEMATIC_EXPORT_OPTIONS: readonly LayoutExportOption[] = [
     fileSuffix: "blocks-and-frames",
   },
   {
-    mode: "boxes",
-    label: "Litematic: Full boxes",
-    description: "Each slot is a full shulker box containing the assigned item.",
-    fileSuffix: "boxes",
+    mode: "containers",
+    label: "Litematic: Containers",
+    description: "Each slot is a full barrel containing the assigned item.",
+    fileSuffix: "containers",
   },
   {
-    mode: "ssi_ss2_filters",
-    label: "Litematic: SSI SS2 Filters + MIS",
-    description: "Preconfigured SSI SS2 item filter hoppers for each assigned item. MIS chests are preconfigured with dummy items.",
-    fileSuffix: "ssi-ss2-filters",
-  },
-  {
-    mode: "ss3_filters",
-    label: "Litematic: SS3 Filters + MIS",
-    description: "Preconfigured SS3 item filter hoppers for each assigned item. MIS chests are preconfigured with dummy items.",
-    fileSuffix: "ss3-filters",
+    mode: "filters",
+    label: "Litematic: Filters",
+    description: "Preconfigured item filter hoppers for each assigned item. MIS chests are preconfigured with dummy items.",
+    fileSuffix: "filters",
   }
 ] as const;
 
 type LayoutLitematicExportInput = {
-  mode: LayoutExportMode;
   layoutName: string;
   hallConfigs: Record<HallId, HallConfig>;
   slotAssignments: Record<string, string>;
   itemById: Map<string, CatalogItem>;
-  misSignalStrengths?: Record<string, number>;
-  misMultiplicities?: Record<string, number>;
-  layoutViewMode?: LayoutViewMode;
+  options: LayoutExportOptionsInput;
+};
+
+export type LayoutExportOptionsInput = {
+  mode: LayoutExportMode;
+  viewMode?: LayoutViewMode;
+  filterDefaults?: Partial<FilterExportSettings>;
+  hallFilterSettings?: Partial<Record<HallId, FilterExportHallSettings>>;
+};
+
+export type LayoutExportOptions = {
+  mode: LayoutExportMode;
+  viewMode: LayoutViewMode;
+  filterDefaults: FilterExportSettings;
+  hallFilterSettings: Partial<Record<HallId, FilterExportHallSettings>>;
 };
 
 type LayoutLitematicExportResult = {
@@ -130,15 +143,13 @@ let nucleationModulePromise: Promise<NucleationModule> | null = null;
 export async function exportLayoutAsLitematic(
   input: LayoutLitematicExportInput,
 ): Promise<LayoutLitematicExportResult> {
-  const option = resolveExportOption(input.mode);
+  const options = resolveLayoutExportOptions(input.options);
+  const option = resolveExportOption(options.mode);
   const cells = buildExportCellsForLayout(
     input.slotAssignments,
     input.itemById,
     input.hallConfigs,
-    input.mode,
-    input.layoutViewMode ?? "storage",
-    input.misSignalStrengths,
-    input.misMultiplicities,
+    options,
   );
   if (cells.length === 0) {
     throw new Error("No assigned items found to export.");
@@ -217,7 +228,26 @@ function resolveExportOption(mode: LayoutExportMode): LayoutExportOption {
 }
 
 function isFilterExportMode(mode: LayoutExportMode): boolean {
-  return mode === "ssi_ss2_filters" || mode === "ss3_filters";
+  return mode === "filters";
+}
+
+function resolveFilterExportDefaults(options: LayoutExportOptionsInput): FilterExportSettings {
+  return {
+    chestType: options.filterDefaults?.chestType ?? DEFAULT_CHEST_FILTER_EXPORT_TYPE,
+    bulkType: options.filterDefaults?.bulkType ?? DEFAULT_BULK_FILTER_EXPORT_TYPE,
+    misSignalStrength: options.filterDefaults?.misSignalStrength ?? DEFAULT_MIS_SIGNAL_STRENGTH,
+    misMultiplicity: options.filterDefaults?.misMultiplicity ?? DEFAULT_MIS_MULTIPLICITY,
+  };
+}
+
+function resolveLayoutExportOptions(options: LayoutExportOptionsInput): LayoutExportOptions {
+  const filterDefaults = resolveFilterExportDefaults(options);
+  return {
+    mode: options.mode,
+    viewMode: options.viewMode ?? "storage",
+    filterDefaults,
+    hallFilterSettings: options.hallFilterSettings ?? {},
+  };
 }
 
 function nonMisRowStride(mode: LayoutExportMode): number {
@@ -228,8 +258,28 @@ function nonMisSideDepth(rows: number, mode: LayoutExportMode): number {
   return rows <= 0 ? 0 : (rows - 1) * nonMisRowStride(mode) + 1;
 }
 
-function misSignalStrengthKey(hallId: HallId, slice: number, side: 0 | 1, row: number): string {
-  return `${hallId}:${slice}:${side}:${row}`;
+function resolveHallFilterType(
+  hallId: HallId,
+  itemType: FilterExportItemType,
+  options: LayoutExportOptions,
+): FilterExportType {
+  const hallSettings = options.hallFilterSettings[hallId];
+  const modernType = itemType === "chest" ? hallSettings?.chestType : hallSettings?.bulkType;
+  if (modernType) {
+    return modernType;
+  }
+  return itemType === "chest" ? options.filterDefaults.chestType : options.filterDefaults.bulkType;
+}
+
+function resolveHallMisSettings(hallId: HallId, options: LayoutExportOptions): {
+  signalStrength: number;
+  multiplicity: number;
+} {
+  const hallSettings = options.hallFilterSettings[hallId];
+  return {
+    signalStrength: hallSettings?.misSignalStrength ?? options.filterDefaults.misSignalStrength,
+    multiplicity: hallSettings?.misMultiplicity ?? options.filterDefaults.misMultiplicity,
+  };
 }
 
 function maxStackSizeForItem(itemById: Map<string, CatalogItem>, itemId: string): number {
@@ -504,13 +554,16 @@ export function buildExportCellsForLayout(
   slotAssignments: Record<string, string>,
   itemById: Map<string, CatalogItem>,
   hallConfigs: Record<HallId, HallConfig>,
-  mode: LayoutExportMode = "containers",
-  viewMode: LayoutViewMode = "storage",
-  misSignalStrengths: Record<string, number> = {},
-  misMultiplicities: Record<string, number> = {},
+  optionsInput: LayoutExportOptionsInput,
 ): ExportCell[] {
-  if (viewMode === "flat") {
-    return buildExportCellsForFlatLayout(slotAssignments, itemById, hallConfigs, mode, misSignalStrengths, misMultiplicities);
+  const options = resolveLayoutExportOptions(optionsInput);
+  if (options.viewMode === "flat") {
+    return buildExportCellsForFlatLayout(
+      slotAssignments,
+      itemById,
+      hallConfigs,
+      options,
+    );
   }
 
   const output: ExportCell[] = [];
@@ -519,7 +572,7 @@ export function buildExportCellsForLayout(
   const hallDimensions = Object.fromEntries(
     Object.entries(hallConfigs).map(([hallId, config]) => [
       hallId,
-      measureHallDimensions(config, mode),
+      measureHallDimensions(config, options),
     ] as const),
   );
 
@@ -559,10 +612,10 @@ export function buildExportCellsForLayout(
   const hallCoordinates: Record<HallId, { x: number; z: number }> = {};
 
   // first start with horizontal halls
-  const westHallsDimensions = Object.entries(hallConfigs).filter(([_, config]) => config.direction === "west")
+  const westHallsDimensions = Object.entries(hallConfigs).filter(([, config]) => config.direction === "west")
     .map(([hallId]) => [parseInt(hallId), hallDimensions[hallId]] as const);
   const eastHallsDimensions = Object.entries(hallConfigs)
-    .filter(([_, config]) => config.direction === "east")
+    .filter(([, config]) => config.direction === "east")
     .map(([hallId]) => [parseInt(hallId), hallDimensions[hallId]] as const);
 
   // top is north here
@@ -597,10 +650,10 @@ export function buildExportCellsForLayout(
 
   // vertical halls
   const northHallsDimensions = Object.entries(hallConfigs)
-    .filter(([_, config]) => config.direction === "north")
+    .filter(([, config]) => config.direction === "north")
     .map(([hallId]) => [parseInt(hallId), hallDimensions[hallId]] as const);
   const southHallsDimensions = Object.entries(hallConfigs)
-    .filter(([_, config]) => config.direction === "south")
+    .filter(([, config]) => config.direction === "south")
     .map(([hallId]) => [parseInt(hallId), hallDimensions[hallId]] as const);
 
   // left is west here
@@ -650,9 +703,7 @@ export function buildExportCellsForLayout(
       itemById,
       config,
       hallId,
-      mode,
-      misSignalStrengths,
-      misMultiplicities,
+      options,
     );
     // first, rotate cells based on hall direction, then translate to hall coordinates
     const rotatedAndTranslated = hallCells.map((cell) => {
@@ -737,9 +788,7 @@ function buildExportCellsForFlatLayout(
   slotAssignments: Record<string, string>,
   itemById: Map<string, CatalogItem>,
   hallConfigs: Record<HallId, HallConfig>,
-  mode: LayoutExportMode,
-  misSignalStrengths: Record<string, number>,
-  misMultiplicities: Record<string, number>,
+  options: LayoutExportOptions,
 ): ExportCell[] {
   const output: ExportCell[] = [];
   const hallIds = Object.keys(hallConfigs)
@@ -760,9 +809,7 @@ function buildExportCellsForFlatLayout(
       itemById,
       config,
       hallId,
-      mode,
-      misSignalStrengths,
-      misMultiplicities,
+      options,
     );
     if (hallCells.length === 0) {
       continue;
@@ -796,7 +843,10 @@ function buildExportCellsForFlatLayout(
   return output;
 }
 
-export function measureHallDimensions(hallConfig: HallConfig, mode: LayoutExportMode = "containers"): { leftSize: number; rightSize: number, totalSize: number, totalSlices: number } {
+export function measureHallDimensions(
+  hallConfig: HallConfig,
+  options: Pick<LayoutExportOptions, "mode"> = { mode: "containers" },
+): { leftSize: number; rightSize: number, totalSize: number, totalSlices: number } {
   let leftSize = 0;
   let rightSize = 0;
   let totalSlices = 0;
@@ -805,13 +855,13 @@ export function measureHallDimensions(hallConfig: HallConfig, mode: LayoutExport
       const widthRemainder = section.slices % section.sideLeft.misWidth;
       leftSize = Math.max(leftSize, section.sideLeft.rowsPerSlice * (widthRemainder < 2 ? 2 : 1));
     } else {
-      leftSize = Math.max(leftSize, nonMisSideDepth(section.sideLeft.rowsPerSlice, mode));
+      leftSize = Math.max(leftSize, nonMisSideDepth(section.sideLeft.rowsPerSlice, options.mode));
     }
     if (section.sideRight.type === "mis") {
       const widthRemainder = section.slices % section.sideRight.misWidth;
       rightSize = Math.max(rightSize, section.sideRight.rowsPerSlice * (widthRemainder < 2 ? 2 : 1));
     } else {
-      rightSize = Math.max(rightSize, nonMisSideDepth(section.sideRight.rowsPerSlice, mode));
+      rightSize = Math.max(rightSize, nonMisSideDepth(section.sideRight.rowsPerSlice, options.mode));
     }
 
 
@@ -833,10 +883,9 @@ export function buildExportCellsForLayoutHall(
   itemById: Map<string, CatalogItem>,
   config: HallConfig,
   hallId: HallId,
-  mode: LayoutExportMode = "containers",
-  misSignalStrengths: Record<string, number> = {},
-  misMultiplicities: Record<string, number> = {},
+  optionsInput: LayoutExportOptionsInput,
 ): ExportCell[] {
+  const options = resolveLayoutExportOptions(optionsInput);
   const output: ExportCell[] = [];
 
   // we assume we are going to the EAST (positive X)
@@ -862,9 +911,7 @@ export function buildExportCellsForLayoutHall(
       globalSliceStart,
       sliceCount,
       "left",
-      mode,
-      misSignalStrengths,
-      misMultiplicities,
+      options,
     );
 
     applySideToExportCells(
@@ -877,9 +924,7 @@ export function buildExportCellsForLayoutHall(
       globalSliceStart,
       sliceCount,
       "right",
-      mode,
-      misSignalStrengths,
-      misMultiplicities,
+      options,
     );
 
     sectionStartX += sliceCount + 1; // add 1 block of spacing between sections
@@ -898,12 +943,12 @@ export function applySideToExportCells(
   globalSliceStart: number,
   numSlices: number,
   side: "left" | "right",
-  mode: LayoutExportMode = "containers",
-  misSignalStrengths: Record<string, number> = {},
-  misMultiplicities: Record<string, number> = {},
+  optionsInput: LayoutExportOptionsInput,
 ): void {
+  const options = resolveLayoutExportOptions(optionsInput);
   const rows = sideConfig.rowsPerSlice;
   if (sideConfig.type === "mis") {
+    const misSettings = resolveHallMisSettings(hallId, options);
     const slotsPerSlice = sideConfig.misSlotsPerSlice;
     const misWidth = sideConfig.misWidth;
 
@@ -917,8 +962,7 @@ export function applySideToExportCells(
       for (let row = 0; row < rows; row++) {
 
         let items: MisContainerItem[] = [];
-        const configKey = misSignalStrengthKey(hallId, misSlice, side === "left" ? 0 : 1, row);
-        const multiplicity = misMultiplicities[configKey] ?? DEFAULT_MIS_MULTIPLICITY;
+        const multiplicity = misSettings.multiplicity;
         for (let slot = 0; slot < slotsPerSlice; slot++) {
           const key = misSlotId(hallId, misSlice, side === "left" ? 0 : 1, row, slot);
           const itemId = slotAssignments[key];
@@ -932,11 +976,13 @@ export function applySideToExportCells(
           continue;
         }
 
-        if (isFilterExportMode(mode)) {
-          const signalStrength =
-            misSignalStrengths[configKey] ??
-            DEFAULT_MIS_SIGNAL_STRENGTH;
-          items = fillMisContainerDummyItems(items, slotsPerSlice, signalStrength, itemById);
+        if (isFilterExportMode(options.mode)) {
+          items = fillMisContainerDummyItems(
+            items,
+            slotsPerSlice,
+            misSettings.signalStrength,
+            itemById,
+          );
         }
 
         const posX = sectionStartX + groupStartSlice;
@@ -999,7 +1045,7 @@ export function applySideToExportCells(
 
 
   } else if (sideConfig.type === "bulk" || sideConfig.type === "chest") {
-    const rowStride = nonMisRowStride(mode);
+    const rowStride = nonMisRowStride(options.mode);
     for (let slice = 0; slice < numSlices; slice++) {
       const globalSlice = globalSliceStart + slice;
       for (let row = 0; row < rows; row++) {
@@ -1011,14 +1057,15 @@ export function applySideToExportCells(
           continue;
         }
 
-        if (mode === "containers") {
+        if (options.mode === "containers") {
+          const maxStackSize = itemById.get(itemId)?.maxStackSize ?? 1;
           if (sideConfig.type === "chest") {
             output.push({
               type: "container",
               x: posX,
               z: posZ,
               blockState: `minecraft:chest[facing=${side === "left" ? "south" : "north"},type=single,waterlogged=false]`,
-              items: [{ slot: 0, itemId, count: 1 }],
+              items: Array.from({ length: 27 }, (_, slot) => ({ slot, itemId, count: maxStackSize })),
             });
           } else {
             output.push({
@@ -1026,17 +1073,17 @@ export function applySideToExportCells(
               x: posX,
               z: posZ,
               blockState: `minecraft:barrel[facing=up]`,
-              items: [{ slot: 0, itemId, count: 1 }],
+              items: Array.from({ length: 27 }, (_, slot) => ({ slot, itemId, count: maxStackSize })),
             });
           }
-        } else if (mode === "item_frames") {
+        } else if (options.mode === "item_frames") {
           output.push({
             type: "item_frame",
             x: posX,
             z: posZ,
             itemId,
           });
-        } else if (mode === "blocks_and_frames") {
+        } else if (options.mode === "blocks_and_frames") {
           const catalogItem = itemById.get(itemId);
           if (catalogItem?.registration === "block") {
             output.push({
@@ -1053,31 +1100,31 @@ export function applySideToExportCells(
               itemId,
             });
           }
-        } else if (mode === "boxes") {
-          const catalogItem = itemById.get(itemId);
-          output.push({
-            type: "container",
-            x: posX,
-            z: posZ,
-            blockState: `minecraft:shulker_box[facing=up]`,
-            items: Array.from({ length: 27 }, (_, slot) => ({ slot, itemId, count: catalogItem?.maxStackSize || 64 })),
-          });
-        } else if (mode === "ssi_ss2_filters" || mode === "ss3_filters") {
+        } else if (options.mode === "filters") {
+          const filterType = resolveHallFilterType(hallId, sideConfig.type, options);
           const catalogItem = itemById.get(itemId);
 
           const dummyItemId = "minecraft:barrier"; // use barrier as a placeholder for empty slots in the filter
 
           const is16Stackable = catalogItem?.maxStackSize === 16;
           const items = Array.from({ length: 5 }, (_, slot) => {
+            if (filterType === "box_sorters") {
+              return {
+                slot,
+                itemId: slot === 0 ? itemId : "minecraft:shulker_box",
+                count: 1,
+              };
+            }
+
             if (slot === 0) {
-              if (mode === "ssi_ss2_filters") {
+              if (filterType === "ssi_ss2") {
                 return { slot, itemId, count: 1 };
               } else {
                 return { slot, itemId, count: is16Stackable ? 10 : 41 };
               }
             }
 
-            if (slot === 1 && mode === "ssi_ss2_filters") {
+            if (slot === 1 && filterType === "ssi_ss2") {
               return { slot, itemId: dummyItemId, count: is16Stackable ? 12 : 18 };
             }
 
@@ -1089,7 +1136,9 @@ export function applySideToExportCells(
             type: "container",
             x: posX,
             z: posZ,
-            blockState: `minecraft:hopper[facing=${side === "left" ? "south" : "north"}]`,
+            blockState: filterType === "box_sorters"
+              ? "minecraft:hopper[facing=down]"
+              : `minecraft:hopper[facing=${side === "left" ? "south" : "north"}]`,
             items,
           });
 

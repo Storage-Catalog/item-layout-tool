@@ -2,6 +2,10 @@ import type { StorageLayoutPreset } from "../layoutConfig";
 import { buildInitialHallConfigs } from "../layoutConfig";
 import type {
   FillDirection,
+  FilterExportConfig,
+  FilterExportHallSettings,
+  FilterExportSettings,
+  FilterExportType,
   HallConfig,
   HallDirection,
   HallId,
@@ -15,12 +19,15 @@ const STORAGE_LAYOUT_PRESETS: StorageLayoutPreset[] = ["single", "double", "trip
 const FILL_DIRECTIONS: FillDirection[] = ["row", "column"];
 const HALL_TYPES: HallType[] = ["bulk", "chest", "mis"];
 const HALL_DIRECTIONS: HallDirection[] = ["north", "east", "south", "west"];
+const FILTER_EXPORT_TYPES: FilterExportType[] = ["ssi_ss2", "ss3", "box_sorters"];
+export const DEFAULT_CHEST_FILTER_EXPORT_TYPE: FilterExportType = "ssi_ss2";
+export const DEFAULT_BULK_FILTER_EXPORT_TYPE: FilterExportType = "box_sorters";
 export const DEFAULT_MIS_SIGNAL_STRENGTH = 2;
-export const MIN_MIS_SIGNAL_STRENGTH = 1;
+export const MIN_MIS_SIGNAL_STRENGTH = 2;
 export const MAX_MIS_SIGNAL_STRENGTH = 15;
 export const DEFAULT_MIS_MULTIPLICITY = 1;
 export const MIN_MIS_MULTIPLICITY = 1;
-export const MAX_MIS_MULTIPLICITY = 16;
+export const MAX_MIS_MULTIPLICITY = 14;
 
 export const SAVE_FILE_VERSION = 1;
 
@@ -30,6 +37,7 @@ export type PlannerSnapshot = {
   hallConfigs: Record<HallId, HallConfig>;
   slotAssignments: Record<string, string>;
   labelNames: PlannerLabelNames;
+  filterExportConfig: FilterExportConfig;
 };
 
 export type PlannerSaveFile = PlannerSnapshot & {
@@ -42,13 +50,16 @@ type RecordDelta<T> = {
   remove: string[];
 };
 
+type FilterExportConfigInput = {
+  defaults?: Partial<FilterExportSettings>;
+  halls?: Partial<Record<HallId, FilterExportHallSettings>>;
+};
+
 export type PlannerLabelNamesDelta = {
   layoutName?: string;
   hallNames?: RecordDelta<string>;
   sectionNames?: RecordDelta<string>;
   misNames?: RecordDelta<string>;
-  misSignalStrengths?: RecordDelta<number>;
-  misMultiplicities?: RecordDelta<number>;
 };
 
 export type PlannerSnapshotDelta = {
@@ -57,6 +68,7 @@ export type PlannerSnapshotDelta = {
   hallConfigs?: RecordDelta<HallConfig>;
   slotAssignments?: RecordDelta<string>;
   labelNames?: PlannerLabelNamesDelta;
+  filterExportConfig?: FilterExportConfig;
 };
 
 export type PlannerHistoryEntry = {
@@ -90,8 +102,6 @@ export function createEmptyPlannerLabelNames(): PlannerLabelNames {
     hallNames: {},
     sectionNames: {},
     misNames: {},
-    misSignalStrengths: {},
-    misMultiplicities: {},
   };
 }
 
@@ -212,40 +222,89 @@ function normalizeMisMultiplicity(value: unknown): number {
   );
 }
 
-function cloneMisSignalStrengthMap(signalStrengths: Record<string, number>): Record<string, number> {
-  return Object.fromEntries(
-    Object.entries(signalStrengths)
-      .filter((entry): entry is [string, number] => {
-        const [key, value] = entry;
-        return (
-          typeof key === "string" &&
-          key.trim().length > 0 &&
-          typeof value === "number" &&
-          Number.isFinite(value) &&
-          normalizeMisSignalStrength(value) !== DEFAULT_MIS_SIGNAL_STRENGTH
-        );
-      })
-      .map(([key, value]) => [key, normalizeMisSignalStrength(value)] as const)
-      .sort((a, b) => a[0].localeCompare(b[0])),
+function isFilterExportType(value: unknown): value is FilterExportType {
+  return typeof value === "string" && FILTER_EXPORT_TYPES.includes(value as FilterExportType);
+}
+
+function createDefaultFilterExportSettings(): FilterExportSettings {
+  return {
+    chestType: DEFAULT_CHEST_FILTER_EXPORT_TYPE,
+    bulkType: DEFAULT_BULK_FILTER_EXPORT_TYPE,
+    misSignalStrength: DEFAULT_MIS_SIGNAL_STRENGTH,
+    misMultiplicity: DEFAULT_MIS_MULTIPLICITY,
+  };
+}
+
+function cloneFilterExportSettings(settings: Partial<FilterExportSettings>): FilterExportSettings {
+  const defaults = createDefaultFilterExportSettings();
+  return {
+    chestType: isFilterExportType(settings.chestType) ? settings.chestType : defaults.chestType,
+    bulkType: isFilterExportType(settings.bulkType) ? settings.bulkType : defaults.bulkType,
+    misSignalStrength: normalizeMisSignalStrength(settings.misSignalStrength),
+    misMultiplicity: normalizeMisMultiplicity(settings.misMultiplicity),
+  };
+}
+
+function cloneFilterExportHallSettings(
+  settings: FilterExportHallSettings,
+): FilterExportHallSettings {
+  const normalized: FilterExportHallSettings = {};
+  if (isFilterExportType(settings.chestType)) {
+    normalized.chestType = settings.chestType;
+  }
+  if (isFilterExportType(settings.bulkType)) {
+    normalized.bulkType = settings.bulkType;
+  }
+  if (settings.misSignalStrength !== undefined) {
+    normalized.misSignalStrength = normalizeMisSignalStrength(settings.misSignalStrength);
+  }
+  if (settings.misMultiplicity !== undefined) {
+    normalized.misMultiplicity = normalizeMisMultiplicity(settings.misMultiplicity);
+  }
+  return normalized;
+}
+
+function hasFilterExportHallSettings(settings: FilterExportHallSettings): boolean {
+  return (
+    settings.chestType !== undefined ||
+    settings.bulkType !== undefined ||
+    settings.misSignalStrength !== undefined ||
+    settings.misMultiplicity !== undefined
   );
 }
 
-function cloneMisMultiplicityMap(multiplicities: Record<string, number>): Record<string, number> {
-  return Object.fromEntries(
-    Object.entries(multiplicities)
-      .filter((entry): entry is [string, number] => {
-        const [key, value] = entry;
-        return (
-          typeof key === "string" &&
-          key.trim().length > 0 &&
-          typeof value === "number" &&
-          Number.isFinite(value) &&
-          normalizeMisMultiplicity(value) !== DEFAULT_MIS_MULTIPLICITY
-        );
-      })
-      .map(([key, value]) => [key, normalizeMisMultiplicity(value)] as const)
-      .sort((a, b) => a[0].localeCompare(b[0])),
-  );
+function cloneHallFilterExportSettings(
+  halls: Partial<Record<HallId, FilterExportHallSettings>>,
+): Partial<Record<HallId, FilterExportHallSettings>> {
+  const normalized: Partial<Record<HallId, FilterExportHallSettings>> = {};
+  const entries = Object.entries(halls)
+    .map(([hallIdRaw, settings]) => [Number(hallIdRaw), settings] as const)
+    .filter(
+      (entry): entry is [HallId, FilterExportHallSettings] =>
+        Number.isInteger(entry[0]) && entry[0] > 0 && isRecord(entry[1]),
+    )
+    .sort((a, b) => a[0] - b[0]);
+  for (const [hallId, settings] of entries) {
+    const hallSettings = cloneFilterExportHallSettings(settings);
+    if (hasFilterExportHallSettings(hallSettings)) {
+      normalized[hallId] = hallSettings;
+    }
+  }
+  return normalized;
+}
+
+export function createDefaultFilterExportConfig(): FilterExportConfig {
+  return {
+    defaults: createDefaultFilterExportSettings(),
+    halls: {},
+  };
+}
+
+export function cloneFilterExportConfig(filterExportConfig: FilterExportConfigInput): FilterExportConfig {
+  return {
+    defaults: cloneFilterExportSettings(filterExportConfig.defaults ?? {}),
+    halls: cloneHallFilterExportSettings(filterExportConfig.halls ?? {}),
+  };
 }
 
 export function clonePlannerLabelNames(labelNames: PlannerLabelNames): PlannerLabelNames {
@@ -254,8 +313,6 @@ export function clonePlannerLabelNames(labelNames: PlannerLabelNames): PlannerLa
     hallNames: cloneHallNames(labelNames.hallNames),
     sectionNames: cloneNameMap(labelNames.sectionNames),
     misNames: cloneNameMap(labelNames.misNames),
-    misSignalStrengths: cloneMisSignalStrengthMap(labelNames.misSignalStrengths),
-    misMultiplicities: cloneMisMultiplicityMap(labelNames.misMultiplicities),
   };
 }
 
@@ -266,6 +323,7 @@ export function buildPlannerSnapshot(input: PlannerSnapshot): PlannerSnapshot {
     hallConfigs: cloneHallConfigs(input.hallConfigs),
     slotAssignments: cloneSlotAssignments(input.slotAssignments),
     labelNames: clonePlannerLabelNames(input.labelNames),
+    filterExportConfig: cloneFilterExportConfig(input.filterExportConfig),
   };
 }
 
@@ -344,41 +402,6 @@ function applyStringRecordDelta(
   base: Record<string, string>,
   delta: RecordDelta<string>,
 ): Record<string, string> {
-  const next = { ...base };
-  for (const key of delta.remove) {
-    delete next[key];
-  }
-  for (const [key, value] of Object.entries(delta.set)) {
-    next[key] = value;
-  }
-  return next;
-}
-
-function diffNumberRecord(
-  previous: Record<string, number>,
-  next: Record<string, number>,
-): RecordDelta<number> | null {
-  const delta = createRecordDelta<number>();
-
-  const nextEntries = Object.entries(next).sort((a, b) => a[0].localeCompare(b[0]));
-  for (const [key, value] of nextEntries) {
-    if (previous[key] !== value) {
-      delta.set[key] = value;
-    }
-  }
-
-  const removedKeys = Object.keys(previous)
-    .filter((key) => !(key in next))
-    .sort((a, b) => a.localeCompare(b));
-  delta.remove.push(...removedKeys);
-
-  return hasRecordDelta(delta) ? delta : null;
-}
-
-function applyNumberRecordDelta(
-  base: Record<string, number>,
-  delta: RecordDelta<number>,
-): Record<string, number> {
   const next = { ...base };
   for (const key of delta.remove) {
     delete next[key];
@@ -478,10 +501,8 @@ function diffPlannerLabelNames(
   const hallNames = diffHallNameRecord(previous.hallNames, next.hallNames);
   const sectionNames = diffStringRecord(previous.sectionNames, next.sectionNames);
   const misNames = diffStringRecord(previous.misNames, next.misNames);
-  const misSignalStrengths = diffNumberRecord(previous.misSignalStrengths, next.misSignalStrengths);
-  const misMultiplicities = diffNumberRecord(previous.misMultiplicities, next.misMultiplicities);
 
-  if (!layoutName && !hallNames && !sectionNames && !misNames && !misSignalStrengths && !misMultiplicities) {
+  if (!layoutName && !hallNames && !sectionNames && !misNames) {
     return null;
   }
 
@@ -490,8 +511,6 @@ function diffPlannerLabelNames(
     hallNames: hallNames ?? undefined,
     sectionNames: sectionNames ?? undefined,
     misNames: misNames ?? undefined,
-    misSignalStrengths: misSignalStrengths ?? undefined,
-    misMultiplicities: misMultiplicities ?? undefined,
   };
 }
 
@@ -508,13 +527,11 @@ function applyPlannerLabelNamesDelta(
     misNames: delta.misNames
       ? applyStringRecordDelta(base.misNames, delta.misNames)
       : base.misNames,
-    misSignalStrengths: delta.misSignalStrengths
-      ? applyNumberRecordDelta(base.misSignalStrengths, delta.misSignalStrengths)
-      : base.misSignalStrengths,
-    misMultiplicities: delta.misMultiplicities
-      ? applyNumberRecordDelta(base.misMultiplicities, delta.misMultiplicities)
-      : base.misMultiplicities,
   };
+}
+
+function isFilterExportConfigEqual(a: FilterExportConfig, b: FilterExportConfig): boolean {
+  return JSON.stringify(cloneFilterExportConfig(a)) === JSON.stringify(cloneFilterExportConfig(b));
 }
 
 export function diffPlannerSnapshot(
@@ -544,6 +561,9 @@ export function diffPlannerSnapshot(
   if (labelNames) {
     delta.labelNames = labelNames;
   }
+  if (!isFilterExportConfigEqual(previous.filterExportConfig, next.filterExportConfig)) {
+    delta.filterExportConfig = cloneFilterExportConfig(next.filterExportConfig);
+  }
 
   return Object.keys(delta).length > 0 ? delta : null;
 }
@@ -564,6 +584,9 @@ export function applyPlannerSnapshotDelta(
     labelNames: delta.labelNames
       ? applyPlannerLabelNamesDelta(base.labelNames, delta.labelNames)
       : base.labelNames,
+    filterExportConfig: delta.filterExportConfig
+      ? cloneFilterExportConfig(delta.filterExportConfig)
+      : base.filterExportConfig,
   });
 }
 
@@ -581,6 +604,10 @@ function parseFillDirection(value: unknown): FillDirection | null {
     return null;
   }
   return FILL_DIRECTIONS.includes(value as FillDirection) ? (value as FillDirection) : null;
+}
+
+function parseFilterExportType(value: unknown): FilterExportType | null {
+  return isFilterExportType(value) ? value : null;
 }
 
 function parseHallType(value: unknown): HallType | null {
@@ -756,46 +783,59 @@ function parseNameMap(value: unknown): Record<string, string> {
   return Object.fromEntries(entries);
 }
 
-function parseMisSignalStrengthMap(value: unknown): Record<string, number> {
+function parseFilterExportHallSettings(value: unknown): FilterExportHallSettings {
   if (!isRecord(value)) {
     return {};
   }
 
-  const entries = Object.entries(value)
-    .filter((entry): entry is [string, unknown] => {
-      const [key, signalStrength] = entry;
-      return (
-        typeof key === "string" &&
-        key.trim().length > 0 &&
-        Number.isFinite(Number(signalStrength)) &&
-        normalizeMisSignalStrength(signalStrength) !== DEFAULT_MIS_SIGNAL_STRENGTH
-      );
-    })
-    .map(([key, signalStrength]) => [key, normalizeMisSignalStrength(signalStrength)] as const)
-    .sort((a, b) => a[0].localeCompare(b[0]));
-
-  return Object.fromEntries(entries);
+  const settings: FilterExportHallSettings = {};
+  const chestType = parseFilterExportType(value.chestType);
+  const bulkType = parseFilterExportType(value.bulkType);
+  if (chestType) {
+    settings.chestType = chestType;
+  }
+  if (bulkType) {
+    settings.bulkType = bulkType;
+  }
+  if (value.misSignalStrength !== undefined) {
+    settings.misSignalStrength = normalizeMisSignalStrength(value.misSignalStrength);
+  }
+  if (value.misMultiplicity !== undefined) {
+    settings.misMultiplicity = normalizeMisMultiplicity(value.misMultiplicity);
+  }
+  return settings;
 }
 
-function parseMisMultiplicityMap(value: unknown): Record<string, number> {
+function parseHallFilterExportSettings(
+  value: unknown,
+): Partial<Record<HallId, FilterExportHallSettings>> {
   if (!isRecord(value)) {
     return {};
   }
 
+  const normalized: Partial<Record<HallId, FilterExportHallSettings>> = {};
   const entries = Object.entries(value)
-    .filter((entry): entry is [string, unknown] => {
-      const [key, multiplicity] = entry;
-      return (
-        typeof key === "string" &&
-        key.trim().length > 0 &&
-        Number.isFinite(Number(multiplicity)) &&
-        normalizeMisMultiplicity(multiplicity) !== DEFAULT_MIS_MULTIPLICITY
-      );
-    })
-    .map(([key, multiplicity]) => [key, normalizeMisMultiplicity(multiplicity)] as const)
-    .sort((a, b) => a[0].localeCompare(b[0]));
+    .map(([hallIdRaw, settings]) => [Number(hallIdRaw), settings] as const)
+    .filter((entry): entry is [HallId, unknown] => Number.isInteger(entry[0]) && entry[0] > 0)
+    .sort((a, b) => a[0] - b[0]);
+  for (const [hallId, settings] of entries) {
+    const hallSettings = parseFilterExportHallSettings(settings);
+    if (hasFilterExportHallSettings(hallSettings)) {
+      normalized[hallId] = hallSettings;
+    }
+  }
+  return normalized;
+}
 
-  return Object.fromEntries(entries);
+function parseFilterExportConfig(value: unknown): FilterExportConfig {
+  if (!isRecord(value)) {
+    return createDefaultFilterExportConfig();
+  }
+
+  return cloneFilterExportConfig({
+    defaults: isRecord(value.defaults) ? parseFilterExportHallSettings(value.defaults) : {},
+    halls: parseHallFilterExportSettings(value.halls),
+  });
 }
 
 function parsePlannerLabelNames(value: unknown): PlannerLabelNames {
@@ -813,8 +853,6 @@ function parsePlannerLabelNames(value: unknown): PlannerLabelNames {
     hallNames: parseHallNames(value.hallNames),
     sectionNames: parseNameMap(value.sectionNames),
     misNames: parseNameMap(value.misNames),
-    misSignalStrengths: parseMisSignalStrengthMap(value.misSignalStrengths),
-    misMultiplicities: parseMisMultiplicityMap(value.misMultiplicities),
   };
 }
 
@@ -845,8 +883,6 @@ export function parsePlannerSnapshot(value: unknown): PlannerSnapshot | null {
           hallNames: value.hallNames,
           sectionNames: value.sectionNames,
           misNames: value.misNames,
-          misSignalStrengths: value.misSignalStrengths,
-          misMultiplicities: value.misMultiplicities,
         });
 
   return {
@@ -855,5 +891,6 @@ export function parsePlannerSnapshot(value: unknown): PlannerSnapshot | null {
     hallConfigs,
     slotAssignments: parseSlotAssignments(value.slotAssignments),
     labelNames,
+    filterExportConfig: parseFilterExportConfig(value.filterExportConfig),
   };
 }

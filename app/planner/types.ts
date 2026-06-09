@@ -1,6 +1,9 @@
 export type HallId = number;
 export type FillDirection = "row" | "column";
 
+export type FilterExportType = "ssi_ss2" | "ss3" | "box_sorters";
+export type FilterExportItemType = "chest" | "bulk";
+
 export type HallType = "bulk" | "chest" | "mis";
 export type HallDirection = "north" | "east" | "south" | "west";
 
@@ -30,8 +33,20 @@ export type PlannerLabelNames = {
   hallNames: Record<HallId, string>;
   sectionNames: Record<string, string>;
   misNames: Record<string, string>;
-  misSignalStrengths: Record<string, number>;
-  misMultiplicities: Record<string, number>;
+};
+
+export type FilterExportSettings = {
+  chestType: FilterExportType;
+  bulkType: FilterExportType;
+  misSignalStrength: number;
+  misMultiplicity: number;
+};
+
+export type FilterExportHallSettings = Partial<FilterExportSettings>;
+
+export type FilterExportConfig = {
+  defaults: FilterExportSettings;
+  halls: Partial<Record<HallId, FilterExportHallSettings>>;
 };
 
 export type LegacyHallConfig = {

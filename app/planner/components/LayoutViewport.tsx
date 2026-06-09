@@ -40,7 +40,6 @@ import type {
   PreviewPlacement,
 } from "../types";
 import {
-  calculateMisComparatorPrimer,
   getHallSize,
   misSlotId,
   nonMisSlotId,
@@ -48,7 +47,6 @@ import {
   toTitle,
 } from "../utils";
 import { buildPopupCursorHint } from "../lib/cursorHints";
-import { DEFAULT_MIS_MULTIPLICITY, DEFAULT_MIS_SIGNAL_STRENGTH } from "../lib/plannerSnapshot";
 
 type LayoutViewportProps = {
   storageLayoutPreset: StorageLayoutPreset;
@@ -59,8 +57,6 @@ type LayoutViewportProps = {
   hallNames: Record<HallId, string>;
   sectionNames: Record<string, string>;
   misNames: Record<string, string>;
-  misSignalStrengths: Record<string, number>;
-  misMultiplicities: Record<string, number>;
   cursorSlotId: string | null;
   cursorMovementHint: CursorMovementHint | null;
   viewportRef: RefObject<HTMLDivElement | null>;
@@ -135,20 +131,6 @@ type LayoutViewportProps = {
     side: 0 | 1,
     row: number,
     rawName: string,
-  ) => void;
-  onMisSignalStrengthChange: (
-    hallId: HallId,
-    slice: number,
-    side: 0 | 1,
-    row: number,
-    rawValue: string | number,
-  ) => void;
-  onMisMultiplicityChange: (
-    hallId: HallId,
-    slice: number,
-    side: 0 | 1,
-    row: number,
-    rawValue: string | number,
   ) => void;
   onAddSection: (hallId: HallId) => void;
   onRemoveSection: (hallId: HallId, sectionIndex: number) => void;
@@ -473,8 +455,6 @@ export function LayoutViewport({
   hallNames,
   sectionNames,
   misNames,
-  misSignalStrengths,
-  misMultiplicities,
   cursorSlotId,
   cursorMovementHint,
   viewportRef,
@@ -502,8 +482,6 @@ export function LayoutViewport({
   onHallNameChange,
   onSectionNameChange,
   onMisNameChange,
-  onMisSignalStrengthChange,
-  onMisMultiplicityChange,
   onAddSection,
   onRemoveSection,
   onSlotItemDragStart,
@@ -815,32 +793,6 @@ export function LayoutViewport({
       misNames[expandedMisKey(target)] ?? fallbackLabel,
     [misNames],
   );
-
-  const misSignalStrength = useCallback(
-    (target: ExpandedMisTarget): number =>
-      misSignalStrengths[expandedMisKey(target)] ?? DEFAULT_MIS_SIGNAL_STRENGTH,
-    [misSignalStrengths],
-  );
-
-  const misMultiplicity = useCallback(
-    (target: ExpandedMisTarget): number =>
-      misMultiplicities[expandedMisKey(target)] ?? DEFAULT_MIS_MULTIPLICITY,
-    [misMultiplicities],
-  );
-
-  const updateMisSignalStrength = useCallback((
-    target: ExpandedMisTarget,
-    rawValue: string | number,
-  ): void => {
-    onMisSignalStrengthChange(target.hallId, target.slice, target.side, target.row, rawValue);
-  }, [onMisSignalStrengthChange]);
-
-  const updateMisMultiplicity = useCallback((
-    target: ExpandedMisTarget,
-    rawValue: string | number,
-  ): void => {
-    onMisMultiplicityChange(target.hallId, target.slice, target.side, target.row, rawValue);
-  }, [onMisMultiplicityChange]);
 
   const layoutSummary = useMemo(() => {
     let bulkTypes = 0;
@@ -1282,15 +1234,8 @@ export function LayoutViewport({
           { length: sideConfig.misSlotsPerSlice },
           (_, index) => misSlotId(target.hallId, target.slice, target.side, target.row, index),
         );
-        const assignedItems = slotIds
-          .map((slotId) => slotAssignments[slotId])
-          .filter((itemId): itemId is string => Boolean(itemId))
-          .map((itemId) => ({
-            maxStackSize: itemById.get(itemId)?.maxStackSize ?? 64,
-            count: misMultiplicity(target),
-          }));
         const columns =
-          sideConfig.misSlotsPerSlice % 9 === 0
+          sideConfig.misSlotsPerSlice > 27 || sideConfig.misSlotsPerSlice % 9 === 0
             ? 9
             : Math.min(12, Math.max(6, Math.ceil(Math.sqrt(sideConfig.misSlotsPerSlice))));
         return {
@@ -1299,13 +1244,10 @@ export function LayoutViewport({
           columns,
           capacity: sideConfig.misSlotsPerSlice,
           fallbackLabel,
-          signalStrength: misSignalStrength(target),
-          multiplicity: misMultiplicity(target),
-          assignedItems,
         };
       })
       .filter((panel): panel is ExpandedMisPanel => panel !== null);
-  }, [expandedMisTargets, hallConfigs, itemById, misMultiplicity, misSignalStrength, slotAssignments]);
+  }, [expandedMisTargets, hallConfigs]);
 
   const popupColumnsBySlotId = useMemo(() => {
     const map = new Map<string, number>();
@@ -1693,15 +1635,6 @@ export function LayoutViewport({
               row,
             };
             const misTargetKey = expandedMisKey(misTarget);
-            const assignedItems = assignedIds.map((itemId) => ({
-              maxStackSize: itemById.get(itemId)?.maxStackSize ?? 64,
-              count: misMultiplicity(misTarget),
-            }));
-            const isMisInvalid = calculateMisComparatorPrimer(
-              sideConfig.misSlotsPerSlice,
-              misSignalStrength(misTarget),
-              assignedItems,
-            ).isOverThreshold;
             const expandedIndex = expandedMisTargets.findIndex(
               (entry) => expandedMisKey(entry) === misTargetKey,
             );
@@ -1813,9 +1746,6 @@ export function LayoutViewport({
                   </div>
                   <div className={misCountClass}>
                     <span>{previewEntries.length}/{sideConfig.misSlotsPerSlice}</span>
-                    {isMisInvalid ? (
-                      <span className="text-[#b42318] dark:text-[#ff9a8d]">*Invalid</span>
-                    ) : null}
                   </div>
                   <div
                     className={misPreviewClass}
@@ -1927,9 +1857,6 @@ export function LayoutViewport({
                   </div>
                   <div className={misCountClass}>
                     <span>{previewEntries.length}/{sideConfig.misSlotsPerSlice}</span>
-                    {isMisInvalid ? (
-                      <span className="text-[#b42318] dark:text-[#ff9a8d]">*Invalid</span>
-                    ) : null}
                   </div>
                   <div
                     className={misPreviewClass}
@@ -2422,8 +2349,6 @@ export function LayoutViewport({
           )
         }
         onRenameMis={updateMisName}
-        onSignalStrengthChange={updateMisSignalStrength}
-        onMultiplicityChange={updateMisMultiplicity}
         misDisplayName={misDisplayName}
         renderSlot={renderPopupSlot}
       />
