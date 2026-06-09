@@ -1723,6 +1723,22 @@ export function LayoutViewport({
               cursorMovementHint && unitSlotIds.includes(cursorMovementHint.fromSlotId)
                 ? cursorMovementHint
                 : null;
+            const isSingleSliceMis = misWidth === 1 && orientation === "horizontal";
+            const misCardLayoutClass = isSingleSliceMis
+              ? "grid-cols-[0.62rem_1fr] grid-rows-[auto_1fr] gap-x-[0.02rem] gap-y-[0.04rem]"
+              : "grid-rows-[auto_auto_1fr] gap-[0.04rem]";
+            const misTitleContainerClass = isSingleSliceMis
+              ? "col-start-1 row-start-2 mt-[0.08rem] flex min-h-0 min-w-0 items-center justify-center leading-none text-[0.5rem] font-bold text-[#355039] dark:text-[#b9e0d4]"
+              : "leading-none text-[0.5rem] font-bold text-[#355039] dark:text-[#b9e0d4]";
+            const misTitleClass = isSingleSliceMis
+              ? "block max-h-full max-w-[0.62rem] overflow-hidden text-ellipsis whitespace-nowrap rounded-[0.18rem] px-0 py-0 text-center normal-case [writing-mode:vertical-rl] rotate-180 focus:bg-[rgba(255,255,255,0.92)] focus:outline-none dark:focus:bg-[rgba(31,45,64,0.95)]"
+              : "inline-block min-w-[1.6rem] rounded-[0.18rem] px-[0.06rem] text-center normal-case focus:bg-[rgba(255,255,255,0.92)] focus:outline-none dark:focus:bg-[rgba(31,45,64,0.95)]";
+            const misCountClass = isSingleSliceMis
+              ? "col-span-2 col-start-1 row-start-1 flex min-w-0 items-center justify-center gap-[0.12rem] text-center leading-none text-[0.48rem] font-semibold text-[#33524f] dark:text-[#a4cfd1]"
+              : "flex items-center gap-[0.12rem] leading-none text-[0.48rem] font-semibold text-[#33524f] dark:text-[#a4cfd1]";
+            const misPreviewClass = isSingleSliceMis
+              ? "col-start-2 row-start-2 grid content-start gap-0.5"
+              : "grid content-start gap-0.5";
 
             if (orientation === "horizontal") {
               const unitCrossSize = 112;
@@ -1737,12 +1753,15 @@ export function LayoutViewport({
               if (!isLocalRectVisible(x, y, cardWidth, cardHeight)) {
                 return;
               }
-              const previewLayout = misPreviewLayout(cardWidth, cardHeight);
+              const previewLayout = misPreviewLayout(
+                isSingleSliceMis ? cardWidth - 10 : cardWidth,
+                cardHeight,
+              );
               const previewColumns = previewLayout.columns;
               slots.push(
                 <div
                   key={`${hallId}:mcard:${slice.globalSlice}:${side}:${row}`}
-                  className={`absolute grid grid-rows-[auto_auto_1fr] gap-[0.04rem] overflow-visible rounded-[0.45rem] border p-[0.16rem] ${misCardSurfaceClass} ${misCardPreviewClass} ${misCardCursorClass}`}
+                  className={`absolute grid ${misCardLayoutClass} overflow-visible rounded-[0.45rem] border p-[0.16rem] ${misCardSurfaceClass} ${misCardPreviewClass} ${misCardCursorClass}`}
                   style={{ left: x, top: y, width: cardWidth, height: cardHeight }}
                   data-no-pan
                   data-mis-card
@@ -1771,9 +1790,9 @@ export function LayoutViewport({
                       hallDirections={hallLayout.directions}
                     />
                   ) : null}
-                  <div className="leading-none text-[0.5rem] font-bold tracking-[0.02em] text-[#355039] dark:text-[#b9e0d4]">
+                  <div className={misTitleContainerClass}>
                     <span
-                      className="inline-block min-w-[1.6rem] rounded-[0.18rem] px-[0.06rem] text-center normal-case focus:bg-[rgba(255,255,255,0.92)] focus:outline-none dark:focus:bg-[rgba(31,45,64,0.95)]"
+                      className={misTitleClass}
                       contentEditable
                       suppressContentEditableWarning
                       role="textbox"
@@ -1792,14 +1811,14 @@ export function LayoutViewport({
                       }}
                     >{misDisplayName(misTarget, `MIS ${misGroupNumber}`)}</span>
                   </div>
-                  <div className="flex items-center gap-[0.12rem] leading-none text-[0.48rem] font-semibold text-[#33524f] dark:text-[#a4cfd1]">
+                  <div className={misCountClass}>
                     <span>{previewEntries.length}/{sideConfig.misSlotsPerSlice}</span>
                     {isMisInvalid ? (
                       <span className="text-[#b42318] dark:text-[#ff9a8d]">*Invalid</span>
                     ) : null}
                   </div>
                   <div
-                    className="grid content-start gap-0.5"
+                    className={misPreviewClass}
                     style={{ gridTemplateColumns: `repeat(${previewColumns}, 16px)` }}
                   >
                     {previewEntries
@@ -1848,12 +1867,15 @@ export function LayoutViewport({
               if (!isLocalRectVisible(x, y, cardWidth, cardHeight)) {
                 return;
               }
-              const previewLayout = misPreviewLayout(cardWidth, cardHeight);
+              const previewLayout = misPreviewLayout(
+                isSingleSliceMis ? cardWidth - 10 : cardWidth,
+                cardHeight,
+              );
               const previewColumns = previewLayout.columns;
               slots.push(
                 <div
                   key={`${hallId}:mcard:${slice.globalSlice}:${side}:${row}`}
-                  className={`absolute grid grid-rows-[auto_auto_1fr] gap-[0.04rem] overflow-visible rounded-[0.45rem] border p-[0.16rem] ${misCardSurfaceClass} ${misCardPreviewClass} ${misCardCursorClass}`}
+                  className={`absolute grid ${misCardLayoutClass} overflow-visible rounded-[0.45rem] border p-[0.16rem] ${misCardSurfaceClass} ${misCardPreviewClass} ${misCardCursorClass}`}
                   style={{ left: x, top: y, width: cardWidth, height: cardHeight }}
                   data-no-pan
                   data-mis-card
@@ -1882,9 +1904,9 @@ export function LayoutViewport({
                       hallDirections={hallLayout.directions}
                     />
                   ) : null}
-                  <div className="leading-none text-[0.5rem] font-bold tracking-[0.02em] text-[#355039] dark:text-[#b9e0d4]">
+                  <div className={misTitleContainerClass}>
                     <span
-                      className="inline-block min-w-[1.6rem] rounded-[0.18rem] px-[0.06rem] text-center normal-case focus:bg-[rgba(255,255,255,0.92)] focus:outline-none dark:focus:bg-[rgba(31,45,64,0.95)]"
+                      className={misTitleClass}
                       contentEditable
                       suppressContentEditableWarning
                       role="textbox"
@@ -1903,14 +1925,14 @@ export function LayoutViewport({
                       }}
                     >{misDisplayName(misTarget, `MIS ${misGroupNumber}`)}</span>
                   </div>
-                  <div className="flex items-center gap-[0.12rem] leading-none text-[0.48rem] font-semibold text-[#33524f] dark:text-[#a4cfd1]">
+                  <div className={misCountClass}>
                     <span>{previewEntries.length}/{sideConfig.misSlotsPerSlice}</span>
                     {isMisInvalid ? (
                       <span className="text-[#b42318] dark:text-[#ff9a8d]">*Invalid</span>
                     ) : null}
                   </div>
                   <div
-                    className="grid content-start gap-0.5"
+                    className={misPreviewClass}
                     style={{ gridTemplateColumns: `repeat(${previewColumns}, 16px)` }}
                   >
                     {previewEntries
