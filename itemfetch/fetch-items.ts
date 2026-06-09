@@ -898,18 +898,30 @@ function decodePngToRgbaImage(bytes: Buffer): RgbaImage | null {
   const rgba = Buffer.alloc(parsed.width * parsed.height * 4);
   let palette: Buffer | null = null;
   let transparency: Buffer | null = null;
-  if (parsed.colorType === 3) {
-    for (const chunk of parsed.chunks) {
-      if (chunk.type === "PLTE") {
-        palette = chunk.data;
-      } else if (chunk.type === "tRNS") {
-        transparency = chunk.data;
-      }
+  for (const chunk of parsed.chunks) {
+    if (chunk.type === "PLTE") {
+      palette = chunk.data;
+    } else if (chunk.type === "tRNS") {
+      transparency = chunk.data;
     }
+  }
+  if (parsed.colorType === 3) {
     if (!palette || palette.length % 3 !== 0) {
       return null;
     }
   }
+  const transparentGray =
+    parsed.colorType === 0 && transparency && transparency.length >= 2
+      ? transparency.readUInt16BE(0)
+      : null;
+  const transparentRgb =
+    parsed.colorType === 2 && transparency && transparency.length >= 6
+      ? {
+          r: transparency.readUInt16BE(0),
+          g: transparency.readUInt16BE(2),
+          b: transparency.readUInt16BE(4),
+        }
+      : null;
   for (let y = 0; y < parsed.height; y += 1) {
     const rowOffset = y * rowByteLength;
     for (let x = 0; x < parsed.width; x += 1) {
@@ -933,16 +945,25 @@ function decodePngToRgbaImage(bytes: Buffer): RgbaImage | null {
         rgba[dstOffset + 2] = decodedRows[srcOffset + 2];
         rgba[dstOffset + 3] = decodedRows[srcOffset + 3];
       } else if (parsed.colorType === 2) {
-        rgba[dstOffset] = decodedRows[srcOffset];
-        rgba[dstOffset + 1] = decodedRows[srcOffset + 1];
-        rgba[dstOffset + 2] = decodedRows[srcOffset + 2];
-        rgba[dstOffset + 3] = 255;
+        const r = decodedRows[srcOffset];
+        const g = decodedRows[srcOffset + 1];
+        const b = decodedRows[srcOffset + 2];
+        rgba[dstOffset] = r;
+        rgba[dstOffset + 1] = g;
+        rgba[dstOffset + 2] = b;
+        rgba[dstOffset + 3] =
+          transparentRgb &&
+          r === transparentRgb.r &&
+          g === transparentRgb.g &&
+          b === transparentRgb.b
+            ? 0
+            : 255;
       } else if (parsed.colorType === 0) {
         const gray = decodedRows[srcOffset];
         rgba[dstOffset] = gray;
         rgba[dstOffset + 1] = gray;
         rgba[dstOffset + 2] = gray;
-        rgba[dstOffset + 3] = 255;
+        rgba[dstOffset + 3] = transparentGray !== null && gray === transparentGray ? 0 : 255;
       } else if (parsed.colorType === 4) {
         const gray = decodedRows[srcOffset];
         rgba[dstOffset] = gray;
@@ -1867,7 +1888,7 @@ type ScreenVertex = {
   v: number;
 };
 
-function sampleTextureRgbaWithAlphaBleed(
+function sampleTextureRgba(
   texture: RgbaImage,
   u: number,
   v: number,
@@ -1882,42 +1903,10 @@ function sampleTextureRgbaWithAlphaBleed(
   );
 
   const offset = (ty * texture.width + tx) * 4;
-  let r = texture.data[offset];
-  let g = texture.data[offset + 1];
-  let b = texture.data[offset + 2];
-  let a = texture.data[offset + 3];
-  if (a > 0) {
-    return { r, g, b, a };
-  }
-
-  // Avoid thin transparent seams from UV edge sampling by borrowing nearest opaque texel.
-  for (let radius = 1; radius <= 2; radius += 1) {
-    let bestOffset = -1;
-    let bestAlpha = 0;
-    for (let dy = -radius; dy <= radius; dy += 1) {
-      for (let dx = -radius; dx <= radius; dx += 1) {
-        const nx = tx + dx;
-        const ny = ty + dy;
-        if (nx < 0 || ny < 0 || nx >= texture.width || ny >= texture.height) {
-          continue;
-        }
-        const candidateOffset = (ny * texture.width + nx) * 4;
-        const candidateAlpha = texture.data[candidateOffset + 3];
-        if (candidateAlpha > bestAlpha) {
-          bestAlpha = candidateAlpha;
-          bestOffset = candidateOffset;
-        }
-      }
-    }
-    if (bestOffset !== -1 && bestAlpha > 0) {
-      r = texture.data[bestOffset];
-      g = texture.data[bestOffset + 1];
-      b = texture.data[bestOffset + 2];
-      a = texture.data[bestOffset + 3];
-      return { r, g, b, a };
-    }
-  }
-
+  const r = texture.data[offset];
+  const g = texture.data[offset + 1];
+  const b = texture.data[offset + 2];
+  const a = texture.data[offset + 3];
   return { r, g, b, a };
 }
 
@@ -1959,7 +1948,7 @@ function drawTexturedTriangle(
 
       const u = w0 * v0.u + w1 * v1.u + w2 * v2.u;
       const v = w0 * v0.v + w1 * v1.v + w2 * v2.v;
-      const sampled = sampleTextureRgbaWithAlphaBleed(texture, u, v);
+      const sampled = sampleTextureRgba(texture, u, v);
       const alpha = sampled.a;
       if (alpha === 0) {
         continue;
@@ -2682,7 +2671,7 @@ async function main(): Promise<void> {
   let texturedCount = 0;
   let skippedCount = 0;
 
-  await mapWithConcurrency(itemIds, CONCURRENCY, async (itemId, index) => {
+  await mapWithConcurrency(itemIds, CONCURRENCY, async (itemId) => {
     const definition = itemIndex[itemId] ?? {};
     const parsedItem = parsedItemById.get(itemId) ?? null;
     const creativeTabs = parsedItem
