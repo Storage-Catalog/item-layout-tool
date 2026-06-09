@@ -1294,6 +1294,7 @@ export function LayoutViewport({
   ): ReactNode {
     const assignedItemId = slotAssignments[slotId];
     const assignedItem = assignedItemId ? itemById.get(assignedItemId) : undefined;
+    const hasInvalidAssignedItem = Boolean(assignedItemId && !assignedItem);
     const isDraggedSource = draggedSourceSlotIds.has(slotId);
     const preview = previewBySlot.get(slotId);
     const previewItemId = preview?.itemId;
@@ -1328,7 +1329,9 @@ export function LayoutViewport({
         className={`relative z-0 grid h-8.5 w-8.5 cursor-pointer place-items-center overflow-visible rounded-[0.45rem] border p-0 transition hover:z-20 hover:-translate-y-px ${isSelected
           ? "hover:shadow-[0_0_0_2px_rgba(37,99,235,0.55)] dark:hover:shadow-[0_0_0_2px_rgba(96,165,250,0.6)]"
           : "hover:shadow-[0_3px_8px_rgba(57,47,30,0.22)] dark:hover:shadow-[0_3px_10px_rgba(5,8,16,0.5)]"
-          } ${assignedItem
+          } ${hasInvalidAssignedItem
+            ? "border-[rgba(185,28,28,0.78)] bg-[linear-gradient(145deg,rgba(254,226,226,0.98)_0%,rgba(252,165,165,0.95)_100%)] dark:border-[rgba(248,113,113,0.76)] dark:bg-[linear-gradient(145deg,rgba(127,29,29,0.96)_0%,rgba(88,28,28,0.96)_100%)]"
+            : assignedItem
             ? "border-[rgba(40,102,110,0.62)] bg-[linear-gradient(145deg,rgba(237,253,249,0.95)_0%,rgba(205,235,226,0.95)_100%)] dark:border-[rgba(83,173,153,0.62)] dark:bg-[linear-gradient(145deg,rgba(24,72,66,0.95)_0%,rgba(20,55,58,0.95)_100%)]"
             : "border-[rgba(108,89,62,0.35)] bg-[linear-gradient(145deg,rgba(245,233,216,0.95)_0%,rgba(231,212,184,0.95)_100%)] dark:border-[rgba(107,131,163,0.45)] dark:bg-[linear-gradient(145deg,rgba(38,54,77,0.95)_0%,rgba(27,40,59,0.95)_100%)]"
           } ${isDropTarget
@@ -1411,6 +1414,8 @@ export function LayoutViewport({
         title={
           assignedItem
             ? `${toTitle(assignedItem.id)} (right click to clear)`
+            : hasInvalidAssignedItem
+              ? `Invalid item: ${assignedItemId} (right click to clear)`
             : "Drop item here"
         }
       >
@@ -1430,6 +1435,11 @@ export function LayoutViewport({
             draggable={false}
             unoptimized
           />
+        ) : null}
+        {hasInvalidAssignedItem ? (
+          <span className="pointer-events-none relative z-1 px-0.5 text-center text-[0.5rem] font-black leading-none text-[#7f1d1d] dark:text-[#fecaca]">
+            Invalid
+          </span>
         ) : null}
         {showPreviewItem ? (
           <div
@@ -1592,6 +1602,7 @@ export function LayoutViewport({
             const assignedIds = unitSlotIds
               .map((slotId) => slotAssignments[slotId])
               .filter((itemId): itemId is string => Boolean(itemId));
+            const hasInvalidAssignedItem = assignedIds.some((itemId) => !itemById.has(itemId));
             const previewEntries = unitSlotIds
               .map((slotId) => {
                 const preview = previewBySlot.get(slotId);
@@ -1652,6 +1663,9 @@ export function LayoutViewport({
             const misCardCursorClass = cursorSlotId && unitSlotIds.includes(cursorSlotId)
               ? "shadow-[0_0_0_2px_rgba(217,119,6,0.85)] border-[rgba(180,83,9,0.9)]"
               : "";
+            const misCardInvalidClass = hasInvalidAssignedItem
+              ? "border-[rgba(185,28,28,0.86)] bg-[linear-gradient(180deg,rgba(254,226,226,0.98)_0%,rgba(252,165,165,0.96)_100%)] shadow-[0_0_0_2px_rgba(220,38,38,0.34)] dark:border-[rgba(248,113,113,0.8)] dark:bg-[linear-gradient(180deg,rgba(127,29,29,0.96)_0%,rgba(88,28,28,0.96)_100%)] dark:shadow-[0_0_0_2px_rgba(248,113,113,0.28)]"
+              : "";
             const misCardMovementHint =
               cursorMovementHint && unitSlotIds.includes(cursorMovementHint.fromSlotId)
                 ? cursorMovementHint
@@ -1694,7 +1708,7 @@ export function LayoutViewport({
               slots.push(
                 <div
                   key={`${hallId}:mcard:${slice.globalSlice}:${side}:${row}`}
-                  className={`absolute grid ${misCardLayoutClass} overflow-visible rounded-[0.45rem] border p-[0.16rem] ${misCardSurfaceClass} ${misCardPreviewClass} ${misCardCursorClass}`}
+                  className={`absolute grid ${misCardLayoutClass} overflow-visible rounded-[0.45rem] border p-[0.16rem] ${misCardSurfaceClass} ${misCardPreviewClass} ${misCardCursorClass} ${misCardInvalidClass}`}
                   style={{ left: x, top: y, width: cardWidth, height: cardHeight }}
                   data-no-pan
                   data-mis-card
@@ -1755,29 +1769,30 @@ export function LayoutViewport({
                       .slice(0, previewLayout.maxItems)
                       .map((entry, previewIndex) => {
                         const item = itemById.get(entry.itemId);
-                        if (!item) {
-                          return null;
-                        }
                         return (
                           <div
                             key={`${hallId}-mis-preview-${slice.globalSlice}-${side}-${row}-${entry.itemId}-${previewIndex}`}
-                            className={`grid h-4 w-4 place-items-center overflow-hidden rounded-[0.2rem] border ${entry.previewKind === "swap"
+                            className={`grid h-4 w-4 place-items-center overflow-hidden rounded-[0.2rem] border ${!item
+                              ? "border-[rgba(185,28,28,0.58)] bg-[rgba(254,202,202,0.92)] dark:border-[rgba(248,113,113,0.72)] dark:bg-[rgba(127,29,29,0.86)]"
+                              : entry.previewKind === "swap"
                               ? "border-[rgba(194,65,12,0.55)] bg-[rgba(255,233,213,0.92)] dark:border-[rgba(222,139,96,0.7)] dark:bg-[rgba(92,53,31,0.85)]"
                               : entry.previewKind === "place"
                                 ? "border-[rgba(22,132,120,0.55)] bg-[rgba(203,246,236,0.92)] dark:border-[rgba(83,173,153,0.7)] dark:bg-[rgba(24,72,66,0.85)]"
                                 : "border-[rgba(56,89,84,0.28)] bg-[rgba(236,249,245,0.8)] dark:border-[rgba(103,128,161,0.45)] dark:bg-[rgba(29,46,67,0.78)]"
                               }`}
                           >
-                            <Image
-                              src={item.texturePath}
-                              alt={item.id}
-                              width={14}
-                              height={14}
-                              className={entry.previewKind ? "opacity-[0.72]" : ""}
-                              style={{ imageRendering: "pixelated" }}
-                              draggable={false}
-                              unoptimized
-                            />
+                            {item ? (
+                              <Image
+                                src={item.texturePath}
+                                alt={item.id}
+                                width={14}
+                                height={14}
+                                className={entry.previewKind ? "opacity-[0.72]" : ""}
+                                style={{ imageRendering: "pixelated" }}
+                                draggable={false}
+                                unoptimized
+                              />
+                            ) : null}
                           </div>
                         );
                       })}
@@ -1805,7 +1820,7 @@ export function LayoutViewport({
               slots.push(
                 <div
                   key={`${hallId}:mcard:${slice.globalSlice}:${side}:${row}`}
-                  className={`absolute grid ${misCardLayoutClass} overflow-visible rounded-[0.45rem] border p-[0.16rem] ${misCardSurfaceClass} ${misCardPreviewClass} ${misCardCursorClass}`}
+                  className={`absolute grid ${misCardLayoutClass} overflow-visible rounded-[0.45rem] border p-[0.16rem] ${misCardSurfaceClass} ${misCardPreviewClass} ${misCardCursorClass} ${misCardInvalidClass}`}
                   style={{ left: x, top: y, width: cardWidth, height: cardHeight }}
                   data-no-pan
                   data-mis-card
@@ -1866,29 +1881,30 @@ export function LayoutViewport({
                       .slice(0, previewLayout.maxItems)
                       .map((entry, previewIndex) => {
                         const item = itemById.get(entry.itemId);
-                        if (!item) {
-                          return null;
-                        }
                         return (
                           <div
                             key={`${hallId}-mis-preview-${slice.globalSlice}-${side}-${row}-${entry.itemId}-${previewIndex}`}
-                            className={`grid h-4 w-4 place-items-center overflow-hidden rounded-[0.2rem] border ${entry.previewKind === "swap"
+                            className={`grid h-4 w-4 place-items-center overflow-hidden rounded-[0.2rem] border ${!item
+                              ? "border-[rgba(185,28,28,0.58)] bg-[rgba(254,202,202,0.92)] dark:border-[rgba(248,113,113,0.72)] dark:bg-[rgba(127,29,29,0.86)]"
+                              : entry.previewKind === "swap"
                               ? "border-[rgba(194,65,12,0.55)] bg-[rgba(255,233,213,0.92)] dark:border-[rgba(222,139,96,0.7)] dark:bg-[rgba(92,53,31,0.85)]"
                               : entry.previewKind === "place"
                                 ? "border-[rgba(22,132,120,0.55)] bg-[rgba(203,246,236,0.92)] dark:border-[rgba(83,173,153,0.7)] dark:bg-[rgba(24,72,66,0.85)]"
                                 : "border-[rgba(56,89,84,0.28)] bg-[rgba(236,249,245,0.8)] dark:border-[rgba(103,128,161,0.45)] dark:bg-[rgba(29,46,67,0.78)]"
                               }`}
                           >
-                            <Image
-                              src={item.texturePath}
-                              alt={item.id}
-                              width={14}
-                              height={14}
-                              className={entry.previewKind ? "opacity-[0.72]" : ""}
-                              style={{ imageRendering: "pixelated" }}
-                              draggable={false}
-                              unoptimized
-                            />
+                            {item ? (
+                              <Image
+                                src={item.texturePath}
+                                alt={item.id}
+                                width={14}
+                                height={14}
+                                className={entry.previewKind ? "opacity-[0.72]" : ""}
+                                style={{ imageRendering: "pixelated" }}
+                                draggable={false}
+                                unoptimized
+                              />
+                            ) : null}
                           </div>
                         );
                       })}
