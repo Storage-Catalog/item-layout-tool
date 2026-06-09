@@ -14,6 +14,8 @@ export type ExpandedMisPanel = ExpandedMisTarget & {
   columns: number;
   capacity: number;
   fallbackLabel: string;
+  isInvalid: boolean;
+  signalStrength: number;
 };
 
 type ExpandedMisPanelsOverlayProps = {
@@ -114,6 +116,11 @@ export function ExpandedMisPanelsOverlay({
                   {panel.slotIds.filter((slotId) => Boolean(slotAssignments[slotId])).length}/
                   {panel.capacity} assigned
                 </div>
+                {panel.isInvalid ? (
+                  <div className="text-[0.68rem] font-semibold text-[#b42318] dark:text-[#ff9a8d]">
+                    Invalid: Current SS &gt; SS{panel.signalStrength}!
+                  </div>
+                ) : null}
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 <button

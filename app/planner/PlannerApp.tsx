@@ -48,7 +48,12 @@ import {
   getLayoutHallName,
   type StorageLayoutPreset,
 } from "./layoutConfig";
-import { buildOrderedSlotIds } from "./utils";
+import {
+  buildOrderedSlotIds,
+  calculateMisComparatorPrimer,
+  misSlotId,
+  resolveHallSlices,
+} from "./utils";
 import { withBasePath } from "./base-path";
 
 const TOOLBAR_BUTTON_CLASS =
@@ -212,6 +217,7 @@ export function PlannerApp() {
   const [isExportMenuOpen, setIsExportMenuOpen] = useState(false);
   const [isExportingLayout, setIsExportingLayout] = useState(false);
   const [isFilterExportDialogOpen, setIsFilterExportDialogOpen] = useState(false);
+  const [isInvalidMisExportDialogOpen, setIsInvalidMisExportDialogOpen] = useState(false);
   const [filterExportConfig, setFilterExportConfig] = useState(createDefaultFilterExportConfig);
   const [filterExportPage, setFilterExportPage] = useState<"defaults" | HallId>("defaults");
   const [layoutViewMode, setLayoutViewMode] = useState<"storage" | "flat">("storage");
@@ -246,6 +252,74 @@ export function PlannerApp() {
     () => Object.keys(hallConfigs).map((key) => Number(key)).sort((a, b) => a - b),
     [hallConfigs],
   );
+  const misExportValidation = useMemo(() => {
+    const invalidKeys = new Set<string>();
+    const signalStrengthByKey = new Map<string, number>();
+    for (const hallId of hallIds) {
+      const hallConfig = hallConfigs[hallId];
+      if (!hallConfig) {
+        continue;
+      }
+      const hallFilterSettings = filterExportConfig.halls[hallId] ?? {};
+      const misSignalStrength =
+        hallFilterSettings.misSignalStrength ?? filterExportConfig.defaults.misSignalStrength;
+      const misMultiplicity =
+        hallFilterSettings.misMultiplicity ?? filterExportConfig.defaults.misMultiplicity;
+      const slices = resolveHallSlices(hallConfig);
+      for (const side of [0, 1] as const) {
+        for (const slice of slices) {
+          const sideConfig = side === 0 ? slice.sideLeft : slice.sideRight;
+          if (sideConfig.type !== "mis") {
+            continue;
+          }
+          const misWidth = Math.max(1, sideConfig.misWidth);
+          const groupStartSectionSlice = Math.floor(slice.sectionSlice / misWidth) * misWidth;
+          if (slice.sectionSlice !== groupStartSectionSlice) {
+            continue;
+          }
+          const groupFirstSlice = slices.find(
+            (entry) =>
+              entry.sectionIndex === slice.sectionIndex &&
+              entry.sectionSlice >= groupStartSectionSlice &&
+              entry.sectionSlice < groupStartSectionSlice + misWidth,
+          ) ?? slice;
+          const misSlice = groupFirstSlice.globalSlice;
+          for (let row = 0; row < sideConfig.rowsPerSlice; row += 1) {
+            const misKey = `${hallId}:${misSlice}:${side}:${row}`;
+            signalStrengthByKey.set(misKey, misSignalStrength);
+            const assignedItems = Array.from(
+              { length: sideConfig.misSlotsPerSlice },
+              (_, index) => activeSlotAssignments[misSlotId(hallId, misSlice, side, row, index)],
+            )
+              .filter((itemId): itemId is string => Boolean(itemId))
+              .map((itemId) => itemById.get(itemId))
+              .filter((item): item is NonNullable<typeof item> => Boolean(item))
+              .map((item) => ({
+                maxStackSize: item.maxStackSize,
+                count: misMultiplicity,
+              }));
+            if (assignedItems.length === 0) {
+              continue;
+            }
+            const primer = calculateMisComparatorPrimer(
+              sideConfig.misSlotsPerSlice,
+              misSignalStrength,
+              assignedItems,
+            );
+            if (primer.isOverThreshold) {
+              invalidKeys.add(misKey);
+            }
+          }
+        }
+      }
+    }
+    return {
+      invalidKeys,
+      signalStrengthByKey,
+    };
+  }, [activeSlotAssignments, filterExportConfig, hallConfigs, hallIds, itemById]);
+  const invalidMisExportKeys = misExportValidation.invalidKeys;
+  const misExportSignalStrengthByKey = misExportValidation.signalStrengthByKey;
 
   useEffect(() => {
     if (typeof filterExportPage === "number" && !hallIds.includes(filterExportPage)) {
@@ -771,6 +845,15 @@ export function PlannerApp() {
   }
 
   function handleFilterExportConfirm(): void {
+    if (invalidMisExportKeys.size > 0) {
+      setIsInvalidMisExportDialogOpen(true);
+      return;
+    }
+    void handleExportLayoutClick(FILTER_EXPORT_MODE, filterExportConfig);
+  }
+
+  function handleInvalidMisExportAnyway(): void {
+    setIsInvalidMisExportDialogOpen(false);
     void handleExportLayoutClick(FILTER_EXPORT_MODE, filterExportConfig);
   }
 
@@ -1001,6 +1084,8 @@ export function PlannerApp() {
             hallConfigs={hallConfigs}
             slotAssignments={activeSlotAssignments}
             itemById={itemById}
+            invalidMisExportKeys={invalidMisExportKeys}
+            misExportSignalStrengthByKey={misExportSignalStrengthByKey}
             hallNames={labelNames.hallNames}
             sectionNames={labelNames.sectionNames}
             misNames={labelNames.misNames}
@@ -1205,6 +1290,11 @@ export function PlannerApp() {
                   <p className="m-0 text-[0.7rem] leading-[1.3] text-[#6a5d4b] dark:text-[#9fb2ce]">
                     Set the signal strength and multiplicity values used for filling MIS chests with dummy items.
                   </p>
+                  {invalidMisExportKeys.size > 0 ? (
+                    <p className="m-0 rounded-[0.36rem] border border-[rgba(185,28,28,0.38)] bg-[rgba(254,226,226,0.74)] px-2 py-1 text-[0.7rem] font-semibold leading-[1.25] text-[#8f1d1d] dark:border-[rgba(248,113,113,0.48)] dark:bg-[rgba(91,28,28,0.54)] dark:text-[#fecaca]">
+                      {invalidMisExportKeys.size} MIS chest{invalidMisExportKeys.size === 1 ? "" : "s"} need{invalidMisExportKeys.size === 1 ? "s" : ""} to be fixed for this configuration.
+                    </p>
+                  ) : null}
                 </div>
                 <div className="grid gap-2">
                   <div className="grid gap-1.5 sm:grid-cols-[7.75rem_minmax(0,1fr)] sm:items-center">
@@ -1327,6 +1417,53 @@ export function PlannerApp() {
                 {isExportingLayout ? "Exporting..." : "Export"}
               </button>
             </footer>
+          </div>
+        </div>
+      ) : null}
+
+      {isInvalidMisExportDialogOpen ? (
+        <div
+          className="fixed inset-0 z-70 grid place-items-center bg-[rgba(19,15,10,0.52)] px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="invalid-mis-export-title"
+        >
+          <div className="w-full max-w-md rounded-[0.9rem] border border-[rgba(156,55,42,0.48)] bg-[linear-gradient(180deg,rgba(255,250,244,0.98)_0%,rgba(248,232,221,0.98)_100%)] p-4 shadow-[0_16px_42px_rgba(23,19,13,0.35)] dark:border-[rgba(200,111,111,0.58)] dark:bg-[linear-gradient(180deg,rgba(48,29,31,0.98)_0%,rgba(31,22,28,0.98)_100%)] dark:shadow-[0_20px_46px_rgba(4,8,14,0.52)]">
+            <h3
+              id="invalid-mis-export-title"
+              className="m-0 text-[1rem] font-bold text-[#5a241b] dark:text-[#ffd9d9]"
+            >
+              Invalid MIS Export
+            </h3>
+            <p className="mt-2 text-[0.84rem] leading-[1.35] text-[#5f5446] dark:text-[#d3b9b9]">
+              {invalidMisExportKeys.size} MIS chest
+              {invalidMisExportKeys.size === 1 ? "" : "s"} cannot hit the configured signal
+              strength with the current assignments.
+            </p>
+            <p className="mt-1 text-[0.78rem] leading-[1.35] text-[#6c5f4e] dark:text-[#c4aaaa]">
+              Fix the highlighted MIS chests before exporting, or export anyway with the current
+              configuration.
+            </p>
+            <div className="mt-3 flex items-center justify-end gap-2">
+              <button
+                type="button"
+                className="rounded-[0.45rem] border border-[rgba(156,55,42,0.52)] bg-[rgba(255,235,231,0.82)] px-3 py-[0.34rem] text-[0.78rem] font-semibold text-[#7c2217] dark:border-[rgba(200,111,111,0.6)] dark:bg-[rgba(92,37,37,0.78)] dark:text-[#ffd9d9]"
+                disabled={isExportingLayout}
+                onClick={handleInvalidMisExportAnyway}
+              >
+                Export Anyway
+              </button>
+              <button
+                type="button"
+                className="rounded-[0.45rem] border border-[rgba(61,116,87,0.52)] bg-[rgba(231,250,238,0.95)] px-3 py-[0.34rem] text-[0.78rem] font-semibold text-[#204b35] dark:border-[rgba(79,157,139,0.62)] dark:bg-[rgba(28,73,66,0.92)] dark:text-[#bcefe4]"
+                onClick={() => {
+                  setIsInvalidMisExportDialogOpen(false);
+                  setIsFilterExportDialogOpen(false);
+                }}
+              >
+                Fix
+              </button>
+            </div>
           </div>
         </div>
       ) : null}

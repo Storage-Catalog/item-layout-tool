@@ -54,6 +54,8 @@ type LayoutViewportProps = {
   hallConfigs: Record<HallId, HallConfig>;
   slotAssignments: Record<string, string>;
   itemById: Map<string, CatalogItem>;
+  invalidMisExportKeys: Set<string>;
+  misExportSignalStrengthByKey: Map<string, number>;
   hallNames: Record<HallId, string>;
   sectionNames: Record<string, string>;
   misNames: Record<string, string>;
@@ -452,6 +454,8 @@ export function LayoutViewport({
   hallConfigs,
   slotAssignments,
   itemById,
+  invalidMisExportKeys,
+  misExportSignalStrengthByKey,
   hallNames,
   sectionNames,
   misNames,
@@ -1238,16 +1242,19 @@ export function LayoutViewport({
           sideConfig.misSlotsPerSlice > 27 || sideConfig.misSlotsPerSlice % 9 === 0
             ? 9
             : Math.min(12, Math.max(6, Math.ceil(Math.sqrt(sideConfig.misSlotsPerSlice))));
+        const panelKey = expandedMisKey(target);
         return {
           ...target,
           slotIds,
           columns,
           capacity: sideConfig.misSlotsPerSlice,
           fallbackLabel,
+          isInvalid: invalidMisExportKeys.has(panelKey),
+          signalStrength: misExportSignalStrengthByKey.get(panelKey) ?? 0,
         };
       })
       .filter((panel): panel is ExpandedMisPanel => panel !== null);
-  }, [expandedMisTargets, hallConfigs]);
+  }, [expandedMisTargets, hallConfigs, invalidMisExportKeys, misExportSignalStrengthByKey]);
 
   const popupColumnsBySlotId = useMemo(() => {
     const map = new Map<string, number>();
@@ -1646,6 +1653,7 @@ export function LayoutViewport({
               row,
             };
             const misTargetKey = expandedMisKey(misTarget);
+            const hasInvalidMisExportConfig = invalidMisExportKeys.has(misTargetKey);
             const expandedIndex = expandedMisTargets.findIndex(
               (entry) => expandedMisKey(entry) === misTargetKey,
             );
@@ -1663,7 +1671,7 @@ export function LayoutViewport({
             const misCardCursorClass = cursorSlotId && unitSlotIds.includes(cursorSlotId)
               ? "shadow-[0_0_0_2px_rgba(217,119,6,0.85)] border-[rgba(180,83,9,0.9)]"
               : "";
-            const misCardInvalidClass = hasInvalidAssignedItem
+            const misCardInvalidClass = hasInvalidAssignedItem || hasInvalidMisExportConfig
               ? "border-[rgba(185,28,28,0.86)] bg-[linear-gradient(180deg,rgba(254,226,226,0.98)_0%,rgba(252,165,165,0.96)_100%)] shadow-[0_0_0_2px_rgba(220,38,38,0.34)] dark:border-[rgba(248,113,113,0.8)] dark:bg-[linear-gradient(180deg,rgba(127,29,29,0.96)_0%,rgba(88,28,28,0.96)_100%)] dark:shadow-[0_0_0_2px_rgba(248,113,113,0.28)]"
               : "";
             const misCardMovementHint =
