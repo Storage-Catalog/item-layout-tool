@@ -43,7 +43,11 @@ next-env.d.ts
 minecraft-assets-1.21.11
 mcsrc-main/
 itemfetch/.cache/
+fetcher/.cache/
+fetcher/output/
 Blocks.java
 Items.java
 items.csv
 /nucleation/
+reference_code/
+block_data.json
