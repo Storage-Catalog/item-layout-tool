@@ -1235,6 +1235,9 @@ function computeItemProperties(calls: MethodCall[]): {
   const unstackablePropertyMethods = new Set([
     "sword",
     "pickaxe",
+    "axe",
+    "shovel",
+    "hoe",
     "spear",
     "humanoidArmor",
     "horseArmor",

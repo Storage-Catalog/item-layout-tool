@@ -2419,6 +2419,29 @@ function omitNullOrFalseProperties(value: unknown): unknown {
   return cleaned;
 }
 
+// Filled maps: the generic one plus the structure locators, which only differ by the
+// structure they point at. None are crafted or stored in bulk, and they would otherwise
+// crowd the planner catalog. The empty, craftable `map` item is deliberately kept.
+const EXPLORER_MAP_ITEM_IDS = new Set([
+  "abandoned_camp_map",
+  "buried_ancient_city_map",
+  "buried_mineshaft_map",
+  "buried_treasure_map",
+  "buried_trial_chambers_map",
+  "desert_pyramid_map",
+  "desert_village_map",
+  "filled_map",
+  "jungle_pyramid_map",
+  "ocean_monument_map",
+  "plains_village_map",
+  "savanna_village_map",
+  "snowy_village_map",
+  "swamp_hut_map",
+  "taiga_village_map",
+  "warm_ocean_ruins_map",
+  "woodland_mansion_map",
+]);
+
 function shouldIncludeInPlannerCatalog(
   itemId: string,
   parsedItem: ParsedItem | null,
@@ -2435,6 +2458,10 @@ function shouldIncludeInPlannerCatalog(
     itemId === "petrified_oak_slab" ||
     itemId === "chorus_plant"
   ) {
+    return false;
+  }
+
+  if (EXPLORER_MAP_ITEM_IDS.has(itemId)) {
     return false;
   }
 

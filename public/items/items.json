@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-06-17T17:48:00.647Z",
-  "gameVersion": "26.2",
+  "generatedAt": "2026-09-20T00:24:49.421Z",
+  "gameVersion": "26.3",
   "counts": {
-    "itemCount": 1169,
-    "texturedItemCount": 1169,
+    "itemCount": 1271,
+    "texturedItemCount": 1271,
     "missingTextureItemCount": 3,
-    "filteredOutItemCount": 367,
-    "codeItemCount": 1537,
-    "itemsWithCodeDataCount": 1167,
-    "blockCount": 1166,
+    "filteredOutItemCount": 386,
+    "codeItemCount": 1658,
+    "itemsWithCodeDataCount": 1269,
+    "blockCount": 1256,
     "noLootTableBlockCount": 22,
-    "overrideLootTableBlockCount": 46,
+    "overrideLootTableBlockCount": 48,
     "foodDefinitionCount": 40,
     "itemsWithFoodReferenceCount": 40,
     "itemsWithFoodDataCount": 36,
     "creativeTabCount": 14,
     "creativeTabsWithItemsCount": 11,
-    "itemsWithCreativeTabCount": 1166,
+    "itemsWithCreativeTabCount": 1269,
     "unresolvedCreativeTabItemFieldCount": 0
   },
   "items": [
@@ -1307,6 +1307,46 @@
       }
     },
     {
+      "id": "black_concrete_slab",
+      "texturePath": "/items/textures/black_concrete_slab.png",
+      "sourceTexture": "minecraft:block/black_concrete",
+      "sourceModel": "minecraft:block/black_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "black_concrete_stairs",
+      "texturePath": "/items/textures/black_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/black_concrete",
+      "sourceModel": "minecraft:block/black_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "black_cushion",
+      "texturePath": "/items/textures/black_cushion.png",
+      "sourceTexture": "minecraft:item/black_cushion",
+      "sourceModel": "minecraft:item/black_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "black_dye",
       "texturePath": "/items/textures/black_dye.png",
       "sourceTexture": "minecraft:item/black_dye",
@@ -1387,6 +1427,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "black_wool_slab",
+      "texturePath": "/items/textures/black_wool_slab.png",
+      "sourceTexture": "minecraft:block/black_wool",
+      "sourceModel": "minecraft:block/black_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "black_wool_stairs",
+      "texturePath": "/items/textures/black_wool_stairs.png",
+      "sourceTexture": "minecraft:block/black_wool",
+      "sourceModel": "minecraft:block/black_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -1581,6 +1650,46 @@
       }
     },
     {
+      "id": "blue_concrete_slab",
+      "texturePath": "/items/textures/blue_concrete_slab.png",
+      "sourceTexture": "minecraft:block/blue_concrete",
+      "sourceModel": "minecraft:block/blue_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "blue_concrete_stairs",
+      "texturePath": "/items/textures/blue_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/blue_concrete",
+      "sourceModel": "minecraft:block/blue_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "blue_cushion",
+      "texturePath": "/items/textures/blue_cushion.png",
+      "sourceTexture": "minecraft:item/blue_cushion",
+      "sourceModel": "minecraft:item/blue_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "blue_dye",
       "texturePath": "/items/textures/blue_dye.png",
       "sourceTexture": "minecraft:item/blue_dye",
@@ -1703,6 +1812,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "blue_wool_slab",
+      "texturePath": "/items/textures/blue_wool_slab.png",
+      "sourceTexture": "minecraft:block/blue_wool",
+      "sourceModel": "minecraft:block/blue_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "blue_wool_stairs",
+      "texturePath": "/items/textures/blue_wool_stairs.png",
+      "sourceTexture": "minecraft:block/blue_wool",
+      "sourceModel": "minecraft:block/blue_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -2045,6 +2183,46 @@
       }
     },
     {
+      "id": "brown_concrete_slab",
+      "texturePath": "/items/textures/brown_concrete_slab.png",
+      "sourceTexture": "minecraft:block/brown_concrete",
+      "sourceModel": "minecraft:block/brown_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "brown_concrete_stairs",
+      "texturePath": "/items/textures/brown_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/brown_concrete",
+      "sourceModel": "minecraft:block/brown_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "brown_cushion",
+      "texturePath": "/items/textures/brown_cushion.png",
+      "sourceTexture": "minecraft:item/brown_cushion",
+      "sourceModel": "minecraft:item/brown_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "brown_dye",
       "texturePath": "/items/textures/brown_dye.png",
       "sourceTexture": "minecraft:item/brown_dye",
@@ -2167,6 +2345,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "brown_wool_slab",
+      "texturePath": "/items/textures/brown_wool_slab.png",
+      "sourceTexture": "minecraft:block/brown_wool",
+      "sourceModel": "minecraft:block/brown_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "brown_wool_stairs",
+      "texturePath": "/items/textures/brown_wool_stairs.png",
+      "sourceTexture": "minecraft:block/brown_wool",
+      "sourceModel": "minecraft:block/brown_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -4348,6 +4555,46 @@
       }
     },
     {
+      "id": "cyan_concrete_slab",
+      "texturePath": "/items/textures/cyan_concrete_slab.png",
+      "sourceTexture": "minecraft:block/cyan_concrete",
+      "sourceModel": "minecraft:block/cyan_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "cyan_concrete_stairs",
+      "texturePath": "/items/textures/cyan_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/cyan_concrete",
+      "sourceModel": "minecraft:block/cyan_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "cyan_cushion",
+      "texturePath": "/items/textures/cyan_cushion.png",
+      "sourceTexture": "minecraft:item/cyan_cushion",
+      "sourceModel": "minecraft:item/cyan_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "cyan_dye",
       "texturePath": "/items/textures/cyan_dye.png",
       "sourceTexture": "minecraft:item/cyan_dye",
@@ -4428,6 +4675,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "cyan_wool_slab",
+      "texturePath": "/items/textures/cyan_wool_slab.png",
+      "sourceTexture": "minecraft:block/cyan_wool",
+      "sourceModel": "minecraft:block/cyan_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "cyan_wool_stairs",
+      "texturePath": "/items/textures/cyan_wool_stairs.png",
+      "sourceTexture": "minecraft:block/cyan_wool",
+      "sourceModel": "minecraft:block/cyan_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -6127,15 +6403,6 @@
       }
     },
     {
-      "id": "filled_map",
-      "texturePath": "/items/textures/filled_map.png",
-      "sourceTexture": "minecraft:item/filled_map",
-      "sourceModel": "minecraft:item/filled_map",
-      "registration": "item",
-      "maxStackSize": 64,
-      "creativeTabs": []
-    },
-    {
       "id": "fire_charge",
       "texturePath": "/items/textures/fire_charge.png",
       "sourceTexture": "minecraft:item/fire_charge",
@@ -6775,6 +7042,46 @@
       }
     },
     {
+      "id": "gray_concrete_slab",
+      "texturePath": "/items/textures/gray_concrete_slab.png",
+      "sourceTexture": "minecraft:block/gray_concrete",
+      "sourceModel": "minecraft:block/gray_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "gray_concrete_stairs",
+      "texturePath": "/items/textures/gray_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/gray_concrete",
+      "sourceModel": "minecraft:block/gray_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "gray_cushion",
+      "texturePath": "/items/textures/gray_cushion.png",
+      "sourceTexture": "minecraft:item/gray_cushion",
+      "sourceModel": "minecraft:item/gray_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "gray_dye",
       "texturePath": "/items/textures/gray_dye.png",
       "sourceTexture": "minecraft:item/gray_dye",
@@ -6862,6 +7169,35 @@
       }
     },
     {
+      "id": "gray_wool_slab",
+      "texturePath": "/items/textures/gray_wool_slab.png",
+      "sourceTexture": "minecraft:block/gray_wool",
+      "sourceModel": "minecraft:block/gray_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "gray_wool_stairs",
+      "texturePath": "/items/textures/gray_wool_stairs.png",
+      "sourceTexture": "minecraft:block/gray_wool",
+      "sourceModel": "minecraft:block/gray_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
       "id": "green_banner",
       "texturePath": "/items/textures/green_banner.png",
       "sourceTexture": "special/Green_Banner.png",
@@ -6937,6 +7273,46 @@
         "behavior": "default",
         "lootMethod": "drop_self"
       }
+    },
+    {
+      "id": "green_concrete_slab",
+      "texturePath": "/items/textures/green_concrete_slab.png",
+      "sourceTexture": "minecraft:block/green_concrete",
+      "sourceModel": "minecraft:block/green_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "green_concrete_stairs",
+      "texturePath": "/items/textures/green_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/green_concrete",
+      "sourceModel": "minecraft:block/green_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "green_cushion",
+      "texturePath": "/items/textures/green_cushion.png",
+      "sourceTexture": "minecraft:item/green_cushion",
+      "sourceModel": "minecraft:item/green_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
     },
     {
       "id": "green_dye",
@@ -7019,6 +7395,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "green_wool_slab",
+      "texturePath": "/items/textures/green_wool_slab.png",
+      "sourceTexture": "minecraft:block/green_wool",
+      "sourceModel": "minecraft:block/green_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "green_wool_stairs",
+      "texturePath": "/items/textures/green_wool_stairs.png",
+      "sourceTexture": "minecraft:block/green_wool",
+      "sourceModel": "minecraft:block/green_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -7991,6 +8396,46 @@
       }
     },
     {
+      "id": "light_blue_concrete_slab",
+      "texturePath": "/items/textures/light_blue_concrete_slab.png",
+      "sourceTexture": "minecraft:block/light_blue_concrete",
+      "sourceModel": "minecraft:block/light_blue_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "light_blue_concrete_stairs",
+      "texturePath": "/items/textures/light_blue_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/light_blue_concrete",
+      "sourceModel": "minecraft:block/light_blue_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "light_blue_cushion",
+      "texturePath": "/items/textures/light_blue_cushion.png",
+      "sourceTexture": "minecraft:item/light_blue_cushion",
+      "sourceModel": "minecraft:item/light_blue_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "light_blue_dye",
       "texturePath": "/items/textures/light_blue_dye.png",
       "sourceTexture": "minecraft:item/light_blue_dye",
@@ -8078,6 +8523,35 @@
       }
     },
     {
+      "id": "light_blue_wool_slab",
+      "texturePath": "/items/textures/light_blue_wool_slab.png",
+      "sourceTexture": "minecraft:block/light_blue_wool",
+      "sourceModel": "minecraft:block/light_blue_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "light_blue_wool_stairs",
+      "texturePath": "/items/textures/light_blue_wool_stairs.png",
+      "sourceTexture": "minecraft:block/light_blue_wool",
+      "sourceModel": "minecraft:block/light_blue_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
       "id": "light_gray_banner",
       "texturePath": "/items/textures/light_gray_banner.png",
       "sourceTexture": "special/Light_Gray_Banner.png",
@@ -8153,6 +8627,46 @@
         "behavior": "default",
         "lootMethod": "drop_self"
       }
+    },
+    {
+      "id": "light_gray_concrete_slab",
+      "texturePath": "/items/textures/light_gray_concrete_slab.png",
+      "sourceTexture": "minecraft:block/light_gray_concrete",
+      "sourceModel": "minecraft:block/light_gray_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "light_gray_concrete_stairs",
+      "texturePath": "/items/textures/light_gray_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/light_gray_concrete",
+      "sourceModel": "minecraft:block/light_gray_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "light_gray_cushion",
+      "texturePath": "/items/textures/light_gray_cushion.png",
+      "sourceTexture": "minecraft:item/light_gray_cushion",
+      "sourceModel": "minecraft:item/light_gray_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
     },
     {
       "id": "light_gray_dye",
@@ -8235,6 +8749,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "light_gray_wool_slab",
+      "texturePath": "/items/textures/light_gray_wool_slab.png",
+      "sourceTexture": "minecraft:block/light_gray_wool",
+      "sourceModel": "minecraft:block/light_gray_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "light_gray_wool_stairs",
+      "texturePath": "/items/textures/light_gray_wool_stairs.png",
+      "sourceTexture": "minecraft:block/light_gray_wool",
+      "sourceModel": "minecraft:block/light_gray_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -8396,6 +8939,46 @@
       }
     },
     {
+      "id": "lime_concrete_slab",
+      "texturePath": "/items/textures/lime_concrete_slab.png",
+      "sourceTexture": "minecraft:block/lime_concrete",
+      "sourceModel": "minecraft:block/lime_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "lime_concrete_stairs",
+      "texturePath": "/items/textures/lime_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/lime_concrete",
+      "sourceModel": "minecraft:block/lime_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "lime_cushion",
+      "texturePath": "/items/textures/lime_cushion.png",
+      "sourceTexture": "minecraft:item/lime_cushion",
+      "sourceModel": "minecraft:item/lime_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "lime_dye",
       "texturePath": "/items/textures/lime_dye.png",
       "sourceTexture": "minecraft:item/lime_dye",
@@ -8476,6 +9059,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "lime_wool_slab",
+      "texturePath": "/items/textures/lime_wool_slab.png",
+      "sourceTexture": "minecraft:block/lime_wool",
+      "sourceModel": "minecraft:block/lime_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "lime_wool_stairs",
+      "texturePath": "/items/textures/lime_wool_stairs.png",
+      "sourceTexture": "minecraft:block/lime_wool",
+      "sourceModel": "minecraft:block/lime_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -8590,6 +9202,46 @@
       }
     },
     {
+      "id": "magenta_concrete_slab",
+      "texturePath": "/items/textures/magenta_concrete_slab.png",
+      "sourceTexture": "minecraft:block/magenta_concrete",
+      "sourceModel": "minecraft:block/magenta_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "magenta_concrete_stairs",
+      "texturePath": "/items/textures/magenta_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/magenta_concrete",
+      "sourceModel": "minecraft:block/magenta_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "magenta_cushion",
+      "texturePath": "/items/textures/magenta_cushion.png",
+      "sourceTexture": "minecraft:item/magenta_cushion",
+      "sourceModel": "minecraft:item/magenta_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "magenta_dye",
       "texturePath": "/items/textures/magenta_dye.png",
       "sourceTexture": "minecraft:item/magenta_dye",
@@ -8670,6 +9322,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "magenta_wool_slab",
+      "texturePath": "/items/textures/magenta_wool_slab.png",
+      "sourceTexture": "minecraft:block/magenta_wool",
+      "sourceModel": "minecraft:block/magenta_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "magenta_wool_stairs",
+      "texturePath": "/items/textures/magenta_wool_stairs.png",
+      "sourceTexture": "minecraft:block/magenta_wool",
+      "sourceModel": "minecraft:block/magenta_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -10021,6 +10702,46 @@
       }
     },
     {
+      "id": "orange_concrete_slab",
+      "texturePath": "/items/textures/orange_concrete_slab.png",
+      "sourceTexture": "minecraft:block/orange_concrete",
+      "sourceModel": "minecraft:block/orange_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "orange_concrete_stairs",
+      "texturePath": "/items/textures/orange_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/orange_concrete",
+      "sourceModel": "minecraft:block/orange_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "orange_cushion",
+      "texturePath": "/items/textures/orange_cushion.png",
+      "sourceTexture": "minecraft:item/orange_cushion",
+      "sourceModel": "minecraft:item/orange_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "orange_dye",
       "texturePath": "/items/textures/orange_dye.png",
       "sourceTexture": "minecraft:item/orange_dye",
@@ -10044,6 +10765,21 @@
       "blockLoot": {
         "behavior": "default",
         "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "orange_poplar_leaves",
+      "texturePath": "/items/textures/orange_poplar_leaves.png",
+      "sourceTexture": "minecraft:block/orange_poplar_leaves",
+      "sourceModel": "minecraft:block/orange_poplar_leaves",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "custom"
       }
     },
     {
@@ -10116,6 +10852,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "orange_wool_slab",
+      "texturePath": "/items/textures/orange_wool_slab.png",
+      "sourceTexture": "minecraft:block/orange_wool",
+      "sourceModel": "minecraft:block/orange_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "orange_wool_stairs",
+      "texturePath": "/items/textures/orange_wool_stairs.png",
+      "sourceTexture": "minecraft:block/orange_wool",
+      "sourceModel": "minecraft:block/orange_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -10841,6 +11606,46 @@
       }
     },
     {
+      "id": "pink_concrete_slab",
+      "texturePath": "/items/textures/pink_concrete_slab.png",
+      "sourceTexture": "minecraft:block/pink_concrete",
+      "sourceModel": "minecraft:block/pink_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "pink_concrete_stairs",
+      "texturePath": "/items/textures/pink_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/pink_concrete",
+      "sourceModel": "minecraft:block/pink_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "pink_cushion",
+      "texturePath": "/items/textures/pink_cushion.png",
+      "sourceTexture": "minecraft:item/pink_cushion",
+      "sourceModel": "minecraft:item/pink_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "pink_dye",
       "texturePath": "/items/textures/pink_dye.png",
       "sourceTexture": "minecraft:item/pink_dye",
@@ -10951,6 +11756,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "pink_wool_slab",
+      "texturePath": "/items/textures/pink_wool_slab.png",
+      "sourceTexture": "minecraft:block/pink_wool",
+      "sourceModel": "minecraft:block/pink_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "pink_wool_stairs",
+      "texturePath": "/items/textures/pink_wool_stairs.png",
+      "sourceTexture": "minecraft:block/pink_wool",
+      "sourceModel": "minecraft:block/pink_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -11598,6 +12432,232 @@
       }
     },
     {
+      "id": "poplar_button",
+      "texturePath": "/items/textures/poplar_button.png",
+      "sourceTexture": "minecraft:block/poplar_planks",
+      "sourceModel": "minecraft:block/poplar_button_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_door",
+      "texturePath": "/items/textures/poplar_door.png",
+      "sourceTexture": "minecraft:item/poplar_door",
+      "sourceModel": "minecraft:item/poplar_door",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "custom"
+      }
+    },
+    {
+      "id": "poplar_fence",
+      "texturePath": "/items/textures/poplar_fence.png",
+      "sourceTexture": "minecraft:block/poplar_planks",
+      "sourceModel": "minecraft:block/poplar_fence_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_fence_gate",
+      "texturePath": "/items/textures/poplar_fence_gate.png",
+      "sourceTexture": "minecraft:block/poplar_planks",
+      "sourceModel": "minecraft:block/poplar_fence_gate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_hanging_sign",
+      "texturePath": "/items/textures/poplar_hanging_sign.png",
+      "sourceTexture": "minecraft:item/poplar_hanging_sign",
+      "sourceModel": "minecraft:item/poplar_hanging_sign",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "functional_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_log",
+      "texturePath": "/items/textures/poplar_log.png",
+      "sourceTexture": "minecraft:block/poplar_log_top",
+      "sourceModel": "minecraft:block/poplar_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_planks",
+      "texturePath": "/items/textures/poplar_planks.png",
+      "sourceTexture": "minecraft:block/poplar_planks",
+      "sourceModel": "minecraft:block/poplar_planks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_pressure_plate",
+      "texturePath": "/items/textures/poplar_pressure_plate.png",
+      "sourceTexture": "minecraft:block/poplar_planks",
+      "sourceModel": "minecraft:block/poplar_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_sapling",
+      "texturePath": "/items/textures/poplar_sapling.png",
+      "sourceTexture": "minecraft:block/poplar_sapling",
+      "sourceModel": "minecraft:item/poplar_sapling",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_shelf",
+      "texturePath": "/items/textures/poplar_shelf.png",
+      "sourceTexture": "minecraft:block/poplar_shelf",
+      "sourceModel": "minecraft:block/poplar_shelf_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_sign",
+      "texturePath": "/items/textures/poplar_sign.png",
+      "sourceTexture": "minecraft:item/poplar_sign",
+      "sourceModel": "minecraft:item/poplar_sign",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "functional_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_slab",
+      "texturePath": "/items/textures/poplar_slab.png",
+      "sourceTexture": "minecraft:block/poplar_planks",
+      "sourceModel": "minecraft:block/poplar_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "custom"
+      }
+    },
+    {
+      "id": "poplar_stairs",
+      "texturePath": "/items/textures/poplar_stairs.png",
+      "sourceTexture": "minecraft:block/poplar_planks",
+      "sourceModel": "minecraft:block/poplar_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_trapdoor",
+      "texturePath": "/items/textures/poplar_trapdoor.png",
+      "sourceTexture": "minecraft:block/poplar_trapdoor",
+      "sourceModel": "minecraft:block/poplar_trapdoor_bottom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "poplar_wood",
+      "texturePath": "/items/textures/poplar_wood.png",
+      "sourceTexture": "minecraft:block/poplar_log",
+      "sourceModel": "minecraft:block/poplar_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
       "id": "popped_chorus_fruit",
       "texturePath": "/items/textures/popped_chorus_fruit.png",
       "sourceTexture": "minecraft:item/popped_chorus_fruit",
@@ -11963,6 +13023,46 @@
       }
     },
     {
+      "id": "purple_concrete_slab",
+      "texturePath": "/items/textures/purple_concrete_slab.png",
+      "sourceTexture": "minecraft:block/purple_concrete",
+      "sourceModel": "minecraft:block/purple_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "purple_concrete_stairs",
+      "texturePath": "/items/textures/purple_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/purple_concrete",
+      "sourceModel": "minecraft:block/purple_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "purple_cushion",
+      "texturePath": "/items/textures/purple_cushion.png",
+      "sourceTexture": "minecraft:item/purple_cushion",
+      "sourceModel": "minecraft:item/purple_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "purple_dye",
       "texturePath": "/items/textures/purple_dye.png",
       "sourceTexture": "minecraft:item/purple_dye",
@@ -12043,6 +13143,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "purple_wool_slab",
+      "texturePath": "/items/textures/purple_wool_slab.png",
+      "sourceTexture": "minecraft:block/purple_wool",
+      "sourceModel": "minecraft:block/purple_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "purple_wool_stairs",
+      "texturePath": "/items/textures/purple_wool_stairs.png",
+      "sourceTexture": "minecraft:block/purple_wool",
+      "sourceModel": "minecraft:block/purple_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -12430,6 +13559,46 @@
       }
     },
     {
+      "id": "red_concrete_slab",
+      "texturePath": "/items/textures/red_concrete_slab.png",
+      "sourceTexture": "minecraft:block/red_concrete",
+      "sourceModel": "minecraft:block/red_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "red_concrete_stairs",
+      "texturePath": "/items/textures/red_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/red_concrete",
+      "sourceModel": "minecraft:block/red_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "red_cushion",
+      "texturePath": "/items/textures/red_cushion.png",
+      "sourceTexture": "minecraft:item/red_cushion",
+      "sourceModel": "minecraft:item/red_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "red_dye",
       "texturePath": "/items/textures/red_dye.png",
       "sourceTexture": "minecraft:item/red_dye",
@@ -12546,6 +13715,21 @@
       }
     },
     {
+      "id": "red_poplar_leaves",
+      "texturePath": "/items/textures/red_poplar_leaves.png",
+      "sourceTexture": "minecraft:block/red_poplar_leaves",
+      "sourceModel": "minecraft:block/red_poplar_leaves",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "custom"
+      }
+    },
+    {
       "id": "red_sand",
       "texturePath": "/items/textures/red_sand.png",
       "sourceTexture": "minecraft:block/red_sand",
@@ -12622,6 +13806,21 @@
       }
     },
     {
+      "id": "red_shrub",
+      "texturePath": "/items/textures/red_shrub.png",
+      "sourceTexture": "minecraft:block/red_shrub",
+      "sourceModel": "minecraft:item/red_shrub",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
       "id": "red_stained_glass",
       "texturePath": "/items/textures/red_stained_glass.png",
       "sourceTexture": "minecraft:block/red_stained_glass",
@@ -12691,6 +13890,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "red_wool_slab",
+      "texturePath": "/items/textures/red_wool_slab.png",
+      "sourceTexture": "minecraft:block/red_wool",
+      "sourceModel": "minecraft:block/red_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "red_wool_stairs",
+      "texturePath": "/items/textures/red_wool_stairs.png",
+      "sourceTexture": "minecraft:block/red_wool",
+      "sourceModel": "minecraft:block/red_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -13237,6 +14465,21 @@
       "creativeTabs": [
         "ingredients"
       ]
+    },
+    {
+      "id": "shelf_mushroom",
+      "texturePath": "/items/textures/shelf_mushroom.png",
+      "sourceTexture": "minecraft:block/shelf_mushroom_stage0",
+      "sourceModel": "minecraft:block/shelf_mushroom_stage0",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "custom"
+      }
     },
     {
       "id": "shelter_pottery_sherd",
@@ -14263,6 +15506,21 @@
       }
     },
     {
+      "id": "straw_bed",
+      "texturePath": "/items/textures/straw_bed.png",
+      "sourceTexture": "block/straw_bed",
+      "sourceModel": "minecraft:block/straw_bed_head",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "functional_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "custom"
+      }
+    },
+    {
       "id": "string",
       "texturePath": "/items/textures/string.png",
       "sourceTexture": "minecraft:item/string",
@@ -14549,6 +15807,36 @@
       "texturePath": "/items/textures/stripped_pale_oak_wood.png",
       "sourceTexture": "minecraft:block/stripped_pale_oak_log",
       "sourceModel": "minecraft:block/stripped_pale_oak_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "stripped_poplar_log",
+      "texturePath": "/items/textures/stripped_poplar_log.png",
+      "sourceTexture": "minecraft:block/stripped_poplar_log_top",
+      "sourceModel": "minecraft:block/stripped_poplar_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "stripped_poplar_wood",
+      "texturePath": "/items/textures/stripped_poplar_wood.png",
+      "sourceTexture": "minecraft:block/stripped_poplar_log",
+      "sourceModel": "minecraft:block/stripped_poplar_wood",
       "registration": "block",
       "maxStackSize": 64,
       "creativeTabs": [
@@ -16876,6 +18164,46 @@
       }
     },
     {
+      "id": "white_concrete_slab",
+      "texturePath": "/items/textures/white_concrete_slab.png",
+      "sourceTexture": "minecraft:block/white_concrete",
+      "sourceModel": "minecraft:block/white_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "white_concrete_stairs",
+      "texturePath": "/items/textures/white_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/white_concrete",
+      "sourceModel": "minecraft:block/white_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "white_cushion",
+      "texturePath": "/items/textures/white_cushion.png",
+      "sourceTexture": "minecraft:item/white_cushion",
+      "sourceModel": "minecraft:item/white_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "white_dye",
       "texturePath": "/items/textures/white_dye.png",
       "sourceTexture": "minecraft:item/white_dye",
@@ -16971,6 +18299,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "white_wool_slab",
+      "texturePath": "/items/textures/white_wool_slab.png",
+      "sourceTexture": "minecraft:block/white_wool",
+      "sourceModel": "minecraft:block/white_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "white_wool_stairs",
+      "texturePath": "/items/textures/white_wool_stairs.png",
+      "sourceTexture": "minecraft:block/white_wool",
+      "sourceModel": "minecraft:block/white_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
@@ -17125,6 +18482,46 @@
       }
     },
     {
+      "id": "yellow_concrete_slab",
+      "texturePath": "/items/textures/yellow_concrete_slab.png",
+      "sourceTexture": "minecraft:block/yellow_concrete",
+      "sourceModel": "minecraft:block/yellow_concrete_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "yellow_concrete_stairs",
+      "texturePath": "/items/textures/yellow_concrete_stairs.png",
+      "sourceTexture": "minecraft:block/yellow_concrete",
+      "sourceModel": "minecraft:block/yellow_concrete_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "yellow_cushion",
+      "texturePath": "/items/textures/yellow_cushion.png",
+      "sourceTexture": "minecraft:item/yellow_cushion",
+      "sourceModel": "minecraft:item/yellow_cushion",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
       "id": "yellow_dye",
       "texturePath": "/items/textures/yellow_dye.png",
       "sourceTexture": "minecraft:item/yellow_dye",
@@ -17148,6 +18545,21 @@
       "blockLoot": {
         "behavior": "default",
         "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "yellow_poplar_leaves",
+      "texturePath": "/items/textures/yellow_poplar_leaves.png",
+      "sourceTexture": "minecraft:block/yellow_poplar_leaves",
+      "sourceModel": "minecraft:block/yellow_poplar_leaves",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "custom"
       }
     },
     {
@@ -17205,6 +18617,35 @@
       "creativeTabs": [
         "colored_blocks",
         "redstone_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default",
+        "lootMethod": "drop_self"
+      }
+    },
+    {
+      "id": "yellow_wool_slab",
+      "texturePath": "/items/textures/yellow_wool_slab.png",
+      "sourceTexture": "minecraft:block/yellow_wool",
+      "sourceModel": "minecraft:block/yellow_wool_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ],
+      "blockLoot": {
+        "behavior": "default"
+      }
+    },
+    {
+      "id": "yellow_wool_stairs",
+      "texturePath": "/items/textures/yellow_wool_stairs.png",
+      "sourceTexture": "minecraft:block/yellow_wool",
+      "sourceModel": "minecraft:block/yellow_wool_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
       ],
       "blockLoot": {
         "behavior": "default",
