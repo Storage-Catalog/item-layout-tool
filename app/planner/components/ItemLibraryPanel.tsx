@@ -117,7 +117,9 @@ function regexMatches(regex: RegExp, value: string): boolean {
 
 type ItemLibraryPanelProps = {
   catalogItems: CatalogItem[];
-  catalogGameVersion: string | null;
+  selectedGameVersion: string | null;
+  availableGameVersions: string[];
+  onGameVersionChange: (gameVersion: string) => void;
   isLoadingCatalog: boolean;
   catalogError: string | null;
   usedItemIds: Set<string>;
@@ -136,7 +138,9 @@ type ItemLibraryPanelProps = {
 
 export function ItemLibraryPanel({
   catalogItems,
-  catalogGameVersion,
+  selectedGameVersion,
+  availableGameVersions,
+  onGameVersionChange,
   isLoadingCatalog,
   catalogError,
   usedItemIds,
@@ -442,10 +446,22 @@ export function ItemLibraryPanel({
         <div className="flex items-start justify-between gap-[0.45rem]">
           <div className="grid gap-[0.08rem]">
             <h2 className="m-0 text-[1.1rem] tracking-[0.02em] dark:text-[#e2edff]">Item Library</h2>
-            {catalogGameVersion ? (
-              <span className="text-[0.68rem] font-semibold text-[#6d6256] dark:text-[#a6b9d5]">
-                Minecraft {catalogGameVersion}
-              </span>
+            {selectedGameVersion ? (
+              <label className="flex items-center gap-[0.3rem] text-[0.68rem] font-semibold text-[#6d6256] dark:text-[#a6b9d5]">
+                Minecraft
+                <select
+                  className="cursor-pointer rounded-[0.3rem] border border-[rgba(121,96,62,0.35)] bg-[rgba(255,250,239,0.95)] px-[0.2rem] py-[0.05rem] text-[0.68rem] font-semibold text-[#3b2f22] dark:border-[rgba(112,136,167,0.5)] dark:bg-[rgba(19,31,47,0.92)] dark:text-[#d4e2f5]"
+                  value={selectedGameVersion}
+                  onChange={(event) => onGameVersionChange(event.target.value)}
+                  title="Minecraft version you play on; items that version lacks are marked red in the layout"
+                >
+                  {availableGameVersions.map((gameVersion) => (
+                    <option key={gameVersion} value={gameVersion}>
+                      {gameVersion}
+                    </option>
+                  ))}
+                </select>
+              </label>
             ) : null}
           </div>
           <div className="flex items-center gap-[0.2rem] rounded-[0.55rem] border border-[rgba(121,96,62,0.35)] bg-[rgba(255,250,239,0.95)] p-[0.2rem] dark:border-[rgba(112,136,167,0.5)] dark:bg-[rgba(19,31,47,0.92)]">

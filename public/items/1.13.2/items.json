@@ -1,0 +1,6481 @@
+{
+  "generatedAt": "2026-10-31T07:35:18.974Z",
+  "gameVersion": "1.13.2",
+  "itemSource": "minecraft-data",
+  "counts": {
+    "itemCount": 581,
+    "missingTextureItemCount": 0,
+    "filteredOutItemCount": 208
+  },
+  "items": [
+    {
+      "id": "acacia_button",
+      "texturePath": "/items/textures/acacia_button-60c71045.png",
+      "sourceTexture": "block/acacia_planks",
+      "sourceModel": "minecraft:block/acacia_button_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "acacia_door",
+      "texturePath": "/items/textures/acacia_door-fe8f56cf.png",
+      "sourceTexture": "item/acacia_door",
+      "sourceModel": "minecraft:item/acacia_door",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "acacia_fence",
+      "texturePath": "/items/textures/acacia_fence-b629a1d5.png",
+      "sourceTexture": "block/acacia_planks",
+      "sourceModel": "minecraft:block/acacia_fence_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "acacia_fence_gate",
+      "texturePath": "/items/textures/acacia_fence_gate-9d72573f.png",
+      "sourceTexture": "block/acacia_planks",
+      "sourceModel": "minecraft:block/acacia_fence_gate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "acacia_leaves",
+      "texturePath": "/items/textures/acacia_leaves-26a8931e.png",
+      "sourceTexture": "block/acacia_leaves",
+      "sourceModel": "minecraft:block/acacia_leaves",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "acacia_log",
+      "texturePath": "/items/textures/acacia_log-a7acecf9.png",
+      "sourceTexture": "block/acacia_log_top",
+      "sourceModel": "minecraft:block/acacia_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "acacia_planks",
+      "texturePath": "/items/textures/acacia_planks-1300b431.png",
+      "sourceTexture": "block/acacia_planks",
+      "sourceModel": "minecraft:block/acacia_planks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "acacia_pressure_plate",
+      "texturePath": "/items/textures/acacia_pressure_plate-064ee306.png",
+      "sourceTexture": "block/acacia_planks",
+      "sourceModel": "minecraft:block/acacia_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "acacia_sapling",
+      "texturePath": "/items/textures/acacia_sapling-9ae6614d.png",
+      "sourceTexture": "block/acacia_sapling",
+      "sourceModel": "minecraft:item/acacia_sapling",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "acacia_slab",
+      "texturePath": "/items/textures/acacia_slab-5b46bbcb.png",
+      "sourceTexture": "block/acacia_planks",
+      "sourceModel": "minecraft:block/acacia_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "acacia_stairs",
+      "texturePath": "/items/textures/acacia_stairs-7627478c.png",
+      "sourceTexture": "block/acacia_planks",
+      "sourceModel": "minecraft:block/acacia_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "acacia_trapdoor",
+      "texturePath": "/items/textures/acacia_trapdoor.png",
+      "sourceTexture": "block/acacia_trapdoor",
+      "sourceModel": "minecraft:block/acacia_trapdoor_bottom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "acacia_wood",
+      "texturePath": "/items/textures/acacia_wood-b5ca05b3.png",
+      "sourceTexture": "block/acacia_log",
+      "sourceModel": "minecraft:block/acacia_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "activator_rail",
+      "texturePath": "/items/textures/activator_rail-856938ab.png",
+      "sourceTexture": "block/activator_rail",
+      "sourceModel": "minecraft:item/activator_rail",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks",
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "allium",
+      "texturePath": "/items/textures/allium-1dac39b3.png",
+      "sourceTexture": "block/allium",
+      "sourceModel": "minecraft:item/allium",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "andesite",
+      "texturePath": "/items/textures/andesite-76f42add.png",
+      "sourceTexture": "block/andesite",
+      "sourceModel": "minecraft:block/andesite",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "anvil",
+      "texturePath": "/items/textures/anvil-397d33d9.png",
+      "sourceTexture": "block/anvil",
+      "sourceModel": "minecraft:block/anvil",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "apple",
+      "texturePath": "/items/textures/apple-10f67f1e.png",
+      "sourceTexture": "item/apple",
+      "sourceModel": "minecraft:item/apple",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "armor_stand",
+      "texturePath": "/items/textures/armor_stand-db64c555.png",
+      "sourceTexture": "item/armor_stand",
+      "sourceModel": "minecraft:item/armor_stand",
+      "registration": "item",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "functional_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "arrow",
+      "texturePath": "/items/textures/arrow-f01cc267.png",
+      "sourceTexture": "item/arrow",
+      "sourceModel": "minecraft:item/arrow",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "combat"
+      ]
+    },
+    {
+      "id": "azure_bluet",
+      "texturePath": "/items/textures/azure_bluet-6d66ee8d.png",
+      "sourceTexture": "block/azure_bluet",
+      "sourceModel": "minecraft:item/azure_bluet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "baked_potato",
+      "texturePath": "/items/textures/baked_potato-90bf5c44.png",
+      "sourceTexture": "item/baked_potato",
+      "sourceModel": "minecraft:item/baked_potato",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "beacon",
+      "texturePath": "/items/textures/beacon-30ebcfaf.png",
+      "sourceTexture": "block/obsidian",
+      "sourceModel": "minecraft:block/beacon",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "beef",
+      "texturePath": "/items/textures/beef-3945cd3a.png",
+      "sourceTexture": "item/beef",
+      "sourceModel": "minecraft:item/beef",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "beetroot",
+      "texturePath": "/items/textures/beetroot-bf2b4153.png",
+      "sourceTexture": "item/beetroot",
+      "sourceModel": "minecraft:item/beetroot",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "beetroot_seeds",
+      "texturePath": "/items/textures/beetroot_seeds-04b12da0.png",
+      "sourceTexture": "item/beetroot_seeds",
+      "sourceModel": "minecraft:item/beetroot_seeds",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "birch_button",
+      "texturePath": "/items/textures/birch_button-b4d5b747.png",
+      "sourceTexture": "block/birch_planks",
+      "sourceModel": "minecraft:block/birch_button_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "birch_door",
+      "texturePath": "/items/textures/birch_door-62b8bad9.png",
+      "sourceTexture": "item/birch_door",
+      "sourceModel": "minecraft:item/birch_door",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "birch_fence",
+      "texturePath": "/items/textures/birch_fence-5b8e80c0.png",
+      "sourceTexture": "block/birch_planks",
+      "sourceModel": "minecraft:block/birch_fence_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "birch_fence_gate",
+      "texturePath": "/items/textures/birch_fence_gate-dcebb8ee.png",
+      "sourceTexture": "block/birch_planks",
+      "sourceModel": "minecraft:block/birch_fence_gate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "birch_leaves",
+      "texturePath": "/items/textures/birch_leaves-60765161.png",
+      "sourceTexture": "block/birch_leaves",
+      "sourceModel": "minecraft:block/birch_leaves",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "birch_log",
+      "texturePath": "/items/textures/birch_log-975c6f68.png",
+      "sourceTexture": "block/birch_log_top",
+      "sourceModel": "minecraft:block/birch_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "birch_planks",
+      "texturePath": "/items/textures/birch_planks-740aa149.png",
+      "sourceTexture": "block/birch_planks",
+      "sourceModel": "minecraft:block/birch_planks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "birch_pressure_plate",
+      "texturePath": "/items/textures/birch_pressure_plate-8732fe62.png",
+      "sourceTexture": "block/birch_planks",
+      "sourceModel": "minecraft:block/birch_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "birch_sapling",
+      "texturePath": "/items/textures/birch_sapling-6dbfe6d2.png",
+      "sourceTexture": "block/birch_sapling",
+      "sourceModel": "minecraft:item/birch_sapling",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "birch_slab",
+      "texturePath": "/items/textures/birch_slab-58d6eeda.png",
+      "sourceTexture": "block/birch_planks",
+      "sourceModel": "minecraft:block/birch_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "birch_stairs",
+      "texturePath": "/items/textures/birch_stairs-50139d6e.png",
+      "sourceTexture": "block/birch_planks",
+      "sourceModel": "minecraft:block/birch_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "birch_trapdoor",
+      "texturePath": "/items/textures/birch_trapdoor.png",
+      "sourceTexture": "block/birch_trapdoor",
+      "sourceModel": "minecraft:block/birch_trapdoor_bottom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "birch_wood",
+      "texturePath": "/items/textures/birch_wood-1a3f282f.png",
+      "sourceTexture": "block/birch_log",
+      "sourceModel": "minecraft:block/birch_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "black_banner",
+      "texturePath": "/items/textures/black_banner.png",
+      "sourceTexture": "special/Black_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "black_carpet",
+      "texturePath": "/items/textures/black_carpet.png",
+      "sourceTexture": "block/black_wool",
+      "sourceModel": "minecraft:block/black_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "black_concrete",
+      "texturePath": "/items/textures/black_concrete.png",
+      "sourceTexture": "block/black_concrete",
+      "sourceModel": "minecraft:block/black_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "black_concrete_powder",
+      "texturePath": "/items/textures/black_concrete_powder.png",
+      "sourceTexture": "block/black_concrete_powder",
+      "sourceModel": "minecraft:block/black_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "black_glazed_terracotta",
+      "texturePath": "/items/textures/black_glazed_terracotta.png",
+      "sourceTexture": "block/black_glazed_terracotta",
+      "sourceModel": "minecraft:block/black_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "black_stained_glass",
+      "texturePath": "/items/textures/black_stained_glass-3b808c4b.png",
+      "sourceTexture": "block/black_stained_glass",
+      "sourceModel": "minecraft:block/black_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "black_stained_glass_pane",
+      "texturePath": "/items/textures/black_stained_glass_pane-777c9f07.png",
+      "sourceTexture": "block/black_stained_glass",
+      "sourceModel": "minecraft:item/black_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "black_terracotta",
+      "texturePath": "/items/textures/black_terracotta.png",
+      "sourceTexture": "block/black_terracotta",
+      "sourceModel": "minecraft:block/black_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "black_wool",
+      "texturePath": "/items/textures/black_wool.png",
+      "sourceTexture": "block/black_wool",
+      "sourceModel": "minecraft:block/black_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "blaze_powder",
+      "texturePath": "/items/textures/blaze_powder-969dc7fb.png",
+      "sourceTexture": "item/blaze_powder",
+      "sourceModel": "minecraft:item/blaze_powder",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "blaze_rod",
+      "texturePath": "/items/textures/blaze_rod-557f8140.png",
+      "sourceTexture": "item/blaze_rod",
+      "sourceModel": "minecraft:item/blaze_rod",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "blue_banner",
+      "texturePath": "/items/textures/blue_banner.png",
+      "sourceTexture": "special/Blue_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "blue_carpet",
+      "texturePath": "/items/textures/blue_carpet.png",
+      "sourceTexture": "block/blue_wool",
+      "sourceModel": "minecraft:block/blue_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "blue_concrete",
+      "texturePath": "/items/textures/blue_concrete.png",
+      "sourceTexture": "block/blue_concrete",
+      "sourceModel": "minecraft:block/blue_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "blue_concrete_powder",
+      "texturePath": "/items/textures/blue_concrete_powder.png",
+      "sourceTexture": "block/blue_concrete_powder",
+      "sourceModel": "minecraft:block/blue_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "blue_glazed_terracotta",
+      "texturePath": "/items/textures/blue_glazed_terracotta.png",
+      "sourceTexture": "block/blue_glazed_terracotta",
+      "sourceModel": "minecraft:block/blue_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "blue_ice",
+      "texturePath": "/items/textures/blue_ice.png",
+      "sourceTexture": "block/blue_ice",
+      "sourceModel": "minecraft:block/blue_ice",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "blue_orchid",
+      "texturePath": "/items/textures/blue_orchid-2bc19d72.png",
+      "sourceTexture": "block/blue_orchid",
+      "sourceModel": "minecraft:item/blue_orchid",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "blue_stained_glass",
+      "texturePath": "/items/textures/blue_stained_glass-315abc64.png",
+      "sourceTexture": "block/blue_stained_glass",
+      "sourceModel": "minecraft:block/blue_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "blue_stained_glass_pane",
+      "texturePath": "/items/textures/blue_stained_glass_pane-ea6f731b.png",
+      "sourceTexture": "block/blue_stained_glass",
+      "sourceModel": "minecraft:item/blue_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "blue_terracotta",
+      "texturePath": "/items/textures/blue_terracotta.png",
+      "sourceTexture": "block/blue_terracotta",
+      "sourceModel": "minecraft:block/blue_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "blue_wool",
+      "texturePath": "/items/textures/blue_wool.png",
+      "sourceTexture": "block/blue_wool",
+      "sourceModel": "minecraft:block/blue_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "bone",
+      "texturePath": "/items/textures/bone-e2792ed2.png",
+      "sourceTexture": "item/bone",
+      "sourceModel": "minecraft:item/bone",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "bone_block",
+      "texturePath": "/items/textures/bone_block-eb3316e6.png",
+      "sourceTexture": "block/bone_block_top",
+      "sourceModel": "minecraft:block/bone_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "bone_meal",
+      "texturePath": "/items/textures/bone_meal-4fe4af90.png",
+      "sourceTexture": "item/bone_meal",
+      "sourceModel": "minecraft:item/bone_meal",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "tools_and_utilities",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "book",
+      "texturePath": "/items/textures/book-33f66203.png",
+      "sourceTexture": "item/book",
+      "sourceModel": "minecraft:item/book",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "bookshelf",
+      "texturePath": "/items/textures/bookshelf-5774bcb2.png",
+      "sourceTexture": "block/oak_planks",
+      "sourceModel": "minecraft:block/bookshelf",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "bowl",
+      "texturePath": "/items/textures/bowl-d03a3d08.png",
+      "sourceTexture": "item/bowl",
+      "sourceModel": "minecraft:item/bowl",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "brain_coral",
+      "texturePath": "/items/textures/brain_coral-d255f6f1.png",
+      "sourceTexture": "block/brain_coral",
+      "sourceModel": "minecraft:item/brain_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "brain_coral_block",
+      "texturePath": "/items/textures/brain_coral_block.png",
+      "sourceTexture": "block/brain_coral_block",
+      "sourceModel": "minecraft:block/brain_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "brain_coral_fan",
+      "texturePath": "/items/textures/brain_coral_fan-1cc1d8eb.png",
+      "sourceTexture": "block/brain_coral_fan",
+      "sourceModel": "minecraft:item/brain_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "bread",
+      "texturePath": "/items/textures/bread-a5403095.png",
+      "sourceTexture": "item/bread",
+      "sourceModel": "minecraft:item/bread",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "brewing_stand",
+      "texturePath": "/items/textures/brewing_stand-f220e48e.png",
+      "sourceTexture": "item/brewing_stand",
+      "sourceModel": "minecraft:item/brewing_stand",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "brick",
+      "texturePath": "/items/textures/brick-1f8662d8.png",
+      "sourceTexture": "item/brick",
+      "sourceModel": "minecraft:item/brick",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "brick_slab",
+      "texturePath": "/items/textures/brick_slab-57f516bd.png",
+      "sourceTexture": "block/bricks",
+      "sourceModel": "minecraft:block/brick_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "brick_stairs",
+      "texturePath": "/items/textures/brick_stairs-73ada761.png",
+      "sourceTexture": "block/bricks",
+      "sourceModel": "minecraft:block/brick_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "bricks",
+      "texturePath": "/items/textures/bricks-e950d910.png",
+      "sourceTexture": "block/bricks",
+      "sourceModel": "minecraft:block/bricks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "brown_banner",
+      "texturePath": "/items/textures/brown_banner.png",
+      "sourceTexture": "special/Brown_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "brown_carpet",
+      "texturePath": "/items/textures/brown_carpet.png",
+      "sourceTexture": "block/brown_wool",
+      "sourceModel": "minecraft:block/brown_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "brown_concrete",
+      "texturePath": "/items/textures/brown_concrete.png",
+      "sourceTexture": "block/brown_concrete",
+      "sourceModel": "minecraft:block/brown_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "brown_concrete_powder",
+      "texturePath": "/items/textures/brown_concrete_powder.png",
+      "sourceTexture": "block/brown_concrete_powder",
+      "sourceModel": "minecraft:block/brown_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "brown_glazed_terracotta",
+      "texturePath": "/items/textures/brown_glazed_terracotta.png",
+      "sourceTexture": "block/brown_glazed_terracotta",
+      "sourceModel": "minecraft:block/brown_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "brown_mushroom",
+      "texturePath": "/items/textures/brown_mushroom-d66ca38b.png",
+      "sourceTexture": "block/brown_mushroom",
+      "sourceModel": "minecraft:item/brown_mushroom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "brown_mushroom_block",
+      "texturePath": "/items/textures/brown_mushroom_block-756bdaf6.png",
+      "sourceTexture": "block/brown_mushroom_block",
+      "sourceModel": "minecraft:block/brown_mushroom_block_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "brown_stained_glass",
+      "texturePath": "/items/textures/brown_stained_glass-adb020cf.png",
+      "sourceTexture": "block/brown_stained_glass",
+      "sourceModel": "minecraft:block/brown_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "brown_stained_glass_pane",
+      "texturePath": "/items/textures/brown_stained_glass_pane-1364dcf9.png",
+      "sourceTexture": "block/brown_stained_glass",
+      "sourceModel": "minecraft:item/brown_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "brown_terracotta",
+      "texturePath": "/items/textures/brown_terracotta.png",
+      "sourceTexture": "block/brown_terracotta",
+      "sourceModel": "minecraft:block/brown_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "brown_wool",
+      "texturePath": "/items/textures/brown_wool.png",
+      "sourceTexture": "block/brown_wool",
+      "sourceModel": "minecraft:block/brown_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "bubble_coral",
+      "texturePath": "/items/textures/bubble_coral-a45fede9.png",
+      "sourceTexture": "block/bubble_coral",
+      "sourceModel": "minecraft:item/bubble_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "bubble_coral_block",
+      "texturePath": "/items/textures/bubble_coral_block.png",
+      "sourceTexture": "block/bubble_coral_block",
+      "sourceModel": "minecraft:block/bubble_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "bubble_coral_fan",
+      "texturePath": "/items/textures/bubble_coral_fan-77adb6a3.png",
+      "sourceTexture": "block/bubble_coral_fan",
+      "sourceModel": "minecraft:item/bubble_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "bucket",
+      "texturePath": "/items/textures/bucket-2480b034.png",
+      "sourceTexture": "item/bucket",
+      "sourceModel": "minecraft:item/bucket",
+      "registration": "item",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "cactus",
+      "texturePath": "/items/textures/cactus-c3cb342e.png",
+      "sourceTexture": "block/cactus_side",
+      "sourceModel": "minecraft:block/cactus",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "cactus_green",
+      "texturePath": "/items/textures/cactus_green.png",
+      "sourceTexture": "item/cactus_green",
+      "sourceModel": "minecraft:item/cactus_green",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "carrot",
+      "texturePath": "/items/textures/carrot-6f5b25ab.png",
+      "sourceTexture": "item/carrot",
+      "sourceModel": "minecraft:item/carrot",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "carved_pumpkin",
+      "texturePath": "/items/textures/carved_pumpkin-27cf77b8.png",
+      "sourceTexture": "block/pumpkin_top",
+      "sourceModel": "minecraft:block/carved_pumpkin",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "cauldron",
+      "texturePath": "/items/textures/cauldron-29012777.png",
+      "sourceTexture": "item/cauldron",
+      "sourceModel": "minecraft:item/cauldron",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "charcoal",
+      "texturePath": "/items/textures/charcoal-94a494de.png",
+      "sourceTexture": "item/charcoal",
+      "sourceModel": "minecraft:item/charcoal",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "chest",
+      "texturePath": "/items/textures/chest.png",
+      "sourceTexture": "special/Chest.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "chicken",
+      "texturePath": "/items/textures/chicken-d6e2cf61.png",
+      "sourceTexture": "item/chicken",
+      "sourceModel": "minecraft:item/chicken",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "chipped_anvil",
+      "texturePath": "/items/textures/chipped_anvil-f4b3f0d8.png",
+      "sourceTexture": "block/anvil",
+      "sourceModel": "minecraft:block/chipped_anvil",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "chiseled_quartz_block",
+      "texturePath": "/items/textures/chiseled_quartz_block-10bca6c8.png",
+      "sourceTexture": "block/chiseled_quartz_block_top",
+      "sourceModel": "minecraft:block/chiseled_quartz_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "chiseled_red_sandstone",
+      "texturePath": "/items/textures/chiseled_red_sandstone-b61a7571.png",
+      "sourceTexture": "block/red_sandstone_top",
+      "sourceModel": "minecraft:block/chiseled_red_sandstone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "chiseled_sandstone",
+      "texturePath": "/items/textures/chiseled_sandstone-1391020c.png",
+      "sourceTexture": "block/sandstone_top",
+      "sourceModel": "minecraft:block/chiseled_sandstone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "chiseled_stone_bricks",
+      "texturePath": "/items/textures/chiseled_stone_bricks-877cda68.png",
+      "sourceTexture": "block/chiseled_stone_bricks",
+      "sourceModel": "minecraft:block/chiseled_stone_bricks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "chorus_flower",
+      "texturePath": "/items/textures/chorus_flower-0350d28e.png",
+      "sourceTexture": "block/chorus_plant",
+      "sourceModel": "minecraft:block/chorus_flower",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "chorus_fruit",
+      "texturePath": "/items/textures/chorus_fruit-47b9e622.png",
+      "sourceTexture": "item/chorus_fruit",
+      "sourceModel": "minecraft:item/chorus_fruit",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "clay",
+      "texturePath": "/items/textures/clay-9004ec47.png",
+      "sourceTexture": "block/clay",
+      "sourceModel": "minecraft:block/clay",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "clay_ball",
+      "texturePath": "/items/textures/clay_ball-259e4f7a.png",
+      "sourceTexture": "item/clay_ball",
+      "sourceModel": "minecraft:item/clay_ball",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "clock",
+      "texturePath": "/items/textures/clock-1591ee80.png",
+      "sourceTexture": "item/clock_00",
+      "sourceModel": "minecraft:item/clock",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "coal",
+      "texturePath": "/items/textures/coal-e61c2008.png",
+      "sourceTexture": "item/coal",
+      "sourceModel": "minecraft:item/coal",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "coal_block",
+      "texturePath": "/items/textures/coal_block-d4aa05f1.png",
+      "sourceTexture": "block/coal_block",
+      "sourceModel": "minecraft:block/coal_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "coal_ore",
+      "texturePath": "/items/textures/coal_ore-7cd57ed7.png",
+      "sourceTexture": "block/coal_ore",
+      "sourceModel": "minecraft:block/coal_ore",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "coarse_dirt",
+      "texturePath": "/items/textures/coarse_dirt.png",
+      "sourceTexture": "block/coarse_dirt",
+      "sourceModel": "minecraft:block/coarse_dirt",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "cobblestone",
+      "texturePath": "/items/textures/cobblestone-df03a110.png",
+      "sourceTexture": "block/cobblestone",
+      "sourceModel": "minecraft:block/cobblestone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "cobblestone_slab",
+      "texturePath": "/items/textures/cobblestone_slab-d80d7330.png",
+      "sourceTexture": "block/cobblestone",
+      "sourceModel": "minecraft:block/cobblestone_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "cobblestone_stairs",
+      "texturePath": "/items/textures/cobblestone_stairs-03f16fc9.png",
+      "sourceTexture": "block/cobblestone",
+      "sourceModel": "minecraft:block/cobblestone_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "cobblestone_wall",
+      "texturePath": "/items/textures/cobblestone_wall-481dcafb.png",
+      "sourceTexture": "block/cobblestone",
+      "sourceModel": "minecraft:block/cobblestone_wall_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "cobweb",
+      "texturePath": "/items/textures/cobweb-e4bcd2dd.png",
+      "sourceTexture": "block/cobweb",
+      "sourceModel": "minecraft:item/cobweb",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "cocoa_beans",
+      "texturePath": "/items/textures/cocoa_beans-64a3a3fb.png",
+      "sourceTexture": "item/cocoa_beans",
+      "sourceModel": "minecraft:item/cocoa_beans",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "cod",
+      "texturePath": "/items/textures/cod-6e504f4c.png",
+      "sourceTexture": "item/cod",
+      "sourceModel": "minecraft:item/cod",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "comparator",
+      "texturePath": "/items/textures/comparator-f2f3130f.png",
+      "sourceTexture": "item/comparator",
+      "sourceModel": "minecraft:item/comparator",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "compass",
+      "texturePath": "/items/textures/compass-6ce31b88.png",
+      "sourceTexture": "item/compass_16",
+      "sourceModel": "minecraft:item/compass",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "conduit",
+      "texturePath": "/items/textures/conduit.png",
+      "sourceTexture": "special/Conduit.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "cooked_beef",
+      "texturePath": "/items/textures/cooked_beef-44f723e6.png",
+      "sourceTexture": "item/cooked_beef",
+      "sourceModel": "minecraft:item/cooked_beef",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "cooked_chicken",
+      "texturePath": "/items/textures/cooked_chicken-d97d0473.png",
+      "sourceTexture": "item/cooked_chicken",
+      "sourceModel": "minecraft:item/cooked_chicken",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "cooked_cod",
+      "texturePath": "/items/textures/cooked_cod-f74ea062.png",
+      "sourceTexture": "item/cooked_cod",
+      "sourceModel": "minecraft:item/cooked_cod",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "cooked_mutton",
+      "texturePath": "/items/textures/cooked_mutton-9558b24f.png",
+      "sourceTexture": "item/cooked_mutton",
+      "sourceModel": "minecraft:item/cooked_mutton",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "cooked_porkchop",
+      "texturePath": "/items/textures/cooked_porkchop-b0631d51.png",
+      "sourceTexture": "item/cooked_porkchop",
+      "sourceModel": "minecraft:item/cooked_porkchop",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "cooked_rabbit",
+      "texturePath": "/items/textures/cooked_rabbit-9b4fafc2.png",
+      "sourceTexture": "item/cooked_rabbit",
+      "sourceModel": "minecraft:item/cooked_rabbit",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "cooked_salmon",
+      "texturePath": "/items/textures/cooked_salmon-53979a71.png",
+      "sourceTexture": "item/cooked_salmon",
+      "sourceModel": "minecraft:item/cooked_salmon",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "cookie",
+      "texturePath": "/items/textures/cookie-f222f34e.png",
+      "sourceTexture": "item/cookie",
+      "sourceModel": "minecraft:item/cookie",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "cracked_stone_bricks",
+      "texturePath": "/items/textures/cracked_stone_bricks-c39479c3.png",
+      "sourceTexture": "block/cracked_stone_bricks",
+      "sourceModel": "minecraft:block/cracked_stone_bricks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "crafting_table",
+      "texturePath": "/items/textures/crafting_table-49f7296b.png",
+      "sourceTexture": "block/crafting_table_top",
+      "sourceModel": "minecraft:block/crafting_table",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "creeper_head",
+      "texturePath": "/items/textures/creeper_head.png",
+      "sourceTexture": "special/Creeper_Head.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "cut_red_sandstone",
+      "texturePath": "/items/textures/cut_red_sandstone-5a2c9ebf.png",
+      "sourceTexture": "block/red_sandstone_top",
+      "sourceModel": "minecraft:block/cut_red_sandstone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "cut_sandstone",
+      "texturePath": "/items/textures/cut_sandstone-fcad8ab9.png",
+      "sourceTexture": "block/sandstone_top",
+      "sourceModel": "minecraft:block/cut_sandstone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "cyan_banner",
+      "texturePath": "/items/textures/cyan_banner.png",
+      "sourceTexture": "special/Cyan_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "cyan_carpet",
+      "texturePath": "/items/textures/cyan_carpet.png",
+      "sourceTexture": "block/cyan_wool",
+      "sourceModel": "minecraft:block/cyan_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "cyan_concrete",
+      "texturePath": "/items/textures/cyan_concrete.png",
+      "sourceTexture": "block/cyan_concrete",
+      "sourceModel": "minecraft:block/cyan_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "cyan_concrete_powder",
+      "texturePath": "/items/textures/cyan_concrete_powder.png",
+      "sourceTexture": "block/cyan_concrete_powder",
+      "sourceModel": "minecraft:block/cyan_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "cyan_dye",
+      "texturePath": "/items/textures/cyan_dye-d7dfdc4e.png",
+      "sourceTexture": "item/cyan_dye",
+      "sourceModel": "minecraft:item/cyan_dye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "cyan_glazed_terracotta",
+      "texturePath": "/items/textures/cyan_glazed_terracotta.png",
+      "sourceTexture": "block/cyan_glazed_terracotta",
+      "sourceModel": "minecraft:block/cyan_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "cyan_stained_glass",
+      "texturePath": "/items/textures/cyan_stained_glass-926aa9f9.png",
+      "sourceTexture": "block/cyan_stained_glass",
+      "sourceModel": "minecraft:block/cyan_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "cyan_stained_glass_pane",
+      "texturePath": "/items/textures/cyan_stained_glass_pane-d390d46b.png",
+      "sourceTexture": "block/cyan_stained_glass",
+      "sourceModel": "minecraft:item/cyan_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "cyan_terracotta",
+      "texturePath": "/items/textures/cyan_terracotta.png",
+      "sourceTexture": "block/cyan_terracotta",
+      "sourceModel": "minecraft:block/cyan_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "cyan_wool",
+      "texturePath": "/items/textures/cyan_wool.png",
+      "sourceTexture": "block/cyan_wool",
+      "sourceModel": "minecraft:block/cyan_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "damaged_anvil",
+      "texturePath": "/items/textures/damaged_anvil-a9d839c9.png",
+      "sourceTexture": "block/anvil",
+      "sourceModel": "minecraft:block/damaged_anvil",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "dandelion",
+      "texturePath": "/items/textures/dandelion-466da816.png",
+      "sourceTexture": "block/dandelion",
+      "sourceModel": "minecraft:item/dandelion",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dandelion_yellow",
+      "texturePath": "/items/textures/dandelion_yellow.png",
+      "sourceTexture": "item/dandelion_yellow",
+      "sourceModel": "minecraft:item/dandelion_yellow",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "dark_oak_button",
+      "texturePath": "/items/textures/dark_oak_button-f197b44e.png",
+      "sourceTexture": "block/dark_oak_planks",
+      "sourceModel": "minecraft:block/dark_oak_button_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_door",
+      "texturePath": "/items/textures/dark_oak_door-de619d8b.png",
+      "sourceTexture": "item/dark_oak_door",
+      "sourceModel": "minecraft:item/dark_oak_door",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_fence",
+      "texturePath": "/items/textures/dark_oak_fence-7fc8fc05.png",
+      "sourceTexture": "block/dark_oak_planks",
+      "sourceModel": "minecraft:block/dark_oak_fence_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_fence_gate",
+      "texturePath": "/items/textures/dark_oak_fence_gate-4906d09d.png",
+      "sourceTexture": "block/dark_oak_planks",
+      "sourceModel": "minecraft:block/dark_oak_fence_gate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_leaves",
+      "texturePath": "/items/textures/dark_oak_leaves-26a8931e.png",
+      "sourceTexture": "block/dark_oak_leaves",
+      "sourceModel": "minecraft:block/dark_oak_leaves",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_log",
+      "texturePath": "/items/textures/dark_oak_log-1bbba035.png",
+      "sourceTexture": "block/dark_oak_log_top",
+      "sourceModel": "minecraft:block/dark_oak_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_planks",
+      "texturePath": "/items/textures/dark_oak_planks-f33d8d40.png",
+      "sourceTexture": "block/dark_oak_planks",
+      "sourceModel": "minecraft:block/dark_oak_planks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_pressure_plate",
+      "texturePath": "/items/textures/dark_oak_pressure_plate-845ceec9.png",
+      "sourceTexture": "block/dark_oak_planks",
+      "sourceModel": "minecraft:block/dark_oak_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_sapling",
+      "texturePath": "/items/textures/dark_oak_sapling-c9799c3a.png",
+      "sourceTexture": "block/dark_oak_sapling",
+      "sourceModel": "minecraft:item/dark_oak_sapling",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_slab",
+      "texturePath": "/items/textures/dark_oak_slab-10c9cd56.png",
+      "sourceTexture": "block/dark_oak_planks",
+      "sourceModel": "minecraft:block/dark_oak_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_stairs",
+      "texturePath": "/items/textures/dark_oak_stairs-ce3bf86b.png",
+      "sourceTexture": "block/dark_oak_planks",
+      "sourceModel": "minecraft:block/dark_oak_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_trapdoor",
+      "texturePath": "/items/textures/dark_oak_trapdoor.png",
+      "sourceTexture": "block/dark_oak_trapdoor",
+      "sourceModel": "minecraft:block/dark_oak_trapdoor_bottom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_oak_wood",
+      "texturePath": "/items/textures/dark_oak_wood-0ae1cfdf.png",
+      "sourceTexture": "block/dark_oak_log",
+      "sourceModel": "minecraft:block/dark_oak_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_prismarine",
+      "texturePath": "/items/textures/dark_prismarine-bf5280ed.png",
+      "sourceTexture": "block/dark_prismarine",
+      "sourceModel": "minecraft:block/dark_prismarine",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_prismarine_slab",
+      "texturePath": "/items/textures/dark_prismarine_slab-474239ac.png",
+      "sourceTexture": "block/dark_prismarine",
+      "sourceModel": "minecraft:block/dark_prismarine_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "dark_prismarine_stairs",
+      "texturePath": "/items/textures/dark_prismarine_stairs-aa37761c.png",
+      "sourceTexture": "block/dark_prismarine",
+      "sourceModel": "minecraft:block/dark_prismarine_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "daylight_detector",
+      "texturePath": "/items/textures/daylight_detector.png",
+      "sourceTexture": "block/daylight_detector_top",
+      "sourceModel": "minecraft:block/daylight_detector",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "dead_brain_coral",
+      "texturePath": "/items/textures/dead_brain_coral-48208e1c.png",
+      "sourceTexture": "block/dead_brain_coral",
+      "sourceModel": "minecraft:item/dead_brain_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_brain_coral_block",
+      "texturePath": "/items/textures/dead_brain_coral_block.png",
+      "sourceTexture": "block/dead_brain_coral_block",
+      "sourceModel": "minecraft:block/dead_brain_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_brain_coral_fan",
+      "texturePath": "/items/textures/dead_brain_coral_fan-a89c4810.png",
+      "sourceTexture": "block/dead_brain_coral_fan",
+      "sourceModel": "minecraft:item/dead_brain_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_bubble_coral",
+      "texturePath": "/items/textures/dead_bubble_coral-a41ac546.png",
+      "sourceTexture": "block/dead_bubble_coral",
+      "sourceModel": "minecraft:item/dead_bubble_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_bubble_coral_block",
+      "texturePath": "/items/textures/dead_bubble_coral_block.png",
+      "sourceTexture": "block/dead_bubble_coral_block",
+      "sourceModel": "minecraft:block/dead_bubble_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_bubble_coral_fan",
+      "texturePath": "/items/textures/dead_bubble_coral_fan-96f7d5a2.png",
+      "sourceTexture": "block/dead_bubble_coral_fan",
+      "sourceModel": "minecraft:item/dead_bubble_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_bush",
+      "texturePath": "/items/textures/dead_bush-5dd220ad.png",
+      "sourceTexture": "block/dead_bush",
+      "sourceModel": "minecraft:item/dead_bush",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_fire_coral",
+      "texturePath": "/items/textures/dead_fire_coral-d54d340a.png",
+      "sourceTexture": "block/dead_fire_coral",
+      "sourceModel": "minecraft:item/dead_fire_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_fire_coral_block",
+      "texturePath": "/items/textures/dead_fire_coral_block.png",
+      "sourceTexture": "block/dead_fire_coral_block",
+      "sourceModel": "minecraft:block/dead_fire_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_fire_coral_fan",
+      "texturePath": "/items/textures/dead_fire_coral_fan-102068d0.png",
+      "sourceTexture": "block/dead_fire_coral_fan",
+      "sourceModel": "minecraft:item/dead_fire_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_horn_coral",
+      "texturePath": "/items/textures/dead_horn_coral-984d8f25.png",
+      "sourceTexture": "block/dead_horn_coral",
+      "sourceModel": "minecraft:item/dead_horn_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_horn_coral_block",
+      "texturePath": "/items/textures/dead_horn_coral_block.png",
+      "sourceTexture": "block/dead_horn_coral_block",
+      "sourceModel": "minecraft:block/dead_horn_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_horn_coral_fan",
+      "texturePath": "/items/textures/dead_horn_coral_fan-12f2619e.png",
+      "sourceTexture": "block/dead_horn_coral_fan",
+      "sourceModel": "minecraft:item/dead_horn_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_tube_coral",
+      "texturePath": "/items/textures/dead_tube_coral-b9cd6339.png",
+      "sourceTexture": "block/dead_tube_coral",
+      "sourceModel": "minecraft:item/dead_tube_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_tube_coral_block",
+      "texturePath": "/items/textures/dead_tube_coral_block.png",
+      "sourceTexture": "block/dead_tube_coral_block",
+      "sourceModel": "minecraft:block/dead_tube_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dead_tube_coral_fan",
+      "texturePath": "/items/textures/dead_tube_coral_fan-cddab51e.png",
+      "sourceTexture": "block/dead_tube_coral_fan",
+      "sourceModel": "minecraft:item/dead_tube_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "detector_rail",
+      "texturePath": "/items/textures/detector_rail-c4efa39f.png",
+      "sourceTexture": "block/detector_rail",
+      "sourceModel": "minecraft:item/detector_rail",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks",
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "diamond",
+      "texturePath": "/items/textures/diamond-ff8ffc12.png",
+      "sourceTexture": "item/diamond",
+      "sourceModel": "minecraft:item/diamond",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "diamond_block",
+      "texturePath": "/items/textures/diamond_block-cdfc1436.png",
+      "sourceTexture": "block/diamond_block",
+      "sourceModel": "minecraft:block/diamond_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "diamond_ore",
+      "texturePath": "/items/textures/diamond_ore-1bb97003.png",
+      "sourceTexture": "block/diamond_ore",
+      "sourceModel": "minecraft:block/diamond_ore",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "diorite",
+      "texturePath": "/items/textures/diorite-456c74bc.png",
+      "sourceTexture": "block/diorite",
+      "sourceModel": "minecraft:block/diorite",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dirt",
+      "texturePath": "/items/textures/dirt.png",
+      "sourceTexture": "block/dirt",
+      "sourceModel": "minecraft:block/dirt",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dispenser",
+      "texturePath": "/items/textures/dispenser-1cce2314.png",
+      "sourceTexture": "block/furnace_top",
+      "sourceModel": "minecraft:block/dispenser",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "dragon_breath",
+      "texturePath": "/items/textures/dragon_breath-e825781e.png",
+      "sourceTexture": "item/dragon_breath",
+      "sourceModel": "minecraft:item/dragon_breath",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "dragon_egg",
+      "texturePath": "/items/textures/dragon_egg-9d338d01.png",
+      "sourceTexture": "block/dragon_egg",
+      "sourceModel": "minecraft:block/dragon_egg",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "dragon_head",
+      "texturePath": "/items/textures/dragon_head.png",
+      "sourceTexture": "special/Dragon_Head.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "dried_kelp",
+      "texturePath": "/items/textures/dried_kelp-4ff60064.png",
+      "sourceTexture": "item/dried_kelp",
+      "sourceModel": "minecraft:item/dried_kelp",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "dried_kelp_block",
+      "texturePath": "/items/textures/dried_kelp_block.png",
+      "sourceTexture": "block/dried_kelp_top",
+      "sourceModel": "minecraft:block/dried_kelp_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "dropper",
+      "texturePath": "/items/textures/dropper-eab30db6.png",
+      "sourceTexture": "block/furnace_top",
+      "sourceModel": "minecraft:block/dropper",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "egg",
+      "texturePath": "/items/textures/egg-16c1280a.png",
+      "sourceTexture": "item/egg",
+      "sourceModel": "minecraft:item/egg",
+      "registration": "item",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "combat",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "emerald",
+      "texturePath": "/items/textures/emerald-b51e47d7.png",
+      "sourceTexture": "item/emerald",
+      "sourceModel": "minecraft:item/emerald",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "emerald_block",
+      "texturePath": "/items/textures/emerald_block-8a8e58f3.png",
+      "sourceTexture": "block/emerald_block",
+      "sourceModel": "minecraft:block/emerald_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "emerald_ore",
+      "texturePath": "/items/textures/emerald_ore-aaa0a4a0.png",
+      "sourceTexture": "block/emerald_ore",
+      "sourceModel": "minecraft:block/emerald_ore",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "enchanted_golden_apple",
+      "texturePath": "/items/textures/enchanted_golden_apple-ca99375f.png",
+      "sourceTexture": "item/golden_apple",
+      "sourceModel": "minecraft:item/enchanted_golden_apple",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "enchanting_table",
+      "texturePath": "/items/textures/enchanting_table-fb0092b4.png",
+      "sourceTexture": "block/enchanting_table_top",
+      "sourceModel": "minecraft:block/enchanting_table",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "end_crystal",
+      "texturePath": "/items/textures/end_crystal-a360cc5e.png",
+      "sourceTexture": "item/end_crystal",
+      "sourceModel": "minecraft:item/end_crystal",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "combat"
+      ]
+    },
+    {
+      "id": "end_rod",
+      "texturePath": "/items/textures/end_rod-3ad835ed.png",
+      "sourceTexture": "block/end_rod",
+      "sourceModel": "minecraft:block/end_rod",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "end_stone",
+      "texturePath": "/items/textures/end_stone-5f3d6a6e.png",
+      "sourceTexture": "block/end_stone",
+      "sourceModel": "minecraft:block/end_stone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "end_stone_bricks",
+      "texturePath": "/items/textures/end_stone_bricks-9f2dfc21.png",
+      "sourceTexture": "block/end_stone_bricks",
+      "sourceModel": "minecraft:block/end_stone_bricks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "ender_chest",
+      "texturePath": "/items/textures/ender_chest.png",
+      "sourceTexture": "special/Ender_Chest.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "ender_eye",
+      "texturePath": "/items/textures/ender_eye-5a8164e9.png",
+      "sourceTexture": "item/ender_eye",
+      "sourceModel": "minecraft:item/ender_eye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "tools_and_utilities",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "ender_pearl",
+      "texturePath": "/items/textures/ender_pearl-a3df9825.png",
+      "sourceTexture": "item/ender_pearl",
+      "sourceModel": "minecraft:item/ender_pearl",
+      "registration": "item",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "tools_and_utilities",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "experience_bottle",
+      "texturePath": "/items/textures/experience_bottle-10b33614.png",
+      "sourceTexture": "item/experience_bottle",
+      "sourceModel": "minecraft:item/experience_bottle",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "feather",
+      "texturePath": "/items/textures/feather-c05e56db.png",
+      "sourceTexture": "item/feather",
+      "sourceModel": "minecraft:item/feather",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "fermented_spider_eye",
+      "texturePath": "/items/textures/fermented_spider_eye-a4646f85.png",
+      "sourceTexture": "item/fermented_spider_eye",
+      "sourceModel": "minecraft:item/fermented_spider_eye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "fern",
+      "texturePath": "/items/textures/fern-31f3f5a3.png",
+      "sourceTexture": "block/fern",
+      "sourceModel": "minecraft:item/fern",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "fire_charge",
+      "texturePath": "/items/textures/fire_charge-3a665ea9.png",
+      "sourceTexture": "item/fire_charge",
+      "sourceModel": "minecraft:item/fire_charge",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "tools_and_utilities",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "fire_coral",
+      "texturePath": "/items/textures/fire_coral-7d8080ca.png",
+      "sourceTexture": "block/fire_coral",
+      "sourceModel": "minecraft:item/fire_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "fire_coral_block",
+      "texturePath": "/items/textures/fire_coral_block.png",
+      "sourceTexture": "block/fire_coral_block",
+      "sourceModel": "minecraft:block/fire_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "fire_coral_fan",
+      "texturePath": "/items/textures/fire_coral_fan-b85aa44c.png",
+      "sourceTexture": "block/fire_coral_fan",
+      "sourceModel": "minecraft:item/fire_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "firework_rocket",
+      "texturePath": "/items/textures/firework_rocket-b0b02ddf.png",
+      "sourceTexture": "item/firework_rocket",
+      "sourceModel": "minecraft:item/firework_rocket",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "tools_and_utilities",
+        "combat"
+      ]
+    },
+    {
+      "id": "flint",
+      "texturePath": "/items/textures/flint-44e246cc.png",
+      "sourceTexture": "item/flint",
+      "sourceModel": "minecraft:item/flint",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "flower_pot",
+      "texturePath": "/items/textures/flower_pot-e5ea4680.png",
+      "sourceTexture": "item/flower_pot",
+      "sourceModel": "minecraft:item/flower_pot",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "furnace",
+      "texturePath": "/items/textures/furnace-40d0873f.png",
+      "sourceTexture": "block/furnace_top",
+      "sourceModel": "minecraft:block/furnace",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "ghast_tear",
+      "texturePath": "/items/textures/ghast_tear-4779f0d2.png",
+      "sourceTexture": "item/ghast_tear",
+      "sourceModel": "minecraft:item/ghast_tear",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "glass",
+      "texturePath": "/items/textures/glass-12ce86fc.png",
+      "sourceTexture": "block/glass",
+      "sourceModel": "minecraft:block/glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "glass_bottle",
+      "texturePath": "/items/textures/glass_bottle-2954a637.png",
+      "sourceTexture": "item/glass_bottle",
+      "sourceModel": "minecraft:item/glass_bottle",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "glass_pane",
+      "texturePath": "/items/textures/glass_pane-b320acf5.png",
+      "sourceTexture": "block/glass",
+      "sourceModel": "minecraft:item/glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "glistering_melon_slice",
+      "texturePath": "/items/textures/glistering_melon_slice-333c9a93.png",
+      "sourceTexture": "item/glistering_melon_slice",
+      "sourceModel": "minecraft:item/glistering_melon_slice",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "glowstone",
+      "texturePath": "/items/textures/glowstone-f2a51013.png",
+      "sourceTexture": "block/glowstone",
+      "sourceModel": "minecraft:block/glowstone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "glowstone_dust",
+      "texturePath": "/items/textures/glowstone_dust-700fe9d4.png",
+      "sourceTexture": "item/glowstone_dust",
+      "sourceModel": "minecraft:item/glowstone_dust",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "gold_block",
+      "texturePath": "/items/textures/gold_block-f7a91fd6.png",
+      "sourceTexture": "block/gold_block",
+      "sourceModel": "minecraft:block/gold_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "gold_ingot",
+      "texturePath": "/items/textures/gold_ingot-781c420f.png",
+      "sourceTexture": "item/gold_ingot",
+      "sourceModel": "minecraft:item/gold_ingot",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "gold_nugget",
+      "texturePath": "/items/textures/gold_nugget-e72a469b.png",
+      "sourceTexture": "item/gold_nugget",
+      "sourceModel": "minecraft:item/gold_nugget",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "gold_ore",
+      "texturePath": "/items/textures/gold_ore-758228cf.png",
+      "sourceTexture": "block/gold_ore",
+      "sourceModel": "minecraft:block/gold_ore",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "golden_apple",
+      "texturePath": "/items/textures/golden_apple-ca99375f.png",
+      "sourceTexture": "item/golden_apple",
+      "sourceModel": "minecraft:item/golden_apple",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "golden_carrot",
+      "texturePath": "/items/textures/golden_carrot-995a072f.png",
+      "sourceTexture": "item/golden_carrot",
+      "sourceModel": "minecraft:item/golden_carrot",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "granite",
+      "texturePath": "/items/textures/granite-01871d20.png",
+      "sourceTexture": "block/granite",
+      "sourceModel": "minecraft:block/granite",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "grass",
+      "texturePath": "/items/textures/grass-139f3111.png",
+      "sourceTexture": "block/grass",
+      "sourceModel": "minecraft:item/grass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "grass_block",
+      "texturePath": "/items/textures/grass_block-7b853240.png",
+      "sourceTexture": "block/grass_block_top",
+      "sourceModel": "minecraft:block/grass_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "gravel",
+      "texturePath": "/items/textures/gravel-879cd30d.png",
+      "sourceTexture": "block/gravel",
+      "sourceModel": "minecraft:block/gravel",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "gray_banner",
+      "texturePath": "/items/textures/gray_banner.png",
+      "sourceTexture": "special/Gray_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "gray_carpet",
+      "texturePath": "/items/textures/gray_carpet.png",
+      "sourceTexture": "block/gray_wool",
+      "sourceModel": "minecraft:block/gray_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "gray_concrete",
+      "texturePath": "/items/textures/gray_concrete.png",
+      "sourceTexture": "block/gray_concrete",
+      "sourceModel": "minecraft:block/gray_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "gray_concrete_powder",
+      "texturePath": "/items/textures/gray_concrete_powder.png",
+      "sourceTexture": "block/gray_concrete_powder",
+      "sourceModel": "minecraft:block/gray_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "gray_dye",
+      "texturePath": "/items/textures/gray_dye-dc9a365c.png",
+      "sourceTexture": "item/gray_dye",
+      "sourceModel": "minecraft:item/gray_dye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "gray_glazed_terracotta",
+      "texturePath": "/items/textures/gray_glazed_terracotta.png",
+      "sourceTexture": "block/gray_glazed_terracotta",
+      "sourceModel": "minecraft:block/gray_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "gray_stained_glass",
+      "texturePath": "/items/textures/gray_stained_glass-ea62a3b7.png",
+      "sourceTexture": "block/gray_stained_glass",
+      "sourceModel": "minecraft:block/gray_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "gray_stained_glass_pane",
+      "texturePath": "/items/textures/gray_stained_glass_pane-564c393e.png",
+      "sourceTexture": "block/gray_stained_glass",
+      "sourceModel": "minecraft:item/gray_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "gray_terracotta",
+      "texturePath": "/items/textures/gray_terracotta.png",
+      "sourceTexture": "block/gray_terracotta",
+      "sourceModel": "minecraft:block/gray_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "gray_wool",
+      "texturePath": "/items/textures/gray_wool.png",
+      "sourceTexture": "block/gray_wool",
+      "sourceModel": "minecraft:block/gray_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "green_banner",
+      "texturePath": "/items/textures/green_banner.png",
+      "sourceTexture": "special/Green_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "green_carpet",
+      "texturePath": "/items/textures/green_carpet.png",
+      "sourceTexture": "block/green_wool",
+      "sourceModel": "minecraft:block/green_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "green_concrete",
+      "texturePath": "/items/textures/green_concrete.png",
+      "sourceTexture": "block/green_concrete",
+      "sourceModel": "minecraft:block/green_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "green_concrete_powder",
+      "texturePath": "/items/textures/green_concrete_powder.png",
+      "sourceTexture": "block/green_concrete_powder",
+      "sourceModel": "minecraft:block/green_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "green_glazed_terracotta",
+      "texturePath": "/items/textures/green_glazed_terracotta.png",
+      "sourceTexture": "block/green_glazed_terracotta",
+      "sourceModel": "minecraft:block/green_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "green_stained_glass",
+      "texturePath": "/items/textures/green_stained_glass-7954a2b4.png",
+      "sourceTexture": "block/green_stained_glass",
+      "sourceModel": "minecraft:block/green_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "green_stained_glass_pane",
+      "texturePath": "/items/textures/green_stained_glass_pane-8a24d929.png",
+      "sourceTexture": "block/green_stained_glass",
+      "sourceModel": "minecraft:item/green_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "green_terracotta",
+      "texturePath": "/items/textures/green_terracotta.png",
+      "sourceTexture": "block/green_terracotta",
+      "sourceModel": "minecraft:block/green_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "green_wool",
+      "texturePath": "/items/textures/green_wool.png",
+      "sourceTexture": "block/green_wool",
+      "sourceModel": "minecraft:block/green_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "gunpowder",
+      "texturePath": "/items/textures/gunpowder-9a41fa20.png",
+      "sourceTexture": "item/gunpowder",
+      "sourceModel": "minecraft:item/gunpowder",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "hay_block",
+      "texturePath": "/items/textures/hay_block-d23f492f.png",
+      "sourceTexture": "block/hay_block_top",
+      "sourceModel": "minecraft:block/hay_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "heart_of_the_sea",
+      "texturePath": "/items/textures/heart_of_the_sea-6bad7d60.png",
+      "sourceTexture": "item/heart_of_the_sea",
+      "sourceModel": "minecraft:item/heart_of_the_sea",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "heavy_weighted_pressure_plate",
+      "texturePath": "/items/textures/heavy_weighted_pressure_plate-5d443898.png",
+      "sourceTexture": "block/iron_block",
+      "sourceModel": "minecraft:block/heavy_weighted_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "hopper",
+      "texturePath": "/items/textures/hopper-e4018862.png",
+      "sourceTexture": "item/hopper",
+      "sourceModel": "minecraft:item/hopper",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "horn_coral",
+      "texturePath": "/items/textures/horn_coral-208fba47.png",
+      "sourceTexture": "block/horn_coral",
+      "sourceModel": "minecraft:item/horn_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "horn_coral_block",
+      "texturePath": "/items/textures/horn_coral_block.png",
+      "sourceTexture": "block/horn_coral_block",
+      "sourceModel": "minecraft:block/horn_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "horn_coral_fan",
+      "texturePath": "/items/textures/horn_coral_fan-a70a1984.png",
+      "sourceTexture": "block/horn_coral_fan",
+      "sourceModel": "minecraft:item/horn_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "ice",
+      "texturePath": "/items/textures/ice-fd124f08.png",
+      "sourceTexture": "block/ice",
+      "sourceModel": "minecraft:block/ice",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "ink_sac",
+      "texturePath": "/items/textures/ink_sac-9b998970.png",
+      "sourceTexture": "item/ink_sac",
+      "sourceModel": "minecraft:item/ink_sac",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "iron_bars",
+      "texturePath": "/items/textures/iron_bars-eadf980e.png",
+      "sourceTexture": "block/iron_bars",
+      "sourceModel": "minecraft:item/iron_bars",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "iron_block",
+      "texturePath": "/items/textures/iron_block-e3ae9f2d.png",
+      "sourceTexture": "block/iron_block",
+      "sourceModel": "minecraft:block/iron_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "iron_door",
+      "texturePath": "/items/textures/iron_door-f8e33275.png",
+      "sourceTexture": "item/iron_door",
+      "sourceModel": "minecraft:item/iron_door",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "iron_ingot",
+      "texturePath": "/items/textures/iron_ingot-74232860.png",
+      "sourceTexture": "item/iron_ingot",
+      "sourceModel": "minecraft:item/iron_ingot",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "iron_nugget",
+      "texturePath": "/items/textures/iron_nugget-5f2774bf.png",
+      "sourceTexture": "item/iron_nugget",
+      "sourceModel": "minecraft:item/iron_nugget",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "iron_ore",
+      "texturePath": "/items/textures/iron_ore-3d55965b.png",
+      "sourceTexture": "block/iron_ore",
+      "sourceModel": "minecraft:block/iron_ore",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "iron_trapdoor",
+      "texturePath": "/items/textures/iron_trapdoor-3d7aa3df.png",
+      "sourceTexture": "block/iron_trapdoor",
+      "sourceModel": "minecraft:block/iron_trapdoor_bottom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "item_frame",
+      "texturePath": "/items/textures/item_frame-83fb576a.png",
+      "sourceTexture": "item/item_frame",
+      "sourceModel": "minecraft:item/item_frame",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "jack_o_lantern",
+      "texturePath": "/items/textures/jack_o_lantern-04eadfc0.png",
+      "sourceTexture": "block/pumpkin_top",
+      "sourceModel": "minecraft:block/jack_o_lantern",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "jukebox",
+      "texturePath": "/items/textures/jukebox-1b539ac1.png",
+      "sourceTexture": "block/jukebox_top",
+      "sourceModel": "minecraft:block/jukebox",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "jungle_button",
+      "texturePath": "/items/textures/jungle_button-60de7899.png",
+      "sourceTexture": "block/jungle_planks",
+      "sourceModel": "minecraft:block/jungle_button_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "jungle_door",
+      "texturePath": "/items/textures/jungle_door-5fdff24b.png",
+      "sourceTexture": "item/jungle_door",
+      "sourceModel": "minecraft:item/jungle_door",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "jungle_fence",
+      "texturePath": "/items/textures/jungle_fence-6bfbd1fd.png",
+      "sourceTexture": "block/jungle_planks",
+      "sourceModel": "minecraft:block/jungle_fence_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "jungle_fence_gate",
+      "texturePath": "/items/textures/jungle_fence_gate-c135d895.png",
+      "sourceTexture": "block/jungle_planks",
+      "sourceModel": "minecraft:block/jungle_fence_gate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "jungle_leaves",
+      "texturePath": "/items/textures/jungle_leaves-d467f6da.png",
+      "sourceTexture": "block/jungle_leaves",
+      "sourceModel": "minecraft:block/jungle_leaves",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "jungle_log",
+      "texturePath": "/items/textures/jungle_log-06e16313.png",
+      "sourceTexture": "block/jungle_log_top",
+      "sourceModel": "minecraft:block/jungle_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "jungle_planks",
+      "texturePath": "/items/textures/jungle_planks-1f071147.png",
+      "sourceTexture": "block/jungle_planks",
+      "sourceModel": "minecraft:block/jungle_planks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "jungle_pressure_plate",
+      "texturePath": "/items/textures/jungle_pressure_plate-8b273167.png",
+      "sourceTexture": "block/jungle_planks",
+      "sourceModel": "minecraft:block/jungle_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "jungle_sapling",
+      "texturePath": "/items/textures/jungle_sapling-a34b1dfa.png",
+      "sourceTexture": "block/jungle_sapling",
+      "sourceModel": "minecraft:item/jungle_sapling",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "jungle_slab",
+      "texturePath": "/items/textures/jungle_slab-a10bafa3.png",
+      "sourceTexture": "block/jungle_planks",
+      "sourceModel": "minecraft:block/jungle_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "jungle_stairs",
+      "texturePath": "/items/textures/jungle_stairs-75b60337.png",
+      "sourceTexture": "block/jungle_planks",
+      "sourceModel": "minecraft:block/jungle_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "jungle_trapdoor",
+      "texturePath": "/items/textures/jungle_trapdoor.png",
+      "sourceTexture": "block/jungle_trapdoor",
+      "sourceModel": "minecraft:block/jungle_trapdoor_bottom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "jungle_wood",
+      "texturePath": "/items/textures/jungle_wood-d602d671.png",
+      "sourceTexture": "block/jungle_log",
+      "sourceModel": "minecraft:block/jungle_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "kelp",
+      "texturePath": "/items/textures/kelp-38460f0e.png",
+      "sourceTexture": "item/kelp",
+      "sourceModel": "minecraft:item/kelp",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "ladder",
+      "texturePath": "/items/textures/ladder-9ff9065f.png",
+      "sourceTexture": "block/ladder",
+      "sourceModel": "minecraft:item/ladder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "lapis_block",
+      "texturePath": "/items/textures/lapis_block-79287111.png",
+      "sourceTexture": "block/lapis_block",
+      "sourceModel": "minecraft:block/lapis_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "lapis_lazuli",
+      "texturePath": "/items/textures/lapis_lazuli-7582c03e.png",
+      "sourceTexture": "item/lapis_lazuli",
+      "sourceModel": "minecraft:item/lapis_lazuli",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "lapis_ore",
+      "texturePath": "/items/textures/lapis_ore-b967fc5d.png",
+      "sourceTexture": "block/lapis_ore",
+      "sourceModel": "minecraft:block/lapis_ore",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "large_fern",
+      "texturePath": "/items/textures/large_fern-d14694f6.png",
+      "sourceTexture": "block/large_fern_top",
+      "sourceModel": "minecraft:item/large_fern",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "lead",
+      "texturePath": "/items/textures/lead-8b24919e.png",
+      "sourceTexture": "item/lead",
+      "sourceModel": "minecraft:item/lead",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "leather",
+      "texturePath": "/items/textures/leather-50e6a5f8.png",
+      "sourceTexture": "item/leather",
+      "sourceModel": "minecraft:item/leather",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "lever",
+      "texturePath": "/items/textures/lever-aead202c.png",
+      "sourceTexture": "block/lever",
+      "sourceModel": "minecraft:item/lever",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "light_blue_banner",
+      "texturePath": "/items/textures/light_blue_banner.png",
+      "sourceTexture": "special/Light_Blue_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "light_blue_carpet",
+      "texturePath": "/items/textures/light_blue_carpet.png",
+      "sourceTexture": "block/light_blue_wool",
+      "sourceModel": "minecraft:block/light_blue_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_blue_concrete",
+      "texturePath": "/items/textures/light_blue_concrete.png",
+      "sourceTexture": "block/light_blue_concrete",
+      "sourceModel": "minecraft:block/light_blue_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_blue_concrete_powder",
+      "texturePath": "/items/textures/light_blue_concrete_powder.png",
+      "sourceTexture": "block/light_blue_concrete_powder",
+      "sourceModel": "minecraft:block/light_blue_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_blue_dye",
+      "texturePath": "/items/textures/light_blue_dye-b065190b.png",
+      "sourceTexture": "item/light_blue_dye",
+      "sourceModel": "minecraft:item/light_blue_dye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "light_blue_glazed_terracotta",
+      "texturePath": "/items/textures/light_blue_glazed_terracotta.png",
+      "sourceTexture": "block/light_blue_glazed_terracotta",
+      "sourceModel": "minecraft:block/light_blue_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_blue_stained_glass",
+      "texturePath": "/items/textures/light_blue_stained_glass-59ed0bf5.png",
+      "sourceTexture": "block/light_blue_stained_glass",
+      "sourceModel": "minecraft:block/light_blue_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_blue_stained_glass_pane",
+      "texturePath": "/items/textures/light_blue_stained_glass_pane-256537b0.png",
+      "sourceTexture": "block/light_blue_stained_glass",
+      "sourceModel": "minecraft:item/light_blue_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_blue_terracotta",
+      "texturePath": "/items/textures/light_blue_terracotta.png",
+      "sourceTexture": "block/light_blue_terracotta",
+      "sourceModel": "minecraft:block/light_blue_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_blue_wool",
+      "texturePath": "/items/textures/light_blue_wool.png",
+      "sourceTexture": "block/light_blue_wool",
+      "sourceModel": "minecraft:block/light_blue_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_gray_banner",
+      "texturePath": "/items/textures/light_gray_banner.png",
+      "sourceTexture": "special/Light_Gray_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "light_gray_carpet",
+      "texturePath": "/items/textures/light_gray_carpet.png",
+      "sourceTexture": "block/light_gray_wool",
+      "sourceModel": "minecraft:block/light_gray_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_gray_concrete",
+      "texturePath": "/items/textures/light_gray_concrete.png",
+      "sourceTexture": "block/light_gray_concrete",
+      "sourceModel": "minecraft:block/light_gray_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_gray_concrete_powder",
+      "texturePath": "/items/textures/light_gray_concrete_powder.png",
+      "sourceTexture": "block/light_gray_concrete_powder",
+      "sourceModel": "minecraft:block/light_gray_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_gray_dye",
+      "texturePath": "/items/textures/light_gray_dye-54a835eb.png",
+      "sourceTexture": "item/light_gray_dye",
+      "sourceModel": "minecraft:item/light_gray_dye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "light_gray_glazed_terracotta",
+      "texturePath": "/items/textures/light_gray_glazed_terracotta.png",
+      "sourceTexture": "block/light_gray_glazed_terracotta",
+      "sourceModel": "minecraft:block/light_gray_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_gray_stained_glass",
+      "texturePath": "/items/textures/light_gray_stained_glass-31b971f7.png",
+      "sourceTexture": "block/light_gray_stained_glass",
+      "sourceModel": "minecraft:block/light_gray_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_gray_stained_glass_pane",
+      "texturePath": "/items/textures/light_gray_stained_glass_pane-d43f483d.png",
+      "sourceTexture": "block/light_gray_stained_glass",
+      "sourceModel": "minecraft:item/light_gray_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_gray_terracotta",
+      "texturePath": "/items/textures/light_gray_terracotta.png",
+      "sourceTexture": "block/light_gray_terracotta",
+      "sourceModel": "minecraft:block/light_gray_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_gray_wool",
+      "texturePath": "/items/textures/light_gray_wool.png",
+      "sourceTexture": "block/light_gray_wool",
+      "sourceModel": "minecraft:block/light_gray_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "light_weighted_pressure_plate",
+      "texturePath": "/items/textures/light_weighted_pressure_plate-1688666e.png",
+      "sourceTexture": "block/gold_block",
+      "sourceModel": "minecraft:block/light_weighted_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "lilac",
+      "texturePath": "/items/textures/lilac-eb709daf.png",
+      "sourceTexture": "block/lilac_top",
+      "sourceModel": "minecraft:item/lilac",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "lily_pad",
+      "texturePath": "/items/textures/lily_pad-31413e60.png",
+      "sourceTexture": "block/lily_pad",
+      "sourceModel": "minecraft:item/lily_pad",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "lime_banner",
+      "texturePath": "/items/textures/lime_banner.png",
+      "sourceTexture": "special/Lime_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "lime_carpet",
+      "texturePath": "/items/textures/lime_carpet.png",
+      "sourceTexture": "block/lime_wool",
+      "sourceModel": "minecraft:block/lime_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "lime_concrete",
+      "texturePath": "/items/textures/lime_concrete.png",
+      "sourceTexture": "block/lime_concrete",
+      "sourceModel": "minecraft:block/lime_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "lime_concrete_powder",
+      "texturePath": "/items/textures/lime_concrete_powder.png",
+      "sourceTexture": "block/lime_concrete_powder",
+      "sourceModel": "minecraft:block/lime_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "lime_dye",
+      "texturePath": "/items/textures/lime_dye-f8dbf46e.png",
+      "sourceTexture": "item/lime_dye",
+      "sourceModel": "minecraft:item/lime_dye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "lime_glazed_terracotta",
+      "texturePath": "/items/textures/lime_glazed_terracotta.png",
+      "sourceTexture": "block/lime_glazed_terracotta",
+      "sourceModel": "minecraft:block/lime_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "lime_stained_glass",
+      "texturePath": "/items/textures/lime_stained_glass-bcd667ef.png",
+      "sourceTexture": "block/lime_stained_glass",
+      "sourceModel": "minecraft:block/lime_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "lime_stained_glass_pane",
+      "texturePath": "/items/textures/lime_stained_glass_pane-453487f1.png",
+      "sourceTexture": "block/lime_stained_glass",
+      "sourceModel": "minecraft:item/lime_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "lime_terracotta",
+      "texturePath": "/items/textures/lime_terracotta.png",
+      "sourceTexture": "block/lime_terracotta",
+      "sourceModel": "minecraft:block/lime_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "lime_wool",
+      "texturePath": "/items/textures/lime_wool.png",
+      "sourceTexture": "block/lime_wool",
+      "sourceModel": "minecraft:block/lime_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "magenta_banner",
+      "texturePath": "/items/textures/magenta_banner.png",
+      "sourceTexture": "special/Magenta_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "magenta_carpet",
+      "texturePath": "/items/textures/magenta_carpet.png",
+      "sourceTexture": "block/magenta_wool",
+      "sourceModel": "minecraft:block/magenta_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "magenta_concrete",
+      "texturePath": "/items/textures/magenta_concrete.png",
+      "sourceTexture": "block/magenta_concrete",
+      "sourceModel": "minecraft:block/magenta_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "magenta_concrete_powder",
+      "texturePath": "/items/textures/magenta_concrete_powder.png",
+      "sourceTexture": "block/magenta_concrete_powder",
+      "sourceModel": "minecraft:block/magenta_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "magenta_dye",
+      "texturePath": "/items/textures/magenta_dye-5b818569.png",
+      "sourceTexture": "item/magenta_dye",
+      "sourceModel": "minecraft:item/magenta_dye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "magenta_glazed_terracotta",
+      "texturePath": "/items/textures/magenta_glazed_terracotta.png",
+      "sourceTexture": "block/magenta_glazed_terracotta",
+      "sourceModel": "minecraft:block/magenta_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "magenta_stained_glass",
+      "texturePath": "/items/textures/magenta_stained_glass-989b7911.png",
+      "sourceTexture": "block/magenta_stained_glass",
+      "sourceModel": "minecraft:block/magenta_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "magenta_stained_glass_pane",
+      "texturePath": "/items/textures/magenta_stained_glass_pane-d541b27b.png",
+      "sourceTexture": "block/magenta_stained_glass",
+      "sourceModel": "minecraft:item/magenta_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "magenta_terracotta",
+      "texturePath": "/items/textures/magenta_terracotta.png",
+      "sourceTexture": "block/magenta_terracotta",
+      "sourceModel": "minecraft:block/magenta_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "magenta_wool",
+      "texturePath": "/items/textures/magenta_wool.png",
+      "sourceTexture": "block/magenta_wool",
+      "sourceModel": "minecraft:block/magenta_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "magma_block",
+      "texturePath": "/items/textures/magma_block-f112ca4b.png",
+      "sourceTexture": "block/magma",
+      "sourceModel": "minecraft:block/magma_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "magma_cream",
+      "texturePath": "/items/textures/magma_cream-df2bd4a5.png",
+      "sourceTexture": "item/magma_cream",
+      "sourceModel": "minecraft:item/magma_cream",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "map",
+      "texturePath": "/items/textures/map-0da4926d.png",
+      "sourceTexture": "item/map",
+      "sourceModel": "minecraft:item/map",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "melon",
+      "texturePath": "/items/textures/melon-df28f274.png",
+      "sourceTexture": "block/melon_top",
+      "sourceModel": "minecraft:block/melon",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "melon_seeds",
+      "texturePath": "/items/textures/melon_seeds-259d0f85.png",
+      "sourceTexture": "item/melon_seeds",
+      "sourceModel": "minecraft:item/melon_seeds",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "melon_slice",
+      "texturePath": "/items/textures/melon_slice-a756966c.png",
+      "sourceTexture": "item/melon_slice",
+      "sourceModel": "minecraft:item/melon_slice",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "mossy_cobblestone",
+      "texturePath": "/items/textures/mossy_cobblestone-4cb24625.png",
+      "sourceTexture": "block/mossy_cobblestone",
+      "sourceModel": "minecraft:block/mossy_cobblestone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "mossy_cobblestone_wall",
+      "texturePath": "/items/textures/mossy_cobblestone_wall-703dbcee.png",
+      "sourceTexture": "block/mossy_cobblestone",
+      "sourceModel": "minecraft:block/mossy_cobblestone_wall_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "mossy_stone_bricks",
+      "texturePath": "/items/textures/mossy_stone_bricks-f800f04d.png",
+      "sourceTexture": "block/mossy_stone_bricks",
+      "sourceModel": "minecraft:block/mossy_stone_bricks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "mushroom_stem",
+      "texturePath": "/items/textures/mushroom_stem-e0fe1d6b.png",
+      "sourceTexture": "block/mushroom_stem",
+      "sourceModel": "minecraft:block/mushroom_stem_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "mutton",
+      "texturePath": "/items/textures/mutton-9af0b80e.png",
+      "sourceTexture": "item/mutton",
+      "sourceModel": "minecraft:item/mutton",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "mycelium",
+      "texturePath": "/items/textures/mycelium-fb3d467a.png",
+      "sourceTexture": "block/mycelium_top",
+      "sourceModel": "minecraft:block/mycelium",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "name_tag",
+      "texturePath": "/items/textures/name_tag-5ef1a44e.png",
+      "sourceTexture": "item/name_tag",
+      "sourceModel": "minecraft:item/name_tag",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "nautilus_shell",
+      "texturePath": "/items/textures/nautilus_shell-c77f43c6.png",
+      "sourceTexture": "item/nautilus_shell",
+      "sourceModel": "minecraft:item/nautilus_shell",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "nether_brick",
+      "texturePath": "/items/textures/nether_brick-a09c4c83.png",
+      "sourceTexture": "item/nether_brick",
+      "sourceModel": "minecraft:item/nether_brick",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "nether_brick_fence",
+      "texturePath": "/items/textures/nether_brick_fence-d2b8ece5.png",
+      "sourceTexture": "block/nether_bricks",
+      "sourceModel": "minecraft:block/nether_brick_fence_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "nether_brick_slab",
+      "texturePath": "/items/textures/nether_brick_slab-c2320bbd.png",
+      "sourceTexture": "block/nether_bricks",
+      "sourceModel": "minecraft:block/nether_brick_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "nether_brick_stairs",
+      "texturePath": "/items/textures/nether_brick_stairs-e1863f99.png",
+      "sourceTexture": "block/nether_bricks",
+      "sourceModel": "minecraft:block/nether_brick_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "nether_bricks",
+      "texturePath": "/items/textures/nether_bricks-fcaa9eba.png",
+      "sourceTexture": "block/nether_bricks",
+      "sourceModel": "minecraft:block/nether_bricks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "nether_quartz_ore",
+      "texturePath": "/items/textures/nether_quartz_ore-5a93b05b.png",
+      "sourceTexture": "block/nether_quartz_ore",
+      "sourceModel": "minecraft:block/nether_quartz_ore",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "nether_star",
+      "texturePath": "/items/textures/nether_star-298277ab.png",
+      "sourceTexture": "item/nether_star",
+      "sourceModel": "minecraft:item/nether_star",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "nether_wart",
+      "texturePath": "/items/textures/nether_wart-f894f116.png",
+      "sourceTexture": "item/nether_wart",
+      "sourceModel": "minecraft:item/nether_wart",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "nether_wart_block",
+      "texturePath": "/items/textures/nether_wart_block-874f061e.png",
+      "sourceTexture": "block/nether_wart_block",
+      "sourceModel": "minecraft:block/nether_wart_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "netherrack",
+      "texturePath": "/items/textures/netherrack-e0166dbb.png",
+      "sourceTexture": "block/netherrack",
+      "sourceModel": "minecraft:block/netherrack",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "note_block",
+      "texturePath": "/items/textures/note_block-ee297a73.png",
+      "sourceTexture": "block/note_block",
+      "sourceModel": "minecraft:block/note_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "oak_button",
+      "texturePath": "/items/textures/oak_button-43d92e46.png",
+      "sourceTexture": "block/oak_planks",
+      "sourceModel": "minecraft:block/oak_button_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "oak_door",
+      "texturePath": "/items/textures/oak_door-3ac57d82.png",
+      "sourceTexture": "item/oak_door",
+      "sourceModel": "minecraft:item/oak_door",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "oak_fence",
+      "texturePath": "/items/textures/oak_fence-303d07da.png",
+      "sourceTexture": "block/oak_planks",
+      "sourceModel": "minecraft:block/oak_fence_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "oak_fence_gate",
+      "texturePath": "/items/textures/oak_fence_gate-cfcd6afe.png",
+      "sourceTexture": "block/oak_planks",
+      "sourceModel": "minecraft:block/oak_fence_gate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "oak_leaves",
+      "texturePath": "/items/textures/oak_leaves-26a8931e.png",
+      "sourceTexture": "block/oak_leaves",
+      "sourceModel": "minecraft:block/oak_leaves",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "oak_log",
+      "texturePath": "/items/textures/oak_log-66a3cdf0.png",
+      "sourceTexture": "block/oak_log_top",
+      "sourceModel": "minecraft:block/oak_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "oak_planks",
+      "texturePath": "/items/textures/oak_planks-4d87b4af.png",
+      "sourceTexture": "block/oak_planks",
+      "sourceModel": "minecraft:block/oak_planks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "oak_pressure_plate",
+      "texturePath": "/items/textures/oak_pressure_plate-56da717d.png",
+      "sourceTexture": "block/oak_planks",
+      "sourceModel": "minecraft:block/oak_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "oak_sapling",
+      "texturePath": "/items/textures/oak_sapling-be418db3.png",
+      "sourceTexture": "block/oak_sapling",
+      "sourceModel": "minecraft:item/oak_sapling",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "oak_slab",
+      "texturePath": "/items/textures/oak_slab-17ab27ef.png",
+      "sourceTexture": "block/oak_planks",
+      "sourceModel": "minecraft:block/oak_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "oak_stairs",
+      "texturePath": "/items/textures/oak_stairs-3d183fac.png",
+      "sourceTexture": "block/oak_planks",
+      "sourceModel": "minecraft:block/oak_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "oak_trapdoor",
+      "texturePath": "/items/textures/oak_trapdoor-cbb652a6.png",
+      "sourceTexture": "block/oak_trapdoor",
+      "sourceModel": "minecraft:block/oak_trapdoor_bottom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "oak_wood",
+      "texturePath": "/items/textures/oak_wood-28e88b1f.png",
+      "sourceTexture": "block/oak_log",
+      "sourceModel": "minecraft:block/oak_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "observer",
+      "texturePath": "/items/textures/observer-c806d035.png",
+      "sourceTexture": "block/observer_top",
+      "sourceModel": "minecraft:block/observer",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "obsidian",
+      "texturePath": "/items/textures/obsidian-3a4ab788.png",
+      "sourceTexture": "block/obsidian",
+      "sourceModel": "minecraft:block/obsidian",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "orange_banner",
+      "texturePath": "/items/textures/orange_banner.png",
+      "sourceTexture": "special/Orange_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "orange_carpet",
+      "texturePath": "/items/textures/orange_carpet.png",
+      "sourceTexture": "block/orange_wool",
+      "sourceModel": "minecraft:block/orange_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "orange_concrete",
+      "texturePath": "/items/textures/orange_concrete.png",
+      "sourceTexture": "block/orange_concrete",
+      "sourceModel": "minecraft:block/orange_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "orange_concrete_powder",
+      "texturePath": "/items/textures/orange_concrete_powder.png",
+      "sourceTexture": "block/orange_concrete_powder",
+      "sourceModel": "minecraft:block/orange_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "orange_dye",
+      "texturePath": "/items/textures/orange_dye-4301f266.png",
+      "sourceTexture": "item/orange_dye",
+      "sourceModel": "minecraft:item/orange_dye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "orange_glazed_terracotta",
+      "texturePath": "/items/textures/orange_glazed_terracotta.png",
+      "sourceTexture": "block/orange_glazed_terracotta",
+      "sourceModel": "minecraft:block/orange_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "orange_stained_glass",
+      "texturePath": "/items/textures/orange_stained_glass-9320f148.png",
+      "sourceTexture": "block/orange_stained_glass",
+      "sourceModel": "minecraft:block/orange_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "orange_stained_glass_pane",
+      "texturePath": "/items/textures/orange_stained_glass_pane-66258761.png",
+      "sourceTexture": "block/orange_stained_glass",
+      "sourceModel": "minecraft:item/orange_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "orange_terracotta",
+      "texturePath": "/items/textures/orange_terracotta.png",
+      "sourceTexture": "block/orange_terracotta",
+      "sourceModel": "minecraft:block/orange_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "orange_tulip",
+      "texturePath": "/items/textures/orange_tulip-9d6332a8.png",
+      "sourceTexture": "block/orange_tulip",
+      "sourceModel": "minecraft:item/orange_tulip",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "orange_wool",
+      "texturePath": "/items/textures/orange_wool.png",
+      "sourceTexture": "block/orange_wool",
+      "sourceModel": "minecraft:block/orange_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "oxeye_daisy",
+      "texturePath": "/items/textures/oxeye_daisy-d5e1dc8b.png",
+      "sourceTexture": "block/oxeye_daisy",
+      "sourceModel": "minecraft:item/oxeye_daisy",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "packed_ice",
+      "texturePath": "/items/textures/packed_ice-e02a3f56.png",
+      "sourceTexture": "block/packed_ice",
+      "sourceModel": "minecraft:block/packed_ice",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "painting",
+      "texturePath": "/items/textures/painting-9b404503.png",
+      "sourceTexture": "item/painting",
+      "sourceModel": "minecraft:item/painting",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "op_blocks"
+      ]
+    },
+    {
+      "id": "paper",
+      "texturePath": "/items/textures/paper-60107c88.png",
+      "sourceTexture": "item/paper",
+      "sourceModel": "minecraft:item/paper",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "peony",
+      "texturePath": "/items/textures/peony-5b656937.png",
+      "sourceTexture": "block/peony_top",
+      "sourceModel": "minecraft:item/peony",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "phantom_membrane",
+      "texturePath": "/items/textures/phantom_membrane-2435c707.png",
+      "sourceTexture": "item/phantom_membrane",
+      "sourceModel": "minecraft:item/phantom_membrane",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "pink_banner",
+      "texturePath": "/items/textures/pink_banner.png",
+      "sourceTexture": "special/Pink_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "pink_carpet",
+      "texturePath": "/items/textures/pink_carpet.png",
+      "sourceTexture": "block/pink_wool",
+      "sourceModel": "minecraft:block/pink_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "pink_concrete",
+      "texturePath": "/items/textures/pink_concrete.png",
+      "sourceTexture": "block/pink_concrete",
+      "sourceModel": "minecraft:block/pink_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "pink_concrete_powder",
+      "texturePath": "/items/textures/pink_concrete_powder.png",
+      "sourceTexture": "block/pink_concrete_powder",
+      "sourceModel": "minecraft:block/pink_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "pink_dye",
+      "texturePath": "/items/textures/pink_dye-f26bad30.png",
+      "sourceTexture": "item/pink_dye",
+      "sourceModel": "minecraft:item/pink_dye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "pink_glazed_terracotta",
+      "texturePath": "/items/textures/pink_glazed_terracotta.png",
+      "sourceTexture": "block/pink_glazed_terracotta",
+      "sourceModel": "minecraft:block/pink_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "pink_stained_glass",
+      "texturePath": "/items/textures/pink_stained_glass-5345c3e4.png",
+      "sourceTexture": "block/pink_stained_glass",
+      "sourceModel": "minecraft:block/pink_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "pink_stained_glass_pane",
+      "texturePath": "/items/textures/pink_stained_glass_pane-47865a88.png",
+      "sourceTexture": "block/pink_stained_glass",
+      "sourceModel": "minecraft:item/pink_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "pink_terracotta",
+      "texturePath": "/items/textures/pink_terracotta.png",
+      "sourceTexture": "block/pink_terracotta",
+      "sourceModel": "minecraft:block/pink_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "pink_tulip",
+      "texturePath": "/items/textures/pink_tulip-7ed63e5c.png",
+      "sourceTexture": "block/pink_tulip",
+      "sourceModel": "minecraft:item/pink_tulip",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "pink_wool",
+      "texturePath": "/items/textures/pink_wool.png",
+      "sourceTexture": "block/pink_wool",
+      "sourceModel": "minecraft:block/pink_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "piston",
+      "texturePath": "/items/textures/piston-92f91e9b.png",
+      "sourceTexture": "block/piston_top",
+      "sourceModel": "minecraft:block/piston_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "podzol",
+      "texturePath": "/items/textures/podzol-342dd151.png",
+      "sourceTexture": "block/podzol_top",
+      "sourceModel": "minecraft:block/podzol",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "poisonous_potato",
+      "texturePath": "/items/textures/poisonous_potato-ae3a4450.png",
+      "sourceTexture": "item/poisonous_potato",
+      "sourceModel": "minecraft:item/poisonous_potato",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "polished_andesite",
+      "texturePath": "/items/textures/polished_andesite-58b14eab.png",
+      "sourceTexture": "block/polished_andesite",
+      "sourceModel": "minecraft:block/polished_andesite",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "polished_diorite",
+      "texturePath": "/items/textures/polished_diorite-bd943a4e.png",
+      "sourceTexture": "block/polished_diorite",
+      "sourceModel": "minecraft:block/polished_diorite",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "polished_granite",
+      "texturePath": "/items/textures/polished_granite-2b333519.png",
+      "sourceTexture": "block/polished_granite",
+      "sourceModel": "minecraft:block/polished_granite",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "popped_chorus_fruit",
+      "texturePath": "/items/textures/popped_chorus_fruit-c373a78e.png",
+      "sourceTexture": "item/popped_chorus_fruit",
+      "sourceModel": "minecraft:item/popped_chorus_fruit",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "poppy",
+      "texturePath": "/items/textures/poppy-55a5df53.png",
+      "sourceTexture": "block/poppy",
+      "sourceModel": "minecraft:item/poppy",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "porkchop",
+      "texturePath": "/items/textures/porkchop-e07efd2d.png",
+      "sourceTexture": "item/porkchop",
+      "sourceModel": "minecraft:item/porkchop",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "potato",
+      "texturePath": "/items/textures/potato-c3ad9186.png",
+      "sourceTexture": "item/potato",
+      "sourceModel": "minecraft:item/potato",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "powered_rail",
+      "texturePath": "/items/textures/powered_rail-a00701aa.png",
+      "sourceTexture": "block/powered_rail",
+      "sourceModel": "minecraft:item/powered_rail",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks",
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "prismarine",
+      "texturePath": "/items/textures/prismarine-e930db22.png",
+      "sourceTexture": "block/prismarine",
+      "sourceModel": "minecraft:block/prismarine",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "prismarine_brick_slab",
+      "texturePath": "/items/textures/prismarine_brick_slab-13e300f1.png",
+      "sourceTexture": "block/prismarine_bricks",
+      "sourceModel": "minecraft:block/prismarine_brick_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "prismarine_brick_stairs",
+      "texturePath": "/items/textures/prismarine_brick_stairs-8aa639dd.png",
+      "sourceTexture": "block/prismarine_bricks",
+      "sourceModel": "minecraft:block/prismarine_brick_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "prismarine_bricks",
+      "texturePath": "/items/textures/prismarine_bricks-4f764a2e.png",
+      "sourceTexture": "block/prismarine_bricks",
+      "sourceModel": "minecraft:block/prismarine_bricks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "prismarine_crystals",
+      "texturePath": "/items/textures/prismarine_crystals-643ea3af.png",
+      "sourceTexture": "item/prismarine_crystals",
+      "sourceModel": "minecraft:item/prismarine_crystals",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "prismarine_shard",
+      "texturePath": "/items/textures/prismarine_shard-1b1a917f.png",
+      "sourceTexture": "item/prismarine_shard",
+      "sourceModel": "minecraft:item/prismarine_shard",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "prismarine_slab",
+      "texturePath": "/items/textures/prismarine_slab-8b4bd607.png",
+      "sourceTexture": "block/prismarine",
+      "sourceModel": "minecraft:block/prismarine_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "prismarine_stairs",
+      "texturePath": "/items/textures/prismarine_stairs-79e3a5b0.png",
+      "sourceTexture": "block/prismarine",
+      "sourceModel": "minecraft:block/prismarine_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "pufferfish",
+      "texturePath": "/items/textures/pufferfish-37c67d61.png",
+      "sourceTexture": "item/pufferfish",
+      "sourceModel": "minecraft:item/pufferfish",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "pumpkin",
+      "texturePath": "/items/textures/pumpkin-745a06c1.png",
+      "sourceTexture": "block/pumpkin_top",
+      "sourceModel": "minecraft:block/pumpkin",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "pumpkin_pie",
+      "texturePath": "/items/textures/pumpkin_pie-16b5028f.png",
+      "sourceTexture": "item/pumpkin_pie",
+      "sourceModel": "minecraft:item/pumpkin_pie",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "pumpkin_seeds",
+      "texturePath": "/items/textures/pumpkin_seeds-3dbf3948.png",
+      "sourceTexture": "item/pumpkin_seeds",
+      "sourceModel": "minecraft:item/pumpkin_seeds",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "purple_banner",
+      "texturePath": "/items/textures/purple_banner.png",
+      "sourceTexture": "special/Purple_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "purple_carpet",
+      "texturePath": "/items/textures/purple_carpet.png",
+      "sourceTexture": "block/purple_wool",
+      "sourceModel": "minecraft:block/purple_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "purple_concrete",
+      "texturePath": "/items/textures/purple_concrete.png",
+      "sourceTexture": "block/purple_concrete",
+      "sourceModel": "minecraft:block/purple_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "purple_concrete_powder",
+      "texturePath": "/items/textures/purple_concrete_powder.png",
+      "sourceTexture": "block/purple_concrete_powder",
+      "sourceModel": "minecraft:block/purple_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "purple_dye",
+      "texturePath": "/items/textures/purple_dye-80ee788b.png",
+      "sourceTexture": "item/purple_dye",
+      "sourceModel": "minecraft:item/purple_dye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "purple_glazed_terracotta",
+      "texturePath": "/items/textures/purple_glazed_terracotta-2468e0d4.png",
+      "sourceTexture": "block/purple_glazed_terracotta",
+      "sourceModel": "minecraft:block/purple_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "purple_stained_glass",
+      "texturePath": "/items/textures/purple_stained_glass-30909c49.png",
+      "sourceTexture": "block/purple_stained_glass",
+      "sourceModel": "minecraft:block/purple_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "purple_stained_glass_pane",
+      "texturePath": "/items/textures/purple_stained_glass_pane-dfb0bf07.png",
+      "sourceTexture": "block/purple_stained_glass",
+      "sourceModel": "minecraft:item/purple_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "purple_terracotta",
+      "texturePath": "/items/textures/purple_terracotta.png",
+      "sourceTexture": "block/purple_terracotta",
+      "sourceModel": "minecraft:block/purple_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "purple_wool",
+      "texturePath": "/items/textures/purple_wool.png",
+      "sourceTexture": "block/purple_wool",
+      "sourceModel": "minecraft:block/purple_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "purpur_block",
+      "texturePath": "/items/textures/purpur_block-c2d29736.png",
+      "sourceTexture": "block/purpur_block",
+      "sourceModel": "minecraft:block/purpur_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "purpur_pillar",
+      "texturePath": "/items/textures/purpur_pillar-8367f3da.png",
+      "sourceTexture": "block/purpur_pillar_top",
+      "sourceModel": "minecraft:block/purpur_pillar",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "purpur_slab",
+      "texturePath": "/items/textures/purpur_slab-ee3bd10c.png",
+      "sourceTexture": "block/purpur_block",
+      "sourceModel": "minecraft:block/purpur_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "purpur_stairs",
+      "texturePath": "/items/textures/purpur_stairs-8a8fffeb.png",
+      "sourceTexture": "block/purpur_block",
+      "sourceModel": "minecraft:block/purpur_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "quartz",
+      "texturePath": "/items/textures/quartz-8638d7ea.png",
+      "sourceTexture": "item/quartz",
+      "sourceModel": "minecraft:item/quartz",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "quartz_block",
+      "texturePath": "/items/textures/quartz_block-cc02955f.png",
+      "sourceTexture": "block/quartz_block_top",
+      "sourceModel": "minecraft:block/quartz_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "quartz_pillar",
+      "texturePath": "/items/textures/quartz_pillar-7fc10425.png",
+      "sourceTexture": "block/quartz_pillar_top",
+      "sourceModel": "minecraft:block/quartz_pillar",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "quartz_slab",
+      "texturePath": "/items/textures/quartz_slab-92dbd8dc.png",
+      "sourceTexture": "block/quartz_block_top",
+      "sourceModel": "minecraft:block/quartz_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "quartz_stairs",
+      "texturePath": "/items/textures/quartz_stairs-620b8199.png",
+      "sourceTexture": "block/quartz_block_top",
+      "sourceModel": "minecraft:block/quartz_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "rabbit",
+      "texturePath": "/items/textures/rabbit-6ecd11ca.png",
+      "sourceTexture": "item/rabbit",
+      "sourceModel": "minecraft:item/rabbit",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "rabbit_foot",
+      "texturePath": "/items/textures/rabbit_foot-c9c64f19.png",
+      "sourceTexture": "item/rabbit_foot",
+      "sourceModel": "minecraft:item/rabbit_foot",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "rabbit_hide",
+      "texturePath": "/items/textures/rabbit_hide-7ea46bfc.png",
+      "sourceTexture": "item/rabbit_hide",
+      "sourceModel": "minecraft:item/rabbit_hide",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "rail",
+      "texturePath": "/items/textures/rail-66371957.png",
+      "sourceTexture": "block/rail",
+      "sourceModel": "minecraft:item/rail",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks",
+        "tools_and_utilities"
+      ]
+    },
+    {
+      "id": "red_banner",
+      "texturePath": "/items/textures/red_banner.png",
+      "sourceTexture": "special/Red_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "red_carpet",
+      "texturePath": "/items/textures/red_carpet.png",
+      "sourceTexture": "block/red_wool",
+      "sourceModel": "minecraft:block/red_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "red_concrete",
+      "texturePath": "/items/textures/red_concrete.png",
+      "sourceTexture": "block/red_concrete",
+      "sourceModel": "minecraft:block/red_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "red_concrete_powder",
+      "texturePath": "/items/textures/red_concrete_powder.png",
+      "sourceTexture": "block/red_concrete_powder",
+      "sourceModel": "minecraft:block/red_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "red_glazed_terracotta",
+      "texturePath": "/items/textures/red_glazed_terracotta.png",
+      "sourceTexture": "block/red_glazed_terracotta",
+      "sourceModel": "minecraft:block/red_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "red_mushroom",
+      "texturePath": "/items/textures/red_mushroom-7cdfa8b1.png",
+      "sourceTexture": "block/red_mushroom",
+      "sourceModel": "minecraft:item/red_mushroom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "red_mushroom_block",
+      "texturePath": "/items/textures/red_mushroom_block-5d7331ef.png",
+      "sourceTexture": "block/red_mushroom_block",
+      "sourceModel": "minecraft:block/red_mushroom_block_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "red_nether_bricks",
+      "texturePath": "/items/textures/red_nether_bricks-23563ddf.png",
+      "sourceTexture": "block/red_nether_bricks",
+      "sourceModel": "minecraft:block/red_nether_bricks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "red_sand",
+      "texturePath": "/items/textures/red_sand-32efbe79.png",
+      "sourceTexture": "block/red_sand",
+      "sourceModel": "minecraft:block/red_sand",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "red_sandstone",
+      "texturePath": "/items/textures/red_sandstone-e7112809.png",
+      "sourceTexture": "block/red_sandstone_top",
+      "sourceModel": "minecraft:block/red_sandstone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "red_sandstone_slab",
+      "texturePath": "/items/textures/red_sandstone_slab-134e56fb.png",
+      "sourceTexture": "block/red_sandstone_top",
+      "sourceModel": "minecraft:block/red_sandstone_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "red_sandstone_stairs",
+      "texturePath": "/items/textures/red_sandstone_stairs-4cffc3ba.png",
+      "sourceTexture": "block/red_sandstone_top",
+      "sourceModel": "minecraft:block/red_sandstone_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "red_stained_glass",
+      "texturePath": "/items/textures/red_stained_glass-3fd7e899.png",
+      "sourceTexture": "block/red_stained_glass",
+      "sourceModel": "minecraft:block/red_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "red_stained_glass_pane",
+      "texturePath": "/items/textures/red_stained_glass_pane-7134d1eb.png",
+      "sourceTexture": "block/red_stained_glass",
+      "sourceModel": "minecraft:item/red_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "red_terracotta",
+      "texturePath": "/items/textures/red_terracotta.png",
+      "sourceTexture": "block/red_terracotta",
+      "sourceModel": "minecraft:block/red_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "red_tulip",
+      "texturePath": "/items/textures/red_tulip-d59c04ff.png",
+      "sourceTexture": "block/red_tulip",
+      "sourceModel": "minecraft:item/red_tulip",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "red_wool",
+      "texturePath": "/items/textures/red_wool.png",
+      "sourceTexture": "block/red_wool",
+      "sourceModel": "minecraft:block/red_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "redstone",
+      "texturePath": "/items/textures/redstone-10d0dd7d.png",
+      "sourceTexture": "item/redstone",
+      "sourceModel": "minecraft:item/redstone",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "redstone_block",
+      "texturePath": "/items/textures/redstone_block-f121d0af.png",
+      "sourceTexture": "block/redstone_block",
+      "sourceModel": "minecraft:block/redstone_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "redstone_lamp",
+      "texturePath": "/items/textures/redstone_lamp-9e80d1d6.png",
+      "sourceTexture": "block/redstone_lamp",
+      "sourceModel": "minecraft:block/redstone_lamp",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "redstone_ore",
+      "texturePath": "/items/textures/redstone_ore-84cbde36.png",
+      "sourceTexture": "block/redstone_ore",
+      "sourceModel": "minecraft:block/redstone_ore",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "redstone_torch",
+      "texturePath": "/items/textures/redstone_torch-c3370cf5.png",
+      "sourceTexture": "block/redstone_torch",
+      "sourceModel": "minecraft:item/redstone_torch",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "repeater",
+      "texturePath": "/items/textures/repeater-1e4479cf.png",
+      "sourceTexture": "item/repeater",
+      "sourceModel": "minecraft:item/repeater",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "rose_bush",
+      "texturePath": "/items/textures/rose_bush-d3d15c25.png",
+      "sourceTexture": "block/rose_bush_top",
+      "sourceModel": "minecraft:item/rose_bush",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "rose_red",
+      "texturePath": "/items/textures/rose_red.png",
+      "sourceTexture": "item/rose_red",
+      "sourceModel": "minecraft:item/rose_red",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "rotten_flesh",
+      "texturePath": "/items/textures/rotten_flesh-d31377ea.png",
+      "sourceTexture": "item/rotten_flesh",
+      "sourceModel": "minecraft:item/rotten_flesh",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "salmon",
+      "texturePath": "/items/textures/salmon-58061915.png",
+      "sourceTexture": "item/salmon",
+      "sourceModel": "minecraft:item/salmon",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "sand",
+      "texturePath": "/items/textures/sand-48a9193f.png",
+      "sourceTexture": "block/sand",
+      "sourceModel": "minecraft:block/sand",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "sandstone",
+      "texturePath": "/items/textures/sandstone-2a72b0db.png",
+      "sourceTexture": "block/sandstone_top",
+      "sourceModel": "minecraft:block/sandstone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "sandstone_slab",
+      "texturePath": "/items/textures/sandstone_slab-ec65cad6.png",
+      "sourceTexture": "block/sandstone_top",
+      "sourceModel": "minecraft:block/sandstone_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "sandstone_stairs",
+      "texturePath": "/items/textures/sandstone_stairs-9f203e11.png",
+      "sourceTexture": "block/sandstone_top",
+      "sourceModel": "minecraft:block/sandstone_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "scute",
+      "texturePath": "/items/textures/scute.png",
+      "sourceTexture": "item/scute",
+      "sourceModel": "minecraft:item/scute",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "sea_lantern",
+      "texturePath": "/items/textures/sea_lantern.png",
+      "sourceTexture": "block/sea_lantern",
+      "sourceModel": "minecraft:block/sea_lantern",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "sea_pickle",
+      "texturePath": "/items/textures/sea_pickle-9203d879.png",
+      "sourceTexture": "item/sea_pickle",
+      "sourceModel": "minecraft:item/sea_pickle",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "seagrass",
+      "texturePath": "/items/textures/seagrass-805cda8c.png",
+      "sourceTexture": "item/seagrass",
+      "sourceModel": "minecraft:item/seagrass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "shulker_shell",
+      "texturePath": "/items/textures/shulker_shell-667c452d.png",
+      "sourceTexture": "item/shulker_shell",
+      "sourceModel": "minecraft:item/shulker_shell",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "sign",
+      "texturePath": "/items/textures/sign.png",
+      "sourceTexture": "item/sign",
+      "sourceModel": "minecraft:item/sign",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "skeleton_skull",
+      "texturePath": "/items/textures/skeleton_skull.png",
+      "sourceTexture": "special/Skeleton_Skull.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "slime_ball",
+      "texturePath": "/items/textures/slime_ball-ae5fa1ed.png",
+      "sourceTexture": "item/slime_ball",
+      "sourceModel": "minecraft:item/slime_ball",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "slime_block",
+      "texturePath": "/items/textures/slime_block-6a10a8d6.png",
+      "sourceTexture": "block/slime_block",
+      "sourceModel": "minecraft:block/slime_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "smooth_quartz",
+      "texturePath": "/items/textures/smooth_quartz-cc02955f.png",
+      "sourceTexture": "block/quartz_block_top",
+      "sourceModel": "minecraft:block/smooth_quartz",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "smooth_red_sandstone",
+      "texturePath": "/items/textures/smooth_red_sandstone-1634621b.png",
+      "sourceTexture": "block/red_sandstone_top",
+      "sourceModel": "minecraft:block/smooth_red_sandstone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "smooth_sandstone",
+      "texturePath": "/items/textures/smooth_sandstone-b288f26e.png",
+      "sourceTexture": "block/sandstone_top",
+      "sourceModel": "minecraft:block/smooth_sandstone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "smooth_stone",
+      "texturePath": "/items/textures/smooth_stone-7677e8fd.png",
+      "sourceTexture": "block/stone_slab_top",
+      "sourceModel": "minecraft:block/smooth_stone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "snow",
+      "texturePath": "/items/textures/snow-73b51c16.png",
+      "sourceTexture": "block/snow",
+      "sourceModel": "minecraft:block/snow_height2",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "snow_block",
+      "texturePath": "/items/textures/snow_block-d1a7db06.png",
+      "sourceTexture": "block/snow",
+      "sourceModel": "minecraft:block/snow_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "snowball",
+      "texturePath": "/items/textures/snowball-805320d7.png",
+      "sourceTexture": "item/snowball",
+      "sourceModel": "minecraft:item/snowball",
+      "registration": "item",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "combat",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "soul_sand",
+      "texturePath": "/items/textures/soul_sand-4b22af06.png",
+      "sourceTexture": "block/soul_sand",
+      "sourceModel": "minecraft:block/soul_sand",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "spectral_arrow",
+      "texturePath": "/items/textures/spectral_arrow-d8d6f0ab.png",
+      "sourceTexture": "item/spectral_arrow",
+      "sourceModel": "minecraft:item/spectral_arrow",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "combat"
+      ]
+    },
+    {
+      "id": "spider_eye",
+      "texturePath": "/items/textures/spider_eye-72fdf774.png",
+      "sourceTexture": "item/spider_eye",
+      "sourceModel": "minecraft:item/spider_eye",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "sponge",
+      "texturePath": "/items/textures/sponge-5e6332a8.png",
+      "sourceTexture": "block/sponge",
+      "sourceModel": "minecraft:block/sponge",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "spruce_button",
+      "texturePath": "/items/textures/spruce_button-63e1b2e2.png",
+      "sourceTexture": "block/spruce_planks",
+      "sourceModel": "minecraft:block/spruce_button_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "spruce_door",
+      "texturePath": "/items/textures/spruce_door-7b7555d5.png",
+      "sourceTexture": "item/spruce_door",
+      "sourceModel": "minecraft:item/spruce_door",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "spruce_fence",
+      "texturePath": "/items/textures/spruce_fence-e5b0f10e.png",
+      "sourceTexture": "block/spruce_planks",
+      "sourceModel": "minecraft:block/spruce_fence_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "spruce_fence_gate",
+      "texturePath": "/items/textures/spruce_fence_gate-262c31c8.png",
+      "sourceTexture": "block/spruce_planks",
+      "sourceModel": "minecraft:block/spruce_fence_gate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "spruce_leaves",
+      "texturePath": "/items/textures/spruce_leaves-c7fa7d65.png",
+      "sourceTexture": "block/spruce_leaves",
+      "sourceModel": "minecraft:block/spruce_leaves",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "spruce_log",
+      "texturePath": "/items/textures/spruce_log-1d2adae8.png",
+      "sourceTexture": "block/spruce_log_top",
+      "sourceModel": "minecraft:block/spruce_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "spruce_planks",
+      "texturePath": "/items/textures/spruce_planks-151ec725.png",
+      "sourceTexture": "block/spruce_planks",
+      "sourceModel": "minecraft:block/spruce_planks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "spruce_pressure_plate",
+      "texturePath": "/items/textures/spruce_pressure_plate-0ad4a115.png",
+      "sourceTexture": "block/spruce_planks",
+      "sourceModel": "minecraft:block/spruce_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "spruce_sapling",
+      "texturePath": "/items/textures/spruce_sapling-62f760de.png",
+      "sourceTexture": "block/spruce_sapling",
+      "sourceModel": "minecraft:item/spruce_sapling",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "spruce_slab",
+      "texturePath": "/items/textures/spruce_slab-0a6abc0d.png",
+      "sourceTexture": "block/spruce_planks",
+      "sourceModel": "minecraft:block/spruce_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "spruce_stairs",
+      "texturePath": "/items/textures/spruce_stairs-1659ea43.png",
+      "sourceTexture": "block/spruce_planks",
+      "sourceModel": "minecraft:block/spruce_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "spruce_trapdoor",
+      "texturePath": "/items/textures/spruce_trapdoor-c490e59a.png",
+      "sourceTexture": "block/spruce_trapdoor",
+      "sourceModel": "minecraft:block/spruce_trapdoor_bottom",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "spruce_wood",
+      "texturePath": "/items/textures/spruce_wood-bfe236fe.png",
+      "sourceTexture": "block/spruce_log",
+      "sourceModel": "minecraft:block/spruce_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stick",
+      "texturePath": "/items/textures/stick-5ab382bc.png",
+      "sourceTexture": "item/stick",
+      "sourceModel": "minecraft:item/stick",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "sticky_piston",
+      "texturePath": "/items/textures/sticky_piston-f9809f02.png",
+      "sourceTexture": "block/piston_top_sticky",
+      "sourceModel": "minecraft:block/sticky_piston_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "stone",
+      "texturePath": "/items/textures/stone-765c4376.png",
+      "sourceTexture": "block/stone",
+      "sourceModel": "minecraft:block/stone",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "stone_brick_slab",
+      "texturePath": "/items/textures/stone_brick_slab-256bdcea.png",
+      "sourceTexture": "block/stone_bricks",
+      "sourceModel": "minecraft:block/stone_brick_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stone_brick_stairs",
+      "texturePath": "/items/textures/stone_brick_stairs-bddf53d2.png",
+      "sourceTexture": "block/stone_bricks",
+      "sourceModel": "minecraft:block/stone_brick_stairs",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stone_bricks",
+      "texturePath": "/items/textures/stone_bricks-66ae3c3b.png",
+      "sourceTexture": "block/stone_bricks",
+      "sourceModel": "minecraft:block/stone_bricks",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stone_button",
+      "texturePath": "/items/textures/stone_button-7da48a0b.png",
+      "sourceTexture": "block/stone",
+      "sourceModel": "minecraft:block/stone_button_inventory",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "stone_pressure_plate",
+      "texturePath": "/items/textures/stone_pressure_plate-4268ecb1.png",
+      "sourceTexture": "block/stone",
+      "sourceModel": "minecraft:block/stone_pressure_plate",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "stone_slab",
+      "texturePath": "/items/textures/stone_slab-f427fa6d.png",
+      "sourceTexture": "block/stone_slab_top",
+      "sourceModel": "minecraft:block/stone_slab",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "string",
+      "texturePath": "/items/textures/string-c52324c6.png",
+      "sourceTexture": "item/string",
+      "sourceModel": "minecraft:item/string",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks",
+        "ingredients"
+      ]
+    },
+    {
+      "id": "stripped_acacia_log",
+      "texturePath": "/items/textures/stripped_acacia_log-b1717c45.png",
+      "sourceTexture": "block/stripped_acacia_log_top",
+      "sourceModel": "minecraft:block/stripped_acacia_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_acacia_wood",
+      "texturePath": "/items/textures/stripped_acacia_wood.png",
+      "sourceTexture": "block/stripped_acacia_log",
+      "sourceModel": "minecraft:block/stripped_acacia_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_birch_log",
+      "texturePath": "/items/textures/stripped_birch_log-f68e660c.png",
+      "sourceTexture": "block/stripped_birch_log_top",
+      "sourceModel": "minecraft:block/stripped_birch_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_birch_wood",
+      "texturePath": "/items/textures/stripped_birch_wood.png",
+      "sourceTexture": "block/stripped_birch_log",
+      "sourceModel": "minecraft:block/stripped_birch_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_dark_oak_log",
+      "texturePath": "/items/textures/stripped_dark_oak_log-72682ffa.png",
+      "sourceTexture": "block/stripped_dark_oak_log_top",
+      "sourceModel": "minecraft:block/stripped_dark_oak_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_dark_oak_wood",
+      "texturePath": "/items/textures/stripped_dark_oak_wood-6d90575c.png",
+      "sourceTexture": "block/stripped_dark_oak_log",
+      "sourceModel": "minecraft:block/stripped_dark_oak_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_jungle_log",
+      "texturePath": "/items/textures/stripped_jungle_log-ac31cbb0.png",
+      "sourceTexture": "block/stripped_jungle_log_top",
+      "sourceModel": "minecraft:block/stripped_jungle_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_jungle_wood",
+      "texturePath": "/items/textures/stripped_jungle_wood.png",
+      "sourceTexture": "block/stripped_jungle_log",
+      "sourceModel": "minecraft:block/stripped_jungle_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_oak_log",
+      "texturePath": "/items/textures/stripped_oak_log-bde11543.png",
+      "sourceTexture": "block/stripped_oak_log_top",
+      "sourceModel": "minecraft:block/stripped_oak_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_oak_wood",
+      "texturePath": "/items/textures/stripped_oak_wood.png",
+      "sourceTexture": "block/stripped_oak_log",
+      "sourceModel": "minecraft:block/stripped_oak_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_spruce_log",
+      "texturePath": "/items/textures/stripped_spruce_log-6b596414.png",
+      "sourceTexture": "block/stripped_spruce_log_top",
+      "sourceModel": "minecraft:block/stripped_spruce_log",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "stripped_spruce_wood",
+      "texturePath": "/items/textures/stripped_spruce_wood.png",
+      "sourceTexture": "block/stripped_spruce_log",
+      "sourceModel": "minecraft:block/stripped_spruce_wood",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "building_blocks"
+      ]
+    },
+    {
+      "id": "sugar",
+      "texturePath": "/items/textures/sugar-9646652e.png",
+      "sourceTexture": "item/sugar",
+      "sourceModel": "minecraft:item/sugar",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "sugar_cane",
+      "texturePath": "/items/textures/sugar_cane-bcb4edb9.png",
+      "sourceTexture": "item/sugar_cane",
+      "sourceModel": "minecraft:item/sugar_cane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "sunflower",
+      "texturePath": "/items/textures/sunflower-c9e43edc.png",
+      "sourceTexture": "block/sunflower_front",
+      "sourceModel": "minecraft:item/sunflower",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "tall_grass",
+      "texturePath": "/items/textures/tall_grass-1240308b.png",
+      "sourceTexture": "block/tall_grass_top",
+      "sourceModel": "minecraft:item/tall_grass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "terracotta",
+      "texturePath": "/items/textures/terracotta-fcdb0679.png",
+      "sourceTexture": "block/terracotta",
+      "sourceModel": "minecraft:block/terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "tipped_arrow",
+      "texturePath": "/items/textures/tipped_arrow-00d7d0f9.png",
+      "sourceTexture": "item/tipped_arrow_head",
+      "sourceModel": "minecraft:item/tipped_arrow",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "combat"
+      ]
+    },
+    {
+      "id": "tnt",
+      "texturePath": "/items/textures/tnt-88e83239.png",
+      "sourceTexture": "block/tnt_top",
+      "sourceModel": "minecraft:block/tnt",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks",
+        "combat"
+      ]
+    },
+    {
+      "id": "torch",
+      "texturePath": "/items/textures/torch-e2dffe41.png",
+      "sourceTexture": "block/torch",
+      "sourceModel": "minecraft:item/torch",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "trapped_chest",
+      "texturePath": "/items/textures/trapped_chest.png",
+      "sourceTexture": "special/Trapped_Chest.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "tripwire_hook",
+      "texturePath": "/items/textures/tripwire_hook-f7df8c6a.png",
+      "sourceTexture": "block/tripwire_hook",
+      "sourceModel": "minecraft:item/tripwire_hook",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "tropical_fish",
+      "texturePath": "/items/textures/tropical_fish-77ee7ed8.png",
+      "sourceTexture": "item/tropical_fish",
+      "sourceModel": "minecraft:item/tropical_fish",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "food_and_drinks"
+      ]
+    },
+    {
+      "id": "tube_coral",
+      "texturePath": "/items/textures/tube_coral-eb41a3f7.png",
+      "sourceTexture": "block/tube_coral",
+      "sourceModel": "minecraft:item/tube_coral",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "tube_coral_block",
+      "texturePath": "/items/textures/tube_coral_block.png",
+      "sourceTexture": "block/tube_coral_block",
+      "sourceModel": "minecraft:block/tube_coral_block",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "tube_coral_fan",
+      "texturePath": "/items/textures/tube_coral_fan-39ec7f74.png",
+      "sourceTexture": "block/tube_coral_fan",
+      "sourceModel": "minecraft:item/tube_coral_fan",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "turtle_egg",
+      "texturePath": "/items/textures/turtle_egg-0d6346e5.png",
+      "sourceTexture": "item/turtle_egg",
+      "sourceModel": "minecraft:item/turtle_egg",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "vine",
+      "texturePath": "/items/textures/vine-7b99c81c.png",
+      "sourceTexture": "block/vine",
+      "sourceModel": "minecraft:item/vine",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "wet_sponge",
+      "texturePath": "/items/textures/wet_sponge-8586cf04.png",
+      "sourceTexture": "block/wet_sponge",
+      "sourceModel": "minecraft:block/wet_sponge",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "wheat",
+      "texturePath": "/items/textures/wheat-5534970b.png",
+      "sourceTexture": "item/wheat",
+      "sourceModel": "minecraft:item/wheat",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "ingredients"
+      ]
+    },
+    {
+      "id": "wheat_seeds",
+      "texturePath": "/items/textures/wheat_seeds-f0fb1939.png",
+      "sourceTexture": "item/wheat_seeds",
+      "sourceModel": "minecraft:item/wheat_seeds",
+      "registration": "item",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "white_banner",
+      "texturePath": "/items/textures/white_banner.png",
+      "sourceTexture": "special/White_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "white_carpet",
+      "texturePath": "/items/textures/white_carpet.png",
+      "sourceTexture": "block/white_wool",
+      "sourceModel": "minecraft:block/white_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "white_concrete",
+      "texturePath": "/items/textures/white_concrete.png",
+      "sourceTexture": "block/white_concrete",
+      "sourceModel": "minecraft:block/white_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "white_concrete_powder",
+      "texturePath": "/items/textures/white_concrete_powder.png",
+      "sourceTexture": "block/white_concrete_powder",
+      "sourceModel": "minecraft:block/white_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "white_glazed_terracotta",
+      "texturePath": "/items/textures/white_glazed_terracotta.png",
+      "sourceTexture": "block/white_glazed_terracotta",
+      "sourceModel": "minecraft:block/white_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "white_stained_glass",
+      "texturePath": "/items/textures/white_stained_glass-d944359c.png",
+      "sourceTexture": "block/white_stained_glass",
+      "sourceModel": "minecraft:block/white_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "white_stained_glass_pane",
+      "texturePath": "/items/textures/white_stained_glass_pane-a0589a96.png",
+      "sourceTexture": "block/white_stained_glass",
+      "sourceModel": "minecraft:item/white_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "white_terracotta",
+      "texturePath": "/items/textures/white_terracotta.png",
+      "sourceTexture": "block/white_terracotta",
+      "sourceModel": "minecraft:block/white_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "white_tulip",
+      "texturePath": "/items/textures/white_tulip-39e3d2c4.png",
+      "sourceTexture": "block/white_tulip",
+      "sourceModel": "minecraft:item/white_tulip",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "natural_blocks"
+      ]
+    },
+    {
+      "id": "white_wool",
+      "texturePath": "/items/textures/white_wool.png",
+      "sourceTexture": "block/white_wool",
+      "sourceModel": "minecraft:block/white_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks",
+        "redstone_blocks"
+      ]
+    },
+    {
+      "id": "wither_skeleton_skull",
+      "texturePath": "/items/textures/wither_skeleton_skull.png",
+      "sourceTexture": "special/Wither_Skeleton_Skull.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "yellow_banner",
+      "texturePath": "/items/textures/yellow_banner.png",
+      "sourceTexture": "special/Yellow_Banner.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 16,
+      "creativeTabs": [
+        "colored_blocks",
+        "functional_blocks"
+      ]
+    },
+    {
+      "id": "yellow_carpet",
+      "texturePath": "/items/textures/yellow_carpet.png",
+      "sourceTexture": "block/yellow_wool",
+      "sourceModel": "minecraft:block/yellow_carpet",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "yellow_concrete",
+      "texturePath": "/items/textures/yellow_concrete.png",
+      "sourceTexture": "block/yellow_concrete",
+      "sourceModel": "minecraft:block/yellow_concrete",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "yellow_concrete_powder",
+      "texturePath": "/items/textures/yellow_concrete_powder.png",
+      "sourceTexture": "block/yellow_concrete_powder",
+      "sourceModel": "minecraft:block/yellow_concrete_powder",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "yellow_glazed_terracotta",
+      "texturePath": "/items/textures/yellow_glazed_terracotta.png",
+      "sourceTexture": "block/yellow_glazed_terracotta",
+      "sourceModel": "minecraft:block/yellow_glazed_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "yellow_stained_glass",
+      "texturePath": "/items/textures/yellow_stained_glass-a5d55652.png",
+      "sourceTexture": "block/yellow_stained_glass",
+      "sourceModel": "minecraft:block/yellow_stained_glass",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "yellow_stained_glass_pane",
+      "texturePath": "/items/textures/yellow_stained_glass_pane-dd933ba8.png",
+      "sourceTexture": "block/yellow_stained_glass",
+      "sourceModel": "minecraft:item/yellow_stained_glass_pane",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "yellow_terracotta",
+      "texturePath": "/items/textures/yellow_terracotta.png",
+      "sourceTexture": "block/yellow_terracotta",
+      "sourceModel": "minecraft:block/yellow_terracotta",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "yellow_wool",
+      "texturePath": "/items/textures/yellow_wool.png",
+      "sourceTexture": "block/yellow_wool",
+      "sourceModel": "minecraft:block/yellow_wool",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "colored_blocks"
+      ]
+    },
+    {
+      "id": "zombie_head",
+      "texturePath": "/items/textures/zombie_head.png",
+      "sourceTexture": "special/Zombie_Head.png",
+      "sourceModel": "minecraft:special",
+      "registration": "block",
+      "maxStackSize": 64,
+      "creativeTabs": [
+        "functional_blocks"
+      ]
+    }
+  ]
+}

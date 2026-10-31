@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { deflateSync, inflateSync } from "node:zlib";
 import {
@@ -9,7 +9,22 @@ import {
   parseItems,
   parseVanillaBlockLoot,
 } from "./src/parser";
-import { loadJavaSources } from "./src/source-loader";
+import {
+  TEXTURE_ROOT,
+  catalogPathForVersion,
+  compareGameVersions,
+  readCatalogItems,
+  readVersionsIndex,
+  storeTexture,
+  writeCatalog,
+} from "./src/catalog-store";
+import {
+  OLDEST_ITEM_DEFINITIONS_VERSION,
+  currentItemId,
+  loadLegacyItems,
+  textureVersionFor,
+} from "./src/legacy-catalog";
+import { loadClientJar, loadJavaSources, requestedGameVersion } from "./src/source-loader";
 import type { BlockLootBehavior, ParsedFood, ParsedItem, VanillaBlockLootEntry } from "./src/types";
 import { pathExists, runExec } from "./src/utils";
 
@@ -239,11 +254,9 @@ let activeAssetsRoot: string | null = LOCAL_ASSETS_ROOT_OVERRIDE;
 
 const ITEM_INDEX_ASSET_PATH = "assets/minecraft/items/_all.json";
 const ITEMS_DIRECTORY_ASSET_PATH = "assets/minecraft/items";
+const MODELS_DIRECTORY_ASSET_PATH = "assets/minecraft/models";
 const SPECIAL_TEXTURE_ROOT = path.resolve(process.cwd(), "itemfetch/special");
 
-const OUTPUT_ROOT = path.resolve(process.cwd(), "public/items");
-const OUTPUT_TEXTURE_ROOT = path.join(OUTPUT_ROOT, "textures");
-const OUTPUT_INDEX_PATH = path.join(OUTPUT_ROOT, "items.json");
 const OUTPUT_CSV_PATH = path.resolve(
   process.cwd(),
   process.env.ITEMFETCH_CSV_OUTPUT_PATH ?? "public/items/items.csv",
@@ -2291,9 +2304,9 @@ async function ensureAssetsExtractedFromJar(
   cacheVersionRoot: string,
 ): Promise<string> {
   const assetsRoot = path.join(cacheVersionRoot, "assets-extracted");
-  const extractedItemsDirectoryPath = path.join(assetsRoot, ITEMS_DIRECTORY_ASSET_PATH);
+  const extractedModelsDirectoryPath = path.join(assetsRoot, MODELS_DIRECTORY_ASSET_PATH);
 
-  if (await pathExists(extractedItemsDirectoryPath)) {
+  if (await pathExists(extractedModelsDirectoryPath)) {
     return assetsRoot;
   }
 
@@ -2304,9 +2317,9 @@ async function ensureAssetsExtractedFromJar(
     maxBuffer: 256 * 1024 * 1024,
   });
 
-  if (!(await pathExists(extractedItemsDirectoryPath))) {
+  if (!(await pathExists(extractedModelsDirectoryPath))) {
     throw new Error(
-      `Assets were extracted, but ${ITEMS_DIRECTORY_ASSET_PATH} was not found in ${assetsRoot}`,
+      `Assets were extracted, but ${MODELS_DIRECTORY_ASSET_PATH} was not found in ${assetsRoot}`,
     );
   }
 
@@ -2599,7 +2612,160 @@ function buildItemsCsv(input: {
   };
 }
 
+async function usesBuiltinEntityModel(modelRef: string): Promise<boolean> {
+  let current: string | undefined = modelRef;
+  for (let depth = 0; current && depth < 16; depth += 1) {
+    if (parseNamespacedRef(current).assetPath === "builtin/entity") {
+      return true;
+    }
+    current = (await loadModel(current))?.parent;
+  }
+  return false;
+}
+
+// An old version's item definition: the 1.21.4 one when every model it names exists in the old
+// assets (it carries the tints that older versions hard-coded), otherwise the item's own model.
+async function legacyItemDefinition(
+  itemId: string,
+  currentId: string,
+  definitionsAssetsRoot: string,
+): Promise<Record<string, unknown>> {
+  const definitionPath = path.join(
+    definitionsAssetsRoot,
+    ITEMS_DIRECTORY_ASSET_PATH,
+    `${currentId}.json`,
+  );
+  if (await pathExists(definitionPath)) {
+    const raw = (await readFile(definitionPath, "utf8")).replaceAll(
+      `item/${currentId}"`,
+      `item/${itemId}"`,
+    );
+    const definition: unknown = JSON.parse(raw);
+    if (isRecord(definition)) {
+      const candidates: Candidate[] = [];
+      collectCandidates(definition.model, candidates);
+      const models = await Promise.all(
+        candidates
+          .filter((candidate) => candidate.kind === "model")
+          .map((candidate) => loadModel(candidate.ref)),
+      );
+      if (models.every((model) => model !== null)) {
+        return definition;
+      }
+    }
+  }
+
+  const model = `minecraft:item/${itemId}`;
+  return {
+    model: (await usesBuiltinEntityModel(model))
+      ? { type: "minecraft:special", base: model }
+      : { type: "minecraft:model", model },
+  };
+}
+
+async function legacyMain(gameVersion: string): Promise<void> {
+  const { versions } = await readVersionsIndex();
+  if (!versions.includes(OLDEST_ITEM_DEFINITIONS_VERSION)) {
+    throw new Error(
+      `Fetch Minecraft ${OLDEST_ITEM_DEFINITIONS_VERSION} first: older versions borrow its item definitions and the creative tabs of the current catalogs.`,
+    );
+  }
+
+  // The oldest current catalog wins: its tabs are the closest match to the old version.
+  const currentItems = new Map<string, { creativeTabs: string[]; registration: string | null }>();
+  const currentVersions = versions.filter(
+    (version) => compareGameVersions(version, OLDEST_ITEM_DEFINITIONS_VERSION) >= 0,
+  );
+  for (const version of currentVersions) {
+    for (const item of await readCatalogItems(version)) {
+      currentItems.set(item.id, {
+        creativeTabs: item.creativeTabs ?? [],
+        registration: item.registration ?? null,
+      });
+    }
+  }
+
+  const definitionsJar = await loadClientJar(OLDEST_ITEM_DEFINITIONS_VERSION);
+  const definitionsAssetsRoot = await ensureAssetsExtractedFromJar(
+    definitionsJar.jarPath,
+    definitionsJar.cacheVersionRoot,
+  );
+  const textureJar = await loadClientJar(textureVersionFor(gameVersion));
+  activeAssetsRoot = await ensureAssetsExtractedFromJar(
+    textureJar.jarPath,
+    textureJar.cacheVersionRoot,
+  );
+  console.log(`Using the minecraft-data item list and assets from ${activeAssetsRoot}`);
+
+  const legacyItems = await loadLegacyItems(gameVersion);
+  await mkdir(path.dirname(catalogPathForVersion(gameVersion)), { recursive: true });
+  await mkdir(TEXTURE_ROOT, { recursive: true });
+
+  const outputItems: OutputItem[] = [];
+  const missingTextureItems: string[] = [];
+  let skippedCount = 0;
+
+  await mapWithConcurrency(legacyItems, CONCURRENCY, async ({ id, maxStackSize }) => {
+    const currentId = currentItemId(id);
+    const current = currentItems.get(currentId);
+    if (!current) {
+      skippedCount += 1;
+      return;
+    }
+
+    const definition = await legacyItemDefinition(id, currentId, definitionsAssetsRoot);
+    const resolved =
+      (await resolveItemTexture(id, definition)) ??
+      (currentId === id ? null : await resolveSpecialTextureForItem(currentId));
+    if (!resolved) {
+      missingTextureItems.push(id);
+      return;
+    }
+
+    outputItems.push({
+      id,
+      texturePath: await storeTexture(id, resolved.bytes),
+      sourceTexture: resolved.textureRef,
+      sourceModel: resolved.sourceModel,
+      registration: current.registration as OutputItem["registration"],
+      maxStackSize,
+      maxDamage: null,
+      rarity: null,
+      fireResistant: null,
+      creativeTabs: current.creativeTabs,
+      food: null,
+      blockLoot: null,
+    });
+  });
+
+  const output = {
+    generatedAt: new Date().toISOString(),
+    gameVersion,
+    itemSource: "minecraft-data",
+    counts: {
+      itemCount: outputItems.length,
+      missingTextureItemCount: missingTextureItems.length,
+      filteredOutItemCount: skippedCount,
+    },
+    items: outputItems.sort((a, b) => a.id.localeCompare(b.id)),
+  };
+  await writeCatalog(gameVersion, omitNullOrFalseProperties(output), outputItems.length);
+
+  if (missingTextureItems.length > 0) {
+    console.warn(
+      `Missing texture for ${missingTextureItems.length} items: ${missingTextureItems.sort().join(", ")}`,
+    );
+  }
+  console.log(`Filtered out ${skippedCount} items that no current catalog lists`);
+}
+
 async function main(): Promise<void> {
+  const requested = requestedGameVersion();
+  if (requested && compareGameVersions(requested, OLDEST_ITEM_DEFINITIONS_VERSION) < 0) {
+    await legacyMain(requested);
+    return;
+  }
+
   const {
     itemsJavaSource,
     blocksJavaSource,
@@ -2720,9 +2886,12 @@ async function main(): Promise<void> {
     }
   }
 
-  await mkdir(OUTPUT_ROOT, { recursive: true });
-  await rm(OUTPUT_TEXTURE_ROOT, { recursive: true, force: true });
-  await mkdir(OUTPUT_TEXTURE_ROOT, { recursive: true });
+  const gameVersion = minecraftVersion?.replace(/_unobfuscated$/, "") ?? null;
+  if (!gameVersion) {
+    throw new Error("Could not determine the game version of the fetched sources.");
+  }
+  await mkdir(path.dirname(catalogPathForVersion(gameVersion)), { recursive: true });
+  await mkdir(TEXTURE_ROOT, { recursive: true });
 
   const outputItems: OutputItem[] = [];
   const missingTextureItems: string[] = [];
@@ -2761,8 +2930,7 @@ async function main(): Promise<void> {
     );
 
     if (resolved) {
-      const textureFilename = `${itemId}.png`;
-      await writeFile(path.join(OUTPUT_TEXTURE_ROOT, textureFilename), resolved.bytes);
+      const texturePath = await storeTexture(itemId, resolved.bytes);
       if (hasSpecial && resolved.sourceModel !== "minecraft:special") {
         otherSpecialItems.push(itemId);
       }
@@ -2770,7 +2938,7 @@ async function main(): Promise<void> {
       outputItems.push(toOutputItem(
         itemId,
         {
-          texturePath: `/items/textures/${textureFilename}`,
+          texturePath,
           sourceTexture: resolved.textureRef,
           sourceModel: resolved.sourceModel,
         },
@@ -2797,7 +2965,7 @@ async function main(): Promise<void> {
 
   const output = {
     generatedAt: new Date().toISOString(),
-    gameVersion: minecraftVersion?.replace(/_unobfuscated$/, "") ?? null,
+    gameVersion,
     counts: {
       itemCount: outputItems.length,
       texturedItemCount: texturedCount,
@@ -2822,11 +2990,7 @@ async function main(): Promise<void> {
     items: sortedOutputItems,
   };
 
-  const cleanedOutput = omitNullOrFalseProperties(output);
-  await writeFile(OUTPUT_INDEX_PATH, `${JSON.stringify(cleanedOutput, null, 2)}\n`, "utf8");
-
-  console.log(`Wrote ${OUTPUT_INDEX_PATH}`);
-  console.log(`Wrote ${texturedCount} textures to ${OUTPUT_TEXTURE_ROOT}`);
+  await writeCatalog(gameVersion, omitNullOrFalseProperties(output), texturedCount);
 
   if (missingTextureItems.length > 0) {
     const sample = missingTextureItems.slice(0, 12).join(", ");
