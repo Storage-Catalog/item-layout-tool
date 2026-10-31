@@ -69,7 +69,7 @@ async function ensureCfrJar(): Promise<string> {
   return cfrJarPath;
 }
 
-async function resolveVersionSource(): Promise<{
+async function resolveVersionSource(requestedVersion: string | null): Promise<{
   selectedVersion: string;
   manifestUrl: string;
   manifest: VersionManifest;
@@ -77,11 +77,7 @@ async function resolveVersionSource(): Promise<{
 }> {
   const manifestList = await fetchJson<VersionManifestList>(VERSION_MANIFEST_URL);
 
-  const requested = (
-    process.env.ITEMFETCH_GAME_VERSION ??
-    process.env.MINECRAFT_VERSION ??
-    manifestList.latest.release
-  ).trim();
+  const requested = (requestedVersion ?? manifestList.latest.release).trim();
   const mojangVersionId = requested.endsWith("_unobfuscated")
     ? requested.replace(/_unobfuscated$/, "")
     : requested;
@@ -293,6 +289,21 @@ async function decompileClass(
   return { javaPath, javaSource };
 }
 
+export function requestedGameVersion(): string | null {
+  return process.env.ITEMFETCH_GAME_VERSION ?? process.env.MINECRAFT_VERSION ?? null;
+}
+
+// Downloads (or reuses the cached) client jar of a version, without decompiling anything.
+export async function loadClientJar(
+  requestedVersion: string,
+): Promise<{ jarPath: string; cacheVersionRoot: string; selectedVersion: string }> {
+  const versionSource = await resolveVersionSource(requestedVersion);
+  const versionRoot = path.join(CACHE_ROOT, sanitizeForPath(versionSource.selectedVersion));
+  await mkdir(versionRoot, { recursive: true });
+  const { jarPath } = await ensureClientJar(versionRoot, versionSource.manifest);
+  return { jarPath, cacheVersionRoot: versionRoot, selectedVersion: versionSource.selectedVersion };
+}
+
 export async function loadJavaSources(): Promise<LoadedJavaSources> {
   if (Boolean(LOCAL_ITEMS_JAVA_PATH) !== Boolean(LOCAL_BLOCKS_JAVA_PATH)) {
     throw new Error(
@@ -338,7 +349,7 @@ export async function loadJavaSources(): Promise<LoadedJavaSources> {
     };
   }
 
-  const versionSource = await resolveVersionSource();
+  const versionSource = await resolveVersionSource(requestedGameVersion());
   const cacheVersionName = sanitizeForPath(versionSource.selectedVersion);
   const versionRoot = path.join(CACHE_ROOT, cacheVersionName);
   await mkdir(versionRoot, { recursive: true });

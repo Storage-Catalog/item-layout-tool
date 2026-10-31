@@ -30,7 +30,7 @@ export function catalogPathForVersion(gameVersion: string): string {
   return path.join(CATALOG_ROOT, gameVersion, "items.json");
 }
 
-async function readVersionsIndex(): Promise<VersionsIndex> {
+export async function readVersionsIndex(): Promise<VersionsIndex> {
   if (!(await pathExists(VERSIONS_INDEX_PATH))) {
     return { versions: [] };
   }
@@ -50,7 +50,39 @@ export async function storeTexture(itemId: string, bytes: Buffer): Promise<strin
   return `/items/textures/${filename}`;
 }
 
-export async function registerCatalogVersion(gameVersion: string): Promise<void> {
+export type StoredCatalogItem = {
+  id: string;
+  texturePath?: string;
+  creativeTabs?: string[];
+  registration?: string;
+};
+
+export async function readCatalogItems(gameVersion: string): Promise<StoredCatalogItem[]> {
+  const catalog = JSON.parse(await readFile(catalogPathForVersion(gameVersion), "utf8")) as {
+    items?: StoredCatalogItem[];
+  };
+  return catalog.items ?? [];
+}
+
+// Writes a version's catalog, lists it in versions.json and drops textures nothing uses any more.
+export async function writeCatalog(
+  gameVersion: string,
+  catalog: unknown,
+  texturedCount: number,
+): Promise<void> {
+  const catalogPath = catalogPathForVersion(gameVersion);
+  await writeFile(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+  await registerCatalogVersion(gameVersion);
+  const prunedCount = await pruneUnusedTextures();
+
+  console.log(`Wrote ${catalogPath}`);
+  console.log(`Wrote ${texturedCount} textures to ${TEXTURE_ROOT}`);
+  if (prunedCount > 0) {
+    console.log(`Removed ${prunedCount} textures no catalog in ${CATALOG_ROOT} uses any more`);
+  }
+}
+
+async function registerCatalogVersion(gameVersion: string): Promise<void> {
   const index = await readVersionsIndex();
   const versions = Array.from(new Set([...index.versions, gameVersion])).sort(
     (a, b) => compareGameVersions(b, a),
@@ -59,14 +91,11 @@ export async function registerCatalogVersion(gameVersion: string): Promise<void>
 }
 
 // Deletes textures that no registered catalog references any more.
-export async function pruneUnusedTextures(): Promise<number> {
+async function pruneUnusedTextures(): Promise<number> {
   const { versions } = await readVersionsIndex();
   const referenced = new Set<string>();
   for (const version of versions) {
-    const catalog = JSON.parse(await readFile(catalogPathForVersion(version), "utf8")) as {
-      items?: Array<{ texturePath?: string }>;
-    };
-    for (const item of catalog.items ?? []) {
+    for (const item of await readCatalogItems(version)) {
       if (item.texturePath) {
         referenced.add(path.basename(item.texturePath));
       }
