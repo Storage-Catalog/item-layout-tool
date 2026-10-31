@@ -138,7 +138,14 @@ function isSupportedFilterExportChoice(value: FilterExportType): value is Filter
 }
 
 export function PlannerApp() {
-  const { catalogItems, catalogGameVersion, isLoadingCatalog, catalogError } = useCatalog();
+  const {
+    catalogItems,
+    selectedGameVersion,
+    availableGameVersions,
+    selectGameVersion,
+    isLoadingCatalog,
+    catalogError,
+  } = useCatalog();
   const {
     storageLayoutPreset,
     hallConfigs,
@@ -1132,7 +1139,9 @@ export function PlannerApp() {
 
         <ItemLibraryPanel
           catalogItems={catalogItems}
-          catalogGameVersion={catalogGameVersion}
+          selectedGameVersion={selectedGameVersion}
+          availableGameVersions={availableGameVersions}
+          onGameVersionChange={selectGameVersion}
           isLoadingCatalog={isLoadingCatalog}
           catalogError={catalogError}
           usedItemIds={usedItemIds}

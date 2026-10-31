@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { withBasePath } from "../base-path";
 import type { CatalogItem, CatalogResponse } from "../types";
 
@@ -23,27 +23,95 @@ function parseMaxStackSize(rawMaxStackSize: unknown): number {
   return 64;
 }
 
-function getCatalogCandidateUrls(): string[] {
-  return Array.from(
-    new Set([
-      withBasePath("/items/items.json"),
-      "/items/items.json",
-    ]),
+const GAME_VERSION_STORAGE_KEY = "item-layout-tool:game-version";
+
+async function fetchJsonFromCandidates(urlPath: string, description: string): Promise<unknown> {
+  for (const url of new Set([withBasePath(urlPath), urlPath])) {
+    const attempt = await fetch(url);
+    if (attempt.ok) {
+      return attempt.json();
+    }
+  }
+  throw new Error(`Failed to load ${description} from known paths`);
+}
+
+function readStoredGameVersion(): string | null {
+  try {
+    return window.localStorage.getItem(GAME_VERSION_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function storeGameVersion(gameVersion: string): void {
+  try {
+    window.localStorage.setItem(GAME_VERSION_STORAGE_KEY, gameVersion);
+  } catch {
+    // Storage can be unavailable (private mode); the choice then lasts only for this visit.
+  }
+}
+
+async function loadAvailableGameVersions(): Promise<string[]> {
+  const parsed = await fetchJsonFromCandidates("/items/versions.json", "game version list");
+  const versions =
+    parsed && typeof parsed === "object" && "versions" in parsed ? parsed.versions : null;
+  if (!Array.isArray(versions)) {
+    throw new Error("Game version list format is invalid");
+  }
+  const validVersions = versions.filter(
+    (entry): entry is string => typeof entry === "string" && entry.length > 0,
   );
+  if (validVersions.length === 0) {
+    throw new Error("Game version list is empty");
+  }
+  return validVersions;
 }
 
 export function useCatalog(): {
   catalogItems: CatalogItem[];
-  catalogGameVersion: string | null;
+  selectedGameVersion: string | null;
+  availableGameVersions: string[];
+  selectGameVersion: (gameVersion: string) => void;
   isLoadingCatalog: boolean;
   catalogError: string | null;
 } {
   const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
-  const [catalogGameVersion, setCatalogGameVersion] = useState<string | null>(null);
+  const [availableGameVersions, setAvailableGameVersions] = useState<string[]>([]);
+  const [selectedGameVersion, setSelectedGameVersion] = useState<string | null>(null);
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
   const [catalogError, setCatalogError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
+    loadAvailableGameVersions()
+      .then((versions) => {
+        if (cancelled) {
+          return;
+        }
+        const storedVersion = readStoredGameVersion();
+        setAvailableGameVersions(versions);
+        setSelectedGameVersion(
+          storedVersion && versions.includes(storedVersion) ? storedVersion : versions[0],
+        );
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) {
+          setCatalogError(error instanceof Error ? error.message : "Unknown catalog loading error");
+          setIsLoadingCatalog(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedGameVersion) {
+      return;
+    }
+    const gameVersion = selectedGameVersion;
     let cancelled = false;
 
     async function loadCatalog(): Promise<void> {
@@ -51,21 +119,10 @@ export function useCatalog(): {
         setIsLoadingCatalog(true);
         setCatalogError(null);
 
-        let response: Response | null = null;
-
-        for (const url of getCatalogCandidateUrls()) {
-          const attempt = await fetch(url);
-          if (attempt.ok) {
-            response = attempt;
-            break;
-          }
-        }
-
-        if (!response) {
-          throw new Error("Failed to load item catalog from known paths");
-        }
-
-        const parsed: unknown = await response.json();
+        const parsed = await fetchJsonFromCandidates(
+          `/items/${encodeURIComponent(gameVersion)}/items.json`,
+          `item catalog for Minecraft ${gameVersion}`,
+        );
         if (
           !parsed ||
           typeof parsed !== "object" ||
@@ -87,19 +144,15 @@ export function useCatalog(): {
             maxStackSize: parseMaxStackSize(item.maxStackSize),
           }))
           .sort((a, b) => a.id.localeCompare(b.id));
-        const rawGameVersion = (parsed as CatalogResponse).gameVersion;
-        const gameVersion = typeof rawGameVersion === "string" ? rawGameVersion : null;
 
         if (!cancelled) {
           setCatalogItems(items);
-          setCatalogGameVersion(gameVersion);
         }
       } catch (error: unknown) {
         if (!cancelled) {
           const message =
             error instanceof Error ? error.message : "Unknown catalog loading error";
           setCatalogError(message);
-          setCatalogGameVersion(null);
         }
       } finally {
         if (!cancelled) {
@@ -113,11 +166,18 @@ export function useCatalog(): {
     return () => {
       cancelled = true;
     };
+  }, [selectedGameVersion]);
+
+  const selectGameVersion = useCallback((gameVersion: string) => {
+    storeGameVersion(gameVersion);
+    setSelectedGameVersion(gameVersion);
   }, []);
 
   return {
     catalogItems,
-    catalogGameVersion,
+    selectedGameVersion,
+    availableGameVersions,
+    selectGameVersion,
     isLoadingCatalog,
     catalogError,
   };

@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { deflateSync, inflateSync } from "node:zlib";
 import {
@@ -9,6 +9,14 @@ import {
   parseItems,
   parseVanillaBlockLoot,
 } from "./src/parser";
+import {
+  CATALOG_ROOT,
+  TEXTURE_ROOT,
+  catalogPathForVersion,
+  pruneUnusedTextures,
+  registerCatalogVersion,
+  storeTexture,
+} from "./src/catalog-store";
 import { loadJavaSources } from "./src/source-loader";
 import type { BlockLootBehavior, ParsedFood, ParsedItem, VanillaBlockLootEntry } from "./src/types";
 import { pathExists, runExec } from "./src/utils";
@@ -241,9 +249,6 @@ const ITEM_INDEX_ASSET_PATH = "assets/minecraft/items/_all.json";
 const ITEMS_DIRECTORY_ASSET_PATH = "assets/minecraft/items";
 const SPECIAL_TEXTURE_ROOT = path.resolve(process.cwd(), "itemfetch/special");
 
-const OUTPUT_ROOT = path.resolve(process.cwd(), "public/items");
-const OUTPUT_TEXTURE_ROOT = path.join(OUTPUT_ROOT, "textures");
-const OUTPUT_INDEX_PATH = path.join(OUTPUT_ROOT, "items.json");
 const OUTPUT_CSV_PATH = path.resolve(
   process.cwd(),
   process.env.ITEMFETCH_CSV_OUTPUT_PATH ?? "public/items/items.csv",
@@ -2720,9 +2725,13 @@ async function main(): Promise<void> {
     }
   }
 
-  await mkdir(OUTPUT_ROOT, { recursive: true });
-  await rm(OUTPUT_TEXTURE_ROOT, { recursive: true, force: true });
-  await mkdir(OUTPUT_TEXTURE_ROOT, { recursive: true });
+  const gameVersion = minecraftVersion?.replace(/_unobfuscated$/, "") ?? null;
+  if (!gameVersion) {
+    throw new Error("Could not determine the game version of the fetched sources.");
+  }
+  const outputIndexPath = catalogPathForVersion(gameVersion);
+  await mkdir(path.dirname(outputIndexPath), { recursive: true });
+  await mkdir(TEXTURE_ROOT, { recursive: true });
 
   const outputItems: OutputItem[] = [];
   const missingTextureItems: string[] = [];
@@ -2761,8 +2770,7 @@ async function main(): Promise<void> {
     );
 
     if (resolved) {
-      const textureFilename = `${itemId}.png`;
-      await writeFile(path.join(OUTPUT_TEXTURE_ROOT, textureFilename), resolved.bytes);
+      const texturePath = await storeTexture(itemId, resolved.bytes);
       if (hasSpecial && resolved.sourceModel !== "minecraft:special") {
         otherSpecialItems.push(itemId);
       }
@@ -2770,7 +2778,7 @@ async function main(): Promise<void> {
       outputItems.push(toOutputItem(
         itemId,
         {
-          texturePath: `/items/textures/${textureFilename}`,
+          texturePath,
           sourceTexture: resolved.textureRef,
           sourceModel: resolved.sourceModel,
         },
@@ -2797,7 +2805,7 @@ async function main(): Promise<void> {
 
   const output = {
     generatedAt: new Date().toISOString(),
-    gameVersion: minecraftVersion?.replace(/_unobfuscated$/, "") ?? null,
+    gameVersion,
     counts: {
       itemCount: outputItems.length,
       texturedItemCount: texturedCount,
@@ -2823,10 +2831,15 @@ async function main(): Promise<void> {
   };
 
   const cleanedOutput = omitNullOrFalseProperties(output);
-  await writeFile(OUTPUT_INDEX_PATH, `${JSON.stringify(cleanedOutput, null, 2)}\n`, "utf8");
+  await writeFile(outputIndexPath, `${JSON.stringify(cleanedOutput, null, 2)}\n`, "utf8");
+  await registerCatalogVersion(gameVersion);
+  const prunedCount = await pruneUnusedTextures();
 
-  console.log(`Wrote ${OUTPUT_INDEX_PATH}`);
-  console.log(`Wrote ${texturedCount} textures to ${OUTPUT_TEXTURE_ROOT}`);
+  console.log(`Wrote ${outputIndexPath}`);
+  console.log(`Wrote ${texturedCount} textures to ${TEXTURE_ROOT}`);
+  if (prunedCount > 0) {
+    console.log(`Removed ${prunedCount} textures no catalog in ${CATALOG_ROOT} uses any more`);
+  }
 
   if (missingTextureItems.length > 0) {
     const sample = missingTextureItems.slice(0, 12).join(", ");
